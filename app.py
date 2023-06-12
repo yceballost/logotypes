@@ -15,7 +15,7 @@ def generate_json_from_image_name(image_name):
     version = components[2].split('.')[0]
 
     # Crear la URL absoluta de la imagen
-    image_url = f"{request.host_url}images/{image_name}"
+    image_url = f"{request.host_url}static/images/{image_name}"
 
     # Crear el diccionario JSON
     data = {
@@ -35,7 +35,7 @@ def generate_image_path_from_image_name(image_name):
 @app.route("/")
 def generate_json():
     # Obtener la lista de archivos en la carpeta "img"
-    folder_path = "public/images"
+    folder_path = "static/images"
     image_files = os.listdir(folder_path)
 
     # Generar el JSON para cada imagen encontrada
@@ -57,7 +57,7 @@ def generate_json():
 @app.route("/random")
 def get_random_json():
     # Obtener la lista de archivos en la carpeta "img"
-    folder_path = "public/images"
+    folder_path = "static/images"
     image_files = os.listdir(folder_path)
 
     # Generar el JSON para un elemento aleatorio
@@ -70,7 +70,7 @@ def get_random_json():
 @app.route("/<name>")
 def get_logo_variants(name):
     # Obtener la lista de archivos en la carpeta "img"
-    folder_path = "public/images"
+    folder_path = "static/images"
     image_files = os.listdir(folder_path)
 
     # Filtrar los resultados según el nombre del logo
