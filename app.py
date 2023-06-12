@@ -60,12 +60,26 @@ def get_random_json():
     folder_path = "static/images"
     image_files = os.listdir(folder_path)
 
-    # Generar el JSON para un elemento aleatorio
-    random_image_file = random.choice(image_files)
-    json_data = generate_json_from_image_name(random_image_file)
+    # Obtener los parámetros de la URL
+    property_param = request.args.get("property")
+    version_param = request.args.get("version")
 
-    # Devolver el elemento aleatorio como respuesta JSON
-    return jsonify(json_data)
+    # Filtrar los resultados según los parámetros especificados
+    filtered_images = []
+    for image_file in image_files:
+        image_data = generate_json_from_image_name(image_file)
+        if (property_param and image_data.get("variant") != property_param) or \
+           (version_param and image_data.get("version") != version_param):
+            continue
+        filtered_images.append(image_data)
+
+    if filtered_images:
+        # Generar el JSON para un elemento aleatorio entre los filtrados
+        random_image_data = random.choice(filtered_images)
+        return jsonify(random_image_data)
+    else:
+        return f"No se encontró ningún logo con los parámetros especificados", 404
+
 
 @app.route("/<name>")
 def get_logo_variants(name):
@@ -73,22 +87,27 @@ def get_logo_variants(name):
     folder_path = "static/images"
     image_files = os.listdir(folder_path)
 
-    # Filtrar los resultados según el nombre del logo
-    variants = []
+    # Obtener los parámetros de la URL
+    property_param = request.args.get("property")
+    version_param = request.args.get("version")
+
+    # Filtrar los resultados según el nombre y los parámetros especificados
+    filtered_images = []
     for image_file in image_files:
-        logo_name = image_file.split('-')[0]
-        if logo_name.lower() == name.lower():
-            variant = generate_json_from_image_name(image_file)
-            variants.append(variant)
+        image_data = generate_json_from_image_name(image_file)
+        if image_data.get("name").lower() == name.lower():
+            if (property_param and image_data.get("variant") != property_param) or \
+               (version_param and image_data.get("version") != version_param):
+                continue
+            filtered_images.append(image_data)
 
-    if variants:
-        if len(variants) == 1:
-            return jsonify(variants[0])
+    if filtered_images:
+        if len(filtered_images) == 1:
+            return jsonify(filtered_images[0])
         else:
-            return jsonify(variants)
+            return jsonify(filtered_images)
     else:
-        return f"No se encontró ningún logo con el nombre '{name}'", 404
-
+        return f"No se encontró ningún logo con los parámetros especificados", 404
 
 
 if __name__ == "__main__":
