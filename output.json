@@ -1,0 +1,16 @@
+{
+    "records": [
+        {
+            "image": "logos/mailchimp-bleed-black.png",
+            "name": "Mailchimp",
+            "variant": "bleed",
+            "version": "black"
+        },
+        {
+            "image": "logos/nike-bleed-black.png",
+            "name": "Nike",
+            "variant": "bleed",
+            "version": "black"
+        }
+    ]
+}
