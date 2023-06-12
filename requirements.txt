@@ -1,1 +1,2 @@
 Flask==2.2.2
+Flask_cors==3.0.10
