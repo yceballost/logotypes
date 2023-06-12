@@ -15,7 +15,7 @@ def generate_json_from_image_name(image_name):
     version = components[2].split('.')[0]
 
     # Crear la URL absoluta de la imagen
-    image_url = f"{request.base_url.rsplit('/', 1)[0]}/{image_name}"
+    image_url = f"{request.base_url.rsplit('/', 1)[0]}/img/{image_name}"
 
     # Crear el diccionario JSON
     data = {
