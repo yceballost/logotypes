@@ -27,10 +27,8 @@ def generate_json_from_image_name(image_name):
 
     return data
 
-
 def generate_image_path_from_image_name(image_name):
     return f"logos/{image_name}"
-
 
 @app.route("/")
 def generate_json():
