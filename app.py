@@ -13,7 +13,7 @@ def generate_json_from_image_name(image_name):
 
     # Crear el diccionario JSON
     data = {
-        "image": f"logos/{image_name}",
+        "image": f"{image_name}",
         "name": name.capitalize(),
         "variant": variant,
         "version": version
@@ -24,29 +24,37 @@ def generate_json_from_image_name(image_name):
 @app.route("/")
 def generate_json():
     # Obtener la lista de archivos en la carpeta "img"
-    folder_path = "src"
+    folder_path = "img"
     image_files = os.listdir(folder_path)
 
     # Generar el JSON para cada imagen encontrada
-    json_data = []
+    json_data = {}
     for image_file in image_files:
-        json_data.append(generate_json_from_image_name(image_file))
+        name = image_file.split('-')[0]
+        if name not in json_data:
+            json_data[name] = []
+        json_data[name].append(generate_json_from_image_name(image_file))
 
-    # Devolver el JSON como respuesta
-    return jsonify(records=json_data)
+    # Crear el diccionario final con la estructura deseada
+    data_final = {
+        "records": json_data
+    }
+
+    # Devolver el diccionario final como respuesta JSON
+    return jsonify(data_final)
 
 @app.route("/random")
-def get_random_logo():
+def get_random_json():
     # Obtener la lista de archivos en la carpeta "img"
-    folder_path = "src"
+    folder_path = "img"
     image_files = os.listdir(folder_path)
 
-    # Seleccionar un logotipo aleatorio
+    # Generar el JSON para un elemento aleatorio
     random_image_file = random.choice(image_files)
-    random_logo = generate_json_from_image_name(random_image_file)
+    json_data = generate_json_from_image_name(random_image_file)
 
-    # Devolver el logotipo aleatorio como respuesta JSON
-    return jsonify(random_logo)
+    # Devolver el elemento aleatorio como respuesta JSON
+    return jsonify(json_data)
 
 if __name__ == "__main__":
     app.run(debug=False)
