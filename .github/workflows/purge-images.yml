@@ -1,0 +1,14 @@
+name: Cache Purge
+on:
+  push:
+    branches:
+      - "*"
+
+jobs:
+  cache_purge:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Purge Cache
+        run: |
+          curl -X PURGE https://www.logotypes.dev/random
