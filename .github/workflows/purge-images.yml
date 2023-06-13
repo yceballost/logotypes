@@ -11,16 +11,8 @@ jobs:
       - name: Clonar el repositorio
         uses: actions/checkout@v2
 
-      - name: Instalar Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: 14
-
-      - name: Instalar las dependencias
-        run: npm install -g purge-readme-images
-
       - name: Purgar imágenes
-        run: purge-readme-images --path README.md
+        run: sed -i '/!\[.*\](.*\.(png|jpg|jpeg|gif|svg))/d' README.md
 
       - name: Confirmar y empujar cambios
         run: |
