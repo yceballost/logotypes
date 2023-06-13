@@ -18,7 +18,7 @@ https://www.logotypes.dev/random
 ```
 
 **Random logo with defined props**  
-<img src="https://logotypes.dev/random?variant=isotype?v=1" width="40" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="https://logotypes.dev/random?variant=isotype" width="40" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <img src="https://logotypes.dev/random?version=black" width="40" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <img src="https://logotypes.dev/random?variant=isotype&version=black" width="40" />
 
