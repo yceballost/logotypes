@@ -51,7 +51,7 @@ Help me enhance this project by adding brand logotypes. Your contributions to op
 
 I have tried to conceive this project from pure simplicity, from development to the contribution model.
 
-### Add new logotypes
+### Adding new logotypes as designer
 
 1. The file names must follow a specific structure.
 
@@ -65,6 +65,10 @@ I have tried to conceive this project from pure simplicity, from development to 
    For example: `nike-imagotype-black.svg`
 
 2. Simply make a pull request including the logos in the [static/images](static/images) folder with the correct naming structure and in .svg format, and you're good to go!
+
+### Improving the project as developer
+
+This project has been built by an inexperienced designer in coding and assisted by ChatGPT. (😬). Please feel free to enhance or add any features to this project by submitting a pull request (PR). I welcome your contributions and appreciate any improvements you can make.
 
 ## FAQs
 
