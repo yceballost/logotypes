@@ -7,6 +7,12 @@ import random
 app = Flask(__name__, static_folder="../static")
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, '../static'),
+                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
+
+
 def generate_json_from_image_name(image_name):
     # Separar el nombre de la imagen en sus componentes
     components = image_name.split('-')
