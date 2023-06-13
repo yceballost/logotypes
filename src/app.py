@@ -14,7 +14,7 @@ def favicon():
 
 
 def generate_json_from_image_name(image_name):
-    # Separar el nombre de la imagen en sus componentes
+    # Split the image name into its components
     components = image_name.split('-')
 
     if len(components) < 3:
@@ -25,10 +25,10 @@ def generate_json_from_image_name(image_name):
     variant = components[1]
     version = components[2].split('.')[0]
 
-    # Crear la URL absoluta de la imagen
+    # Create the absolute URL of the image
     image_url = f"{request.host_url}static/images/{image_name}"
 
-    # Crear el diccionario JSON
+    # Create the JSON dictionary
     data = {
         "image": image_url,
         "name": name.capitalize(),
@@ -44,11 +44,11 @@ def generate_json_from_image_name(image_name):
 
 @app.route("/all")
 def generate_json():
-    # Obtener la lista de archivos en la carpeta "img"
+    # Get the list of files in the "img" folder
     folder_path = "static/images"
     image_files = os.listdir(folder_path)
 
-    # Generar el JSON para cada imagen encontrada
+    # Generate JSON for each found image
     json_data = {}
     for image_file in image_files:
         name = image_file.split('-')[0]
@@ -56,25 +56,25 @@ def generate_json():
             json_data[name] = []
         json_data[name].append(generate_json_from_image_name(image_file))
 
-    # Crear el diccionario final con la estructura deseada
+    # Create the final dictionary with the desired structure
     data_final = {
         "records": json_data
     }
 
-    # Devolver el diccionario final como respuesta JSON
+    # Return the final dictionary as JSON response
     return jsonify(data_final)
 
 @app.route("/random")
 def get_random_json():
-    # Obtener la lista de archivos en la carpeta "img"
+    # Get the list of files in the "img" folder
     folder_path = "static/images"
     image_files = os.listdir(folder_path)
 
-    # Obtener los parámetros de la URL
+    # Get the URL parameters
     variant_param = request.args.get("variant")
     version_param = request.args.get("version")
 
-    # Filtrar los resultados según los parámetros especificados
+    # Filter the results based on the specified parameters
     filtered_images = []
     for image_file in image_files:
         image_data = generate_json_from_image_name(image_file)
@@ -84,7 +84,7 @@ def get_random_json():
         filtered_images.append(image_data)
 
     if filtered_images:
-        # Generar el JSON para un elemento aleatorio entre los filtrados
+        # Generate JSON for a random element among the filtered images
         random_image_data = random.choice(filtered_images)
         image_url = random_image_data['image']
         return redirect(image_url)
@@ -95,15 +95,15 @@ def get_random_json():
 
 @app.route("/<name>")
 def get_logo_variants(name):
-    # Obtener la lista de archivos en la carpeta "img"
+    # Get the list of files in the "img" folder
     folder_path = "static/images"
     image_files = os.listdir(folder_path)
 
-    # Obtener los parámetros de la URL
+    # Get the URL parameters
     variant_param = request.args.get("variant")
     version_param = request.args.get("version")
 
-    # Filtrar los resultados según el nombre y los parámetros especificados
+    # Filter the results based on the name and specified parameters
     filtered_images = []
     for image_file in image_files:
         image_data = generate_json_from_image_name(image_file)
@@ -114,7 +114,7 @@ def get_logo_variants(name):
             filtered_images.append(image_data)
 
     if filtered_images:
-        # Ordenar las imágenes por versión, de forma que la versión en color aparezca antes
+        # Sort the images by version, so that the color version appears first
         sorted_images = sorted(filtered_images, key=lambda x: x['version'], reverse=True)
 
         image_name = sorted_images[0]['image'].split('/')[-1]
