@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, redirect, send_from_directory
 from flask_cors import CORS
 
 import os
@@ -7,9 +7,20 @@ import random
 app = Flask(__name__, static_folder="../static")
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, '../static'),
+                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
+
+
 def generate_json_from_image_name(image_name):
     # Separar el nombre de la imagen en sus componentes
     components = image_name.split('-')
+
+    if len(components) < 3:
+        print(f"Not valid: {image_name}")
+        return None
+
     name = components[0]
     variant = components[1]
     version = components[2].split('.')[0]
@@ -27,8 +38,9 @@ def generate_json_from_image_name(image_name):
 
     return data
 
-def generate_image_path_from_image_name(image_name):
-    return f"logos/{image_name}"
+
+# def generate_image_path_from_image_name(image_name):
+#     return f"logos/{image_name}"
 
 @app.route("/all")
 def generate_json():
@@ -74,9 +86,11 @@ def get_random_json():
     if filtered_images:
         # Generar el JSON para un elemento aleatorio entre los filtrados
         random_image_data = random.choice(filtered_images)
-        return jsonify(random_image_data)
+        image_url = random_image_data['image']
+        return redirect(image_url)
+
     else:
-        return f"No se encontró ningún logo con los parámetros especificados", 404
+        return f"No logo found with the specified parameters", 404
 
 
 @app.route("/<name>")
@@ -100,12 +114,13 @@ def get_logo_variants(name):
             filtered_images.append(image_data)
 
     if filtered_images:
-        if len(filtered_images) == 1:
-            return jsonify(filtered_images[0])
-        else:
-            return jsonify(filtered_images)
+        # Ordenar las imágenes por versión, de forma que la versión en color aparezca antes
+        sorted_images = sorted(filtered_images, key=lambda x: x['version'], reverse=True)
+
+        image_name = sorted_images[0]['image'].split('/')[-1]
+        return send_from_directory(app.static_folder, f"images/{image_name}")
     else:
-        return f"No se encontró ningún logo con los parámetros especificados", 404
+        return f"No logo found with the specified parameters", 404
 
 
 if __name__ == "__main__":
