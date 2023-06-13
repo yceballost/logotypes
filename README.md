@@ -2,21 +2,23 @@
 
 An open-source project that offers a wide range of logos for your projects through an API.
 
-## Basic usage
-
 **All logos**
 
 ```
 https://www.logotypes.dev/all
 ```
 
-**Random logo**
+**Random logo**  
+<img src="https://logotypes.dev/random" width="40" />
 
 ```
 https://www.logotypes.dev/random
 ```
 
-**Random logo with defined props**
+**Random logo with defined props**  
+<img src="https://logotypes.dev/random?variant=isotype" width="40" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="https://logotypes.dev/random?version=black" width="40" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="https://logotypes.dev/random?variant=isotype&version=black" width="40" />
 
 ```
 https://www.logotypes.dev/random?variant=imagotype
@@ -24,18 +26,21 @@ https://www.logotypes.dev/random?version=black
 https://www.logotypes.dev/random?variant=imagotype&version=black
 ```
 
-**By logo name**
+**By logo name**  
+<img src="https://logotypes.dev/nike" width="40" />
 
 ```
 https://www.logotypes.dev/nike
 ```
 
-**Random logo with defined props**
+**Random logo with defined props**  
+<img src="https://logotypes.dev/tiktok?variant=isotype" width="40" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="https://logotypes.dev/tiktok?variant=imagotype" width="40" />
 
 ```
-https://www.logotypes.dev/nike?variant=imagotype
-https://www.logotypes.dev/nike?version=black
-https://www.logotypes.dev/nike?variant=imagotype&version=black
+https://www.logotypes.dev/tiktok?variant=imagotype
+https://www.logotypes.dev/tiktok?version=black
+https://www.logotypes.dev/tiktok?variant=imagotype&version=black
 ```
 
 ## Contribution
