@@ -1,7 +1,7 @@
 # Logotypes.dev
 An open-source project that offers a wide range of logos for your projects through an API.
 
-# Basic usage
+## Basic usage
 **All logos** 
 ```
 https://www.logotypes.dev/
