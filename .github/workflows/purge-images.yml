@@ -1,0 +1,30 @@
+name: Purgar imágenes del README
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  purge_images:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clonar el repositorio
+        uses: actions/checkout@v2
+
+      - name: Instalar Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Instalar las dependencias
+        run: npm install -g purge-readme-images
+
+      - name: Purgar imágenes
+        run: purge-readme-images --path README.md
+
+      - name: Confirmar y empujar cambios
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          git commit -a -m "Purgar imágenes del README"
+          git push
