@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, redirect
+from flask import Flask, jsonify, request, redirect, send_from_directory
 from flask_cors import CORS
 
 import os
@@ -102,10 +102,8 @@ def get_logo_variants(name):
             filtered_images.append(image_data)
 
     if filtered_images:
-        if len(filtered_images) == 1:
-            return jsonify(filtered_images[0])
-        else:
-            return jsonify(filtered_images)
+        image_name = filtered_images[0]['image'].split('/')[-1]
+        return send_from_directory(app.static_folder, f"images/{image_name}")
     else:
         return f"No se encontró ningún logo con los parámetros especificados", 404
 
