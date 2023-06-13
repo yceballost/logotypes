@@ -2,8 +2,6 @@
 
 An open-source project that offers a wide range of logos for your projects through an API.
 
----
-
 ## Basic usage
 
 **All logos**
@@ -40,8 +38,6 @@ https://www.logotypes.dev/nike?version=black
 https://www.logotypes.dev/nike?variant=imagotype&version=black
 ```
 
----
-
 ## Contribution
 
 Help me enhance this project by adding brand logotypes. Your contributions to open-source initiative will contribute to a more comprehensive collection of logos. Join it in making this project complete by incorporating logos from various brands. Together, let's create a valuable resource for designers and developers worldwide.
@@ -63,7 +59,9 @@ I have tried to conceive this project from pure simplicity, from development to 
 
 2. Simply make a pull request including the logos in the [static/images](static/images) folder with the correct naming structure and in .svg format, and you're good to go!
 
-#### When to use imagotype, isotype or logotype in variants
+## FAQs
+
+### When to use imagotype, isotype or logotype in variants?
 
 **imagotype**: a logo format that is made up of a symbol and text.  
 **isotype**: consists of only one symbol or drawing.  
