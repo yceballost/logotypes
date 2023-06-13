@@ -30,7 +30,7 @@ def generate_json_from_image_name(image_name):
 def generate_image_path_from_image_name(image_name):
     return f"logos/{image_name}"
 
-@app.route("/")
+@app.route("/all")
 def generate_json():
     # Obtener la lista de archivos en la carpeta "img"
     folder_path = "static/images"
