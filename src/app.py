@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, redirect
 from flask_cors import CORS
 
 import os
@@ -74,7 +74,9 @@ def get_random_json():
     if filtered_images:
         # Generar el JSON para un elemento aleatorio entre los filtrados
         random_image_data = random.choice(filtered_images)
-        return jsonify(random_image_data)
+        image_url = random_image_data['image']
+        return redirect(image_url)
+
     else:
         return f"No se encontró ningún logo con los parámetros especificados", 404
 
