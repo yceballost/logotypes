@@ -1,1 +1,18 @@
-<svg width="2500" height="2263" viewBox="0 0 95 86" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><title>logo-symbol</title><desc>Created using Figma</desc><use xlink:href="#a" transform="translate(.17 30.901)" fill="#EA6C00"/><use xlink:href="#b" transform="matrix(-1 0 0 1 94.64 30.901)" fill="#EA6C00"/><use xlink:href="#c" transform="translate(19.3 30.901)" fill="#FDAD00"/><use xlink:href="#d" transform="translate(19.3 .42)" fill="#FDD231"/><use xlink:href="#e" transform="matrix(-1 0 0 1 75.5 .42)" fill="#FDD231"/><use xlink:href="#f" transform="matrix(-1 0 0 1 94.64 3.234)" fill="#FDAD00"/><use xlink:href="#g" transform="translate(.17 3.234)" fill="#FDAD00"/><use xlink:href="#h" transform="translate(19.3 .42)" fill="#FEEEB7"/><defs><path id="a" fill-rule="evenodd" d="M19.131 0l28.1 55L0 0h19.131z"/><path id="b" fill-rule="evenodd" d="M19.131 0l28.1 55L0 0h19.131z"/><path id="c" fill-rule="evenodd" d="M0 0h56.2L28.1 55 0 0z"/><path id="d" fill-rule="evenodd" d="M28.1 0L1.479 2.814 0 30.481 28.1 0z"/><path id="e" fill-rule="evenodd" d="M28.1 0L1.479 2.814 0 30.481 28.1 0z"/><path id="f" fill-rule="evenodd" d="M0 27.667L20.61 0l-1.479 27.667H0z"/><path id="g" fill-rule="evenodd" d="M0 27.667L20.61 0l-1.479 27.667H0z"/><path id="h" fill-rule="evenodd" d="M28.1 0L0 30.481h56.2L28.1 0z"/></defs></svg>
+<svg width="50" height="46" viewBox="0 0 50 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_1_1056)">
+<path d="M10.8871 1.48669L24.9496 0L39.0121 1.48669L49.8992 16.1017L24.9496 45.1552L0 16.1017L10.8871 1.48669Z" fill="#FDB300"/>
+<path d="M10.1058 16.1017L24.9496 45.1552L0 16.1017H10.1058Z" fill="#EA6C00"/>
+<path d="M39.7926 16.1017L24.9488 45.1552L49.8984 16.1017H39.7926Z" fill="#EA6C00"/>
+<path d="M10.1094 16.1017H39.7969L24.9532 45.1552L10.1094 16.1017Z" fill="#FDAD00"/>
+<path d="M24.9532 0L10.8906 1.48668L10.1094 16.1017L24.9532 0Z" fill="#FDD231"/>
+<path d="M24.9531 0L39.0157 1.48668L39.7969 16.1017L24.9531 0Z" fill="#FDD231"/>
+<path d="M49.8984 16.1017L39.0113 1.48669L39.7926 16.1017H49.8984Z" fill="#FDAD00"/>
+<path d="M0 16.1017L10.8871 1.48669L10.1058 16.1017H0Z" fill="#FDAD00"/>
+<path d="M24.9532 0L10.1094 16.1017H39.7969L24.9532 0Z" fill="#FEEEB7"/>
+</g>
+<defs>
+<clipPath id="clip0_1_1056">
+<rect width="50" height="45.1777" fill="white"/>
+</clipPath>
+</defs>
+</svg>
