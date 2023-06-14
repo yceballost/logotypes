@@ -18,14 +18,14 @@ https://www.logotypes.dev/random
 ```
 
 **Random logo with defined props**  
-<img src="https://logotypes.dev/random?variant=isotype" width="40" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="https://logotypes.dev/random?variant=glyph" width="40" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <img src="https://logotypes.dev/random?version=black" width="40" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<img src="https://logotypes.dev/random?variant=isotype&version=black" width="40" />
+<img src="https://logotypes.dev/random?variant=glyph&version=black" width="40" />
 
 ```
-https://www.logotypes.dev/random?variant=imagotype
+https://www.logotypes.dev/random?variant=wordmark
 https://www.logotypes.dev/random?version=black
-https://www.logotypes.dev/random?variant=imagotype&version=black
+https://www.logotypes.dev/random?variant=wordmark&version=black
 ```
 
 **By logo name**  
@@ -36,13 +36,13 @@ https://www.logotypes.dev/nike
 ```
 
 **Random logo with defined props**  
-<img src="https://logotypes.dev/tiktok?variant=isotype" width="40" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<img src="https://logotypes.dev/tiktok?variant=imagotype" width="40" />
+<img src="https://logotypes.dev/tiktok?variant=glyph" width="40" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="https://logotypes.dev/tiktok?variant=wordmark" width="40" />
 
 ```
-https://www.logotypes.dev/tiktok?variant=imagotype
+https://www.logotypes.dev/tiktok?variant=wordmark
 https://www.logotypes.dev/tiktok?version=black
-https://www.logotypes.dev/tiktok?variant=imagotype&version=black
+https://www.logotypes.dev/tiktok?variant=wordmark&version=black
 ```
 
 ## Contribution
@@ -59,10 +59,10 @@ I have tried to conceive this project from pure simplicity, from development to 
 
    `logoName-variant-version.svg`
 
-   variant: `imagotype` / `isotype` / `logotype`  
+   variant: `wordmark` / `glyph`
    version: `color` / `black` / `white`
 
-   For example: `nike-imagotype-black.svg`
+   For example: `nike-wordmark-black.svg`
 
 2. Simply make a pull request including the logos in the [static/images](static/images) folder with the correct naming structure and in .svg format, and you're good to go!
 
@@ -72,8 +72,7 @@ This project has been built by an inexperienced designer in coding and assisted 
 
 ## FAQs
 
-### When to use imagotype, isotype or logotype in variants?
+### When to use wordmark or glyph in variants?
 
-**imagotype**: a logo format that is made up of a symbol and text.  
-**isotype**: consists of only one symbol or drawing.  
-**logotype**: a logo that uses only the brand's name.
+**wordmark**: a logo format that is made up of a symbol and text.  
+**glyph**: consists of only one symbol or drawing.
