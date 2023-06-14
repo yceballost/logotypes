@@ -6,7 +6,7 @@ An open-source project that offers a wide range of logos for your projects throu
 
 **All logos**
 
-```json
+```
 https://www.logotypes.dev/all (json structure)
 ```
 
