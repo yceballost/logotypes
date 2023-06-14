@@ -6,21 +6,23 @@ An open-source project that offers a wide range of logos for your projects throu
 
 **All logos**
 
-```
-https://www.logotypes.dev/all
+```json
+https://www.logotypes.dev/all (json structure)
 ```
 
-**Random logo**  
-<img src="https://logotypes.dev/random" width="40" />
+**Random logo**
+
+<img src="https://logotypes.dev/random" height="40" />
 
 ```
 https://www.logotypes.dev/random
 ```
 
-**Random logo with defined props**  
-<img src="https://logotypes.dev/random?variant=glyph" width="40" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<img src="https://logotypes.dev/random?version=black" width="40" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<img src="https://logotypes.dev/random?variant=wordmark&version=black" width="40" />
+**Random logo with defined props**
+
+<img src="https://logotypes.dev/random?variant=glyph" height="40" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="https://logotypes.dev/random?version=black" height="40" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="https://logotypes.dev/random?variant=wordmark&version=black" height="40" />
 
 ```
 https://www.logotypes.dev/random?variant=glyph
@@ -28,21 +30,23 @@ https://www.logotypes.dev/random?version=black
 https://www.logotypes.dev/random?variant=wordmark&version=black
 ```
 
-**By logo name**  
-<img src="https://logotypes.dev/nike" width="40" />
+**By logo name**
+
+<img src="https://logotypes.dev/spotify" height="40" />
 
 ```
-https://www.logotypes.dev/nike
+https://www.logotypes.dev/spotify
 ```
 
-**Random logo with defined props**  
-<img src="https://logotypes.dev/tiktok?variant=glyph" width="40" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<img src="https://logotypes.dev/tiktok?variant=wordmark" width="40" />
+**By logo name with defined props**
+
+<img src="https://logotypes.dev/airbnb?variant=glyph" height="40" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="https://logotypes.dev/airbnb?variant=wordmark" height="40" />
 
 ```
-https://www.logotypes.dev/tiktok?variant=wordmark
-https://www.logotypes.dev/tiktok?version=black
-https://www.logotypes.dev/tiktok?variant=wordmark&version=black
+https://www.logotypes.dev/airbnb?variant=wordmark
+https://www.logotypes.dev/airbnb?version=black
+https://www.logotypes.dev/airbnb?variant=wordmark&version=black
 ```
 
 ## Contribution
@@ -77,4 +81,4 @@ This project has been built by an inexperienced designer in coding and assisted 
 |                                 Example                                 | Type     | Description                                         |
 | :---------------------------------------------------------------------: | -------- | --------------------------------------------------- |
 | <img src="https://logotypes.dev/reddit?variant=wordmark" width="112" /> | Wordmark | a logo format that is made up of a symbol and text. |
-|   <img src="https://logotypes.dev/reddit?variant=glyph" width="40" />   | Glyph    | consists of only one symbol or drawing.             |
+|  <img src="https://logotypes.dev/reddit?variant=glyph" height="40" />   | Glyph    | consists of only one symbol or drawing.             |
