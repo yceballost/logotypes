@@ -74,6 +74,7 @@ This project has been built by an inexperienced designer in coding and assisted 
 
 ### When to use wordmark or glyph in variants?
 
-| <img src="https://logotypes.dev/dropbox?variant=wordmark" width="180" /> | wordmark | a logo format that is made up of a symbol and text. |
-| ------------------------------------------------------------------------ | -------- | --------------------------------------------------- |
-| <img src="https://logotypes.dev/dropbox?variant=glyph" width="40" />     | glyph    | consists of only one symbol or drawing.             |
+|                                 Example                                  | Type     | Description                                         |
+| :----------------------------------------------------------------------: | -------- | --------------------------------------------------- |
+| <img src="https://logotypes.dev/dropbox?variant=wordmark" width="180" /> | Wordmark | a logo format that is made up of a symbol and text. |
+|   <img src="https://logotypes.dev/dropbox?variant=glyph" width="40" />   | Glyph    | consists of only one symbol or drawing.             |
