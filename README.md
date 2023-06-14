@@ -20,10 +20,10 @@ https://www.logotypes.dev/random
 **Random logo with defined props**  
 <img src="https://logotypes.dev/random?variant=glyph" width="40" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <img src="https://logotypes.dev/random?version=black" width="40" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<img src="https://logotypes.dev/random?variant=glyph&version=black" width="40" />
+<img src="https://logotypes.dev/random?variant=wordmark&version=black" width="40" />
 
 ```
-https://www.logotypes.dev/random?variant=wordmark
+https://www.logotypes.dev/random?variant=glyph
 https://www.logotypes.dev/random?version=black
 https://www.logotypes.dev/random?variant=wordmark&version=black
 ```
@@ -59,7 +59,7 @@ I have tried to conceive this project from pure simplicity, from development to 
 
    `logoName-variant-version.svg`
 
-   variant: `wordmark` / `glyph`
+   variant: `wordmark` / `glyph`  
    version: `color` / `black` / `white`
 
    For example: `nike-wordmark-black.svg`
@@ -74,5 +74,6 @@ This project has been built by an inexperienced designer in coding and assisted 
 
 ### When to use wordmark or glyph in variants?
 
-**wordmark**: a logo format that is made up of a symbol and text.  
-**glyph**: consists of only one symbol or drawing.
+| <img src="https://logotypes.dev/dropbox?variant=wordmark" width="180" /> | wordmark | a logo format that is made up of a symbol and text. |
+| ------------------------------------------------------------------------ | -------- | --------------------------------------------------- |
+| <img src="https://logotypes.dev/dropbox?variant=glyph" width="40" />     | glyph    | consists of only one symbol or drawing.             |
