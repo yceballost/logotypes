@@ -1,0 +1,2 @@
+Title: Component-driven UI development
+Description: Storybook is an open-source tool for developing and showcasing UI components in isolation. Build, test, and document components with Storybook’s development environment, supporting component-driven design and collaboration.

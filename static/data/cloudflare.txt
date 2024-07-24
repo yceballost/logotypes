@@ -1,0 +1,2 @@
+Title: Protect and accelerate your website
+Description: Cloudflare provides security and performance solutions to protect and accelerate your website. With features like DDoS protection, content delivery networks, and web optimization, Cloudflare ensures a fast and secure online experience.

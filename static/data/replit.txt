@@ -1,0 +1,2 @@
+Title: Collaborative coding environment
+Description: Replit provides a collaborative coding environment for developers. Write, run, and share code in real-time with Replit’s online IDE, supporting various programming languages and enhancing collaboration with team members.

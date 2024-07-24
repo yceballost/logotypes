@@ -1,0 +1,2 @@
+Title: Privacy-friendly web analytics
+Description: Plausible offers privacy-friendly web analytics to help you understand website performance. Track key metrics, analyze visitor behavior, and maintain user privacy with Plausible’s simple and transparent analytics platform.

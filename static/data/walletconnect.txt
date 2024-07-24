@@ -1,0 +1,2 @@
+Title: Secure wallet connection
+Description: WalletConnect provides a secure protocol for connecting cryptocurrency wallets to decentralized applications. Facilitate seamless and secure interactions with blockchain apps using WalletConnect’s connectivity solutions.

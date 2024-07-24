@@ -1,0 +1,2 @@
+Title: Research and feedback management
+Description: Dovetail provides a platform for managing research and feedback processes. Capture, analyze, and collaborate on user insights and feedback with Dovetail’s tools designed to support effective research and product development.

@@ -1,0 +1,2 @@
+Title: Customer feedback analysis
+Description: Thematic offers tools for analyzing customer feedback and deriving actionable insights. Understand customer sentiments and improve your products or services based on detailed feedback analysis with Thematic.

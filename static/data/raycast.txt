@@ -1,0 +1,2 @@
+Title: Productivity tool for Mac
+Description: Raycast is a productivity tool for Mac that streamlines workflows and enhances efficiency. Quickly access apps, files, and commands with Raycast’s intuitive launcher, and customize your workflow to fit your needs.

@@ -1,0 +1,2 @@
+Title: Tools for team collaboration
+Description: Atlassian provides a suite of tools for team collaboration and project management. From Jira for issue tracking to Confluence for documentation, Atlassian’s products support efficient teamwork and project execution.

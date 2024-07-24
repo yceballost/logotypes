@@ -1,0 +1,2 @@
+Title: Code hosting and collaboration platform
+Description: GitHub provides a platform for code hosting and collaboration, offering version control and project management features. Collaborate on code, track changes, and manage repositories efficiently with GitHub’s powerful tools.

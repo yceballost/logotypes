@@ -1,0 +1,2 @@
+Title: Scalable database infrastructure
+Description: PlanetScale provides a scalable database infrastructure for modern applications. Enjoy high performance, automatic scaling, and advanced features with PlanetScale’s distributed SQL database solutions.

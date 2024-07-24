@@ -1,0 +1,2 @@
+Title: Task management and collaboration
+Description: Taskade provides task management and collaboration tools designed to streamline workflows and improve team productivity. Organize tasks, set priorities, and collaborate with team members using Taskade’s versatile platform.

@@ -1,0 +1,2 @@
+Title: Data labeling and AI training
+Description: Scale provides data labeling and AI training services to help you build and improve machine learning models. With a focus on accuracy and efficiency, Scale’s solutions support various AI applications, from computer vision to natural language processing.

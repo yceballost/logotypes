@@ -1,0 +1,2 @@
+Title: Error tracking and monitoring
+Description: Sentry provides error tracking and monitoring solutions to help developers identify and resolve issues in their applications. With real-time error reporting and detailed insights, Sentry enhances application reliability and performance.

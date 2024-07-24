@@ -1,0 +1,2 @@
+Title: Payment processing and financial services
+Description: Square provides payment processing and financial services for businesses of all sizes. From point-of-sale systems to online payment solutions, Square offers tools for managing transactions and financial operations efficiently.
