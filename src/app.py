@@ -2,11 +2,14 @@ from flask import Flask, jsonify, request, redirect, send_from_directory
 from flask_cors import CORS
 import os
 import random
-import json
-import requests
+from middleware import log_request_info
 
 app = Flask(__name__, static_folder="../static")
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
+
+@app.before_request
+def before_request():
+    log_request_info()
 
 @app.route('/favicon.ico')
 def favicon():
