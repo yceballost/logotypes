@@ -1,0 +1,2 @@
+Title: Product analytics and user feedback
+Description: Pendo offers product analytics and user feedback tools to help you understand user behavior and improve your product. Collect insights, track engagement, and drive product decisions with Pendo’s comprehensive platform.

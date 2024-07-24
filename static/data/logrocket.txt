@@ -1,0 +1,2 @@
+Title: Monitor and debug web applications
+Description: LogRocket offers tools for monitoring and debugging web applications. Record user sessions, track performance issues, and gain insights into application behavior. LogRocket’s features help you improve user experience and resolve issues efficiently.

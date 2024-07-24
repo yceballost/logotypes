@@ -1,0 +1,2 @@
+Title: CRM and customer success platform
+Description: Salesforce provides a comprehensive CRM and customer success platform that helps businesses manage customer relationships, sales, and marketing efforts. With powerful tools for automation, analytics, and collaboration, Salesforce drives growth and customer satisfaction.

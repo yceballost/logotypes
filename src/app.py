@@ -1,17 +1,15 @@
 from flask import Flask, jsonify, request, redirect, send_from_directory
 from flask_cors import CORS
-
 import os
 import random
 
-app = Flask(__name__, static_folder="../static")
+app = Flask(__name__, static_folder="static")
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 @app.route('/favicon.ico')
 def favicon():
-    return send_from_directory(os.path.join(app.root_path, '../static'),
+    return send_from_directory(os.path.join(app.root_path, 'static'),
                                'favicon.ico', mimetype='image/vnd.microsoft.icon')
-
 
 def generate_json_from_image_name(image_name):
     # Split the image name into its components
@@ -28,7 +26,11 @@ def generate_json_from_image_name(image_name):
     # Create the absolute URL of the image
     image_url = f"{request.host_url}static/images/{image_name}"
 
-    # Create the JSON dictionary
+    # Define the path for the metadata file
+    metadata_filename = f"{name}.txt"
+    metadata_path = os.path.join('static/data', metadata_filename)
+
+    # Initialize the JSON dictionary
     data = {
         "image": image_url,
         "name": name.capitalize(),
@@ -36,17 +38,31 @@ def generate_json_from_image_name(image_name):
         "version": version
     }
 
+    # Read the metadata file if it exists
+    if os.path.exists(metadata_path):
+        example_title = None
+        example_description = None
+        with open(metadata_path, 'r') as file:
+            lines = file.readlines()
+            for line in lines:
+                if line.startswith('Title:'):
+                    example_title = line[len('Title:'):].strip()
+                elif line.startswith('Description:'):
+                    example_description = line[len('Description:'):].strip()
+        
+        # Add the title and description to the JSON dictionary if available
+        if example_title:
+            data["example_title"] = example_title
+        if example_description:
+            data["example_description"] = example_description
+
     return data
-
-
-# def generate_image_path_from_image_name(image_name):
-#     return f"logos/{image_name}"
 
 @app.route("/all")
 def generate_json():
-    # Get the list of files in the "img" folder
+    # Get the list of files in the "images" folder
     folder_path = "static/images"
-    image_files = os.listdir(folder_path)
+    image_files = [f for f in os.listdir(folder_path) if f.endswith('.svg')]
 
     # Generate JSON for each found image
     json_data = {}
@@ -66,9 +82,9 @@ def generate_json():
 
 @app.route("/random")
 def get_random_json():
-    # Get the list of files in the "img" folder
+    # Get the list of files in the "images" folder
     folder_path = "static/images"
-    image_files = os.listdir(folder_path)
+    image_files = [f for f in os.listdir(folder_path) if f.endswith('.svg')]
 
     # Get the URL parameters
     variant_param = request.args.get("variant")
@@ -90,14 +106,13 @@ def get_random_json():
         return redirect(image_url)
 
     else:
-        return f"No logo found with the specified parameters", 404
-
+        return "No logo found with the specified parameters", 404
 
 @app.route("/<name>")
 def get_logo_variants(name):
-    # Get the list of files in the "img" folder
+    # Get the list of files in the "images" folder
     folder_path = "static/images"
-    image_files = os.listdir(folder_path)
+    image_files = [f for f in os.listdir(folder_path) if f.endswith('.svg')]
 
     # Get the URL parameters
     variant_param = request.args.get("variant")
@@ -120,8 +135,7 @@ def get_logo_variants(name):
         image_name = sorted_images[0]['image'].split('/')[-1]
         return send_from_directory(app.static_folder, f"images/{image_name}")
     else:
-        return f"No logo found with the specified parameters", 404
-
+        return "No logo found with the specified parameters", 404
 
 if __name__ == "__main__":
     app.run(debug=False)

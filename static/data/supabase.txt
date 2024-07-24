@@ -1,0 +1,2 @@
+Title: Open-source backend as a service
+Description: Supabase offers an open-source backend as a service (BaaS) platform, providing tools for building and managing databases, authentication, and real-time data. Speed up development with Supabase’s scalable and flexible backend solutions.

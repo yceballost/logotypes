@@ -1,0 +1,2 @@
+Title: Feature management and experimentation
+Description: LaunchDarkly provides a platform for feature management and experimentation. Control feature releases, conduct A/B testing, and manage feature flags with LaunchDarkly’s tools to optimize product development and user experience.

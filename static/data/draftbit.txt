@@ -1,0 +1,2 @@
+Title: Build mobile apps with no code
+Description: Draftbit allows you to build and customize mobile apps without writing code. Utilize a drag-and-drop interface and pre-built components to create functional and visually appealing apps with Draftbit’s no-code platform.

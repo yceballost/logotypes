@@ -1,0 +1,2 @@
+Title: Enhance user feedback analysis
+Description: Appbot helps you analyze user feedback and reviews to improve your app. Gain insights into user sentiment, identify key issues, and enhance your app’s performance with Appbot’s powerful feedback analysis tools.

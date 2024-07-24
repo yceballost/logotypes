@@ -1,0 +1,2 @@
+Title: Content management for modern digital experiences
+Description: Contentful offers a flexible content management system for creating and managing digital content. With an API-first approach and powerful features, Contentful enables you to deliver seamless and personalized digital experiences.

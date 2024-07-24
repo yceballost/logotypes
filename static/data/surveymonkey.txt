@@ -1,0 +1,2 @@
+Title: Survey creation and analysis
+Description: SurveyMonkey offers tools for creating and analyzing surveys. Gather feedback, conduct research, and gain insights with SurveyMonkey’s intuitive survey platform, designed to help you collect and analyze data effectively.
