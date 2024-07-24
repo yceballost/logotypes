@@ -4,12 +4,6 @@ An open-source project that offers a wide range of logos for your projects throu
 
 ## Usage
 
-**All logos**
-
-```
-https://www.logotypes.dev/all (json structure)
-```
-
 **Random logo**
 
 <img src="https://logotypes.dev/random" height="40" />
@@ -47,6 +41,28 @@ https://www.logotypes.dev/spotify
 https://www.logotypes.dev/airbnb?variant=wordmark
 https://www.logotypes.dev/airbnb?version=black
 https://www.logotypes.dev/airbnb?variant=wordmark&version=black
+```
+
+## Data
+
+You can also access the raw data in a different ways
+
+**All data**
+
+```
+https://www.logotypes.dev/all
+```
+
+**Random data**
+
+```
+https://www.logotypes.dev/random/data
+```
+
+**Specific data**
+
+```
+https://www.logotypes.dev/spotify/data
 ```
 
 ## Contribution

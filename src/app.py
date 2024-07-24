@@ -2,6 +2,8 @@ from flask import Flask, jsonify, request, redirect, send_from_directory
 from flask_cors import CORS
 import os
 import random
+import json
+import requests
 
 app = Flask(__name__, static_folder="../static")
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
@@ -136,6 +138,50 @@ def get_logo_variants(name):
         return send_from_directory(app.static_folder, f"images/{image_name}")
     else:
         return "No logo found with the specified parameters", 404
+
+@app.route("/random/data")
+def get_random_data():
+    # Fetch the data from the "/all" endpoint
+    try:
+        response = requests.get(f"{request.host_url}all")
+        response.raise_for_status()  # Raise an error for bad responses
+        data = response.json()
+
+        # Flatten the data structure
+        records = data.get("records", {})
+        all_items = [item for sublist in records.values() for item in sublist]
+
+        if all_items:
+            # Select a random item
+            random_item = random.choice(all_items)
+            return jsonify(random_item)
+        else:
+            return "No data available", 404
+
+    except requests.RequestException as e:
+        print(f"Error fetching data: {e}")
+        return "Error fetching data", 500
+
+@app.route("/<name>/data")
+def get_name_data(name):
+    # Fetch the data from the "/all" endpoint
+    try:
+        response = requests.get(f"{request.host_url}all")
+        response.raise_for_status()  # Raise an error for bad responses
+        data = response.json()
+
+        # Retrieve the brand-specific data
+        records = data.get("records", {})
+        name_data = records.get(name.lower(), [])
+
+        if name_data:
+            return jsonify(name_data)
+        else:
+            return "Name not found", 404
+
+    except requests.RequestException as e:
+        print(f"Error fetching data: {e}")
+        return "Error fetching data", 500
 
 if __name__ == "__main__":
     app.run(debug=False)
