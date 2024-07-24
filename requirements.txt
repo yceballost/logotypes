@@ -3,3 +3,6 @@ Flask_cors==4.0.1
 Werkzeug==3.0.3
 requests==2.32.3
 google-analytics-data==0.18.9
+google-api-core==2.19.1
+google-auth==2.32.0
+googleapis-common-protos==1.63.2
