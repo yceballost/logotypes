@@ -57,6 +57,9 @@ https://www.logotypes.dev/all
 
 ```
 https://www.logotypes.dev/random/data
+https://www.logotypes.dev/random/data?variant=wordmark
+https://www.logotypes.dev/random/data?version=black
+https://www.logotypes.dev/random/data?variant=wordmark&version=black
 ```
 
 **Specific data**
