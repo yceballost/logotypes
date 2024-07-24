@@ -1,2 +1,3 @@
-Flask==2.2.2
-Flask_cors==3.0.10
+Flask==3.0.3
+Flask_cors==4.0.1
+Werkzeug==3.0.3
