@@ -162,5 +162,26 @@ def get_random_data():
         print(f"Error fetching data: {e}")
         return "Error fetching data", 500
 
+@app.route("/<name>/data")
+def get_name_data(name):
+    # Fetch the data from the "/all" endpoint
+    try:
+        response = requests.get(f"{request.host_url}all")
+        response.raise_for_status()  # Raise an error for bad responses
+        data = response.json()
+
+        # Retrieve the brand-specific data
+        records = data.get("records", {})
+        name_data = records.get(name.lower(), [])
+
+        if name_data:
+            return jsonify(name_data)
+        else:
+            return "Name not found", 404
+
+    except requests.RequestException as e:
+        print(f"Error fetching data: {e}")
+        return "Error fetching data", 500
+
 if __name__ == "__main__":
     app.run(debug=False)
