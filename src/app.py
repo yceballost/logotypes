@@ -141,6 +141,10 @@ def get_logo_variants(name):
 
 @app.route("/random/data")
 def get_random_data():
+    # Get URL parameters
+    variant_param = request.args.get("variant")
+    version_param = request.args.get("version")
+
     # Fetch the data from the "/all" endpoint
     try:
         response = requests.get(f"{request.host_url}all")
@@ -151,12 +155,20 @@ def get_random_data():
         records = data.get("records", {})
         all_items = [item for sublist in records.values() for item in sublist]
 
+        # Filter the items based on the variant parameter
+        if variant_param:
+            all_items = [item for item in all_items if item.get("variant") == variant_param]
+
+        # Further filter based on the version parameter if provided
+        if version_param:
+            all_items = [item for item in all_items if item.get("version") == version_param]
+
         if all_items:
             # Select a random item
             random_item = random.choice(all_items)
             return jsonify(random_item)
         else:
-            return "No data available", 404
+            return "No data available with the specified parameters", 404
 
     except requests.RequestException as e:
         print(f"Error fetching data: {e}")
@@ -170,7 +182,7 @@ def get_name_data(name):
         response.raise_for_status()  # Raise an error for bad responses
         data = response.json()
 
-        # Retrieve the brand-specific data
+        # Retrieve the name-specific data
         records = data.get("records", {})
         name_data = records.get(name.lower(), [])
 
