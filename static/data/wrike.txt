@@ -1,0 +1,2 @@
+Title: Collaborative work management software
+Description: Wrike provides collaborative work management software for teams to plan, track, and deliver projects. Use task management, Gantt charts, and real-time updates to enhance project coordination and productivity. Wrike’s features support effective project execution and team collaboration.

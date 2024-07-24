@@ -1,0 +1,2 @@
+Title: Monitor and manage your infrastructure
+Description: BetterStack provides monitoring and management solutions for your infrastructure. Track performance, detect issues, and optimize operations with BetterStack’s comprehensive tools designed for modern IT environments.

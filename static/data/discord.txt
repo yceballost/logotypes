@@ -1,0 +1,2 @@
+Title: Connect and communicate with communities
+Description: Discord offers a platform for creating and managing communities with text, voice, and video communication. Engage with friends, join servers, and build communities with Discord’s versatile chat and collaboration features.

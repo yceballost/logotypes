@@ -1,0 +1,2 @@
+Title: Platform as a Service for developers
+Description: Heroku offers a Platform as a Service (PaaS) to deploy, manage, and scale applications effortlessly. Developers can focus on coding while Heroku handles infrastructure, scaling, and operational tasks with ease.

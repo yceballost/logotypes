@@ -1,0 +1,2 @@
+Title: Create interactive data visualizations
+Description: Graphy enables you to create interactive data visualizations with ease. Use Graphy’s tools to build engaging charts, graphs, and dashboards, and present complex data in a clear and visually appealing manner.

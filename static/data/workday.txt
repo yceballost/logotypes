@@ -1,0 +1,2 @@
+Title: Enterprise cloud applications
+Description: Workday provides enterprise cloud applications for finance, HR, and planning. Streamline business processes, manage workforce data, and gain insights with Workday’s integrated and scalable cloud solutions.

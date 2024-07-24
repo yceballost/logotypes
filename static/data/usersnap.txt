@@ -1,0 +1,2 @@
+Title: User feedback and bug tracking
+Description: Usersnap provides tools for collecting user feedback and tracking bugs. Capture screenshots, gather comments, and manage feedback to improve your product’s quality and user experience with Usersnap.

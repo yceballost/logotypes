@@ -1,0 +1,2 @@
+Title: Product analytics for growth
+Description: Amplitude delivers advanced product analytics to help businesses understand user behavior and drive growth. With Amplitude, you can analyze user data, track engagement, and make data-driven decisions to enhance your product strategy.

@@ -1,0 +1,2 @@
+Title: Advanced product analytics and insights
+Description: Mixpanel provides advanced product analytics and insights to help you understand user behavior. Track metrics, analyze data, and drive product growth with Mixpanel’s powerful analytics platform.

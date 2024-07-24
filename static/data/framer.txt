@@ -1,0 +1,2 @@
+Title: Design and prototype with flexibility
+Description: Framer provides a flexible platform for designing and prototyping interactive user interfaces. Use Framer’s design tools and responsive components to create dynamic prototypes and refine your designs with real-time feedback.

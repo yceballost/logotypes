@@ -1,0 +1,2 @@
+Title: Sell products and manage transactions
+Description: Gumroad provides a platform for selling digital products and managing transactions. Create a storefront, set pricing, and handle payments with Gumroad’s easy-to-use tools designed for creators and entrepreneurs.

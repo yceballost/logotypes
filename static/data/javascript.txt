@@ -1,0 +1,2 @@
+Title: Versatile programming language for web development
+Description: JavaScript is a versatile programming language widely used for web development. Add interactivity to web pages, build dynamic applications, and enhance user experiences with JavaScript’s extensive capabilities.

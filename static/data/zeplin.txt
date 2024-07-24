@@ -1,0 +1,2 @@
+Title: Design handoff and collaboration
+Description: Zeplin facilitates design handoff and collaboration between designers and developers. Share design specs, assets, and feedback with ease using Zeplin’s platform, streamlining the design-to-development workflow.

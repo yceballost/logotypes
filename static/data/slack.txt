@@ -1,0 +1,2 @@
+Title: Team communication and collaboration
+Description: Slack is a platform for team communication and collaboration, providing channels, direct messaging, and integrations to streamline workflow. Enhance team productivity and keep projects organized with Slack’s versatile communication tools.

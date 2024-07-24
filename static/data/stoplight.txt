@@ -1,0 +1,2 @@
+Title: API design and documentation
+Description: Stoplight offers tools for API design, documentation, and collaboration. Create and manage API specifications with Stoplight’s platform, enhancing development workflows and ensuring clear communication about API functionality and usage.

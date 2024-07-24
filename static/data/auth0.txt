@@ -1,0 +1,2 @@
+Title: Secure authentication and authorization
+Description: Auth0 provides secure authentication and authorization solutions for applications. Protect user data and manage access control with Auth0’s flexible and scalable identity management platform.
