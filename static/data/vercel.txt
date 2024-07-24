@@ -1,0 +1,2 @@
+Title: Frontend deployment and hosting
+Description: Vercel provides frontend deployment and hosting solutions for modern web applications. Deploy and scale your projects with Vercel’s platform, designed to optimize performance and streamline the development workflow.

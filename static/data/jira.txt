@@ -1,0 +1,2 @@
+Title: Agile project management and issue tracking
+Description: Jira provides a platform for agile project management and issue tracking. Plan sprints, track progress, and manage workflows with Jira’s robust features, designed to support development teams and project management.

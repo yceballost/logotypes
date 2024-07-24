@@ -1,0 +1,2 @@
+Title: Git code management and collaboration
+Description: Bitbucket is a Git code management and collaboration platform for developers. With features like code repositories, pull requests, and CI/CD pipelines, Bitbucket supports efficient code management and team collaboration.

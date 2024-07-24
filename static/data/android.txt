@@ -1,0 +1,2 @@
+Title: The open source mobile operating system
+Description: Android, the open-source mobile operating system by Google, powers a wide range of devices. With customizable features and a vast app ecosystem, Android provides a versatile and user-friendly experience across smartphones and tablets.

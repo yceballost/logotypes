@@ -1,0 +1,2 @@
+Title: Payments and subscription management
+Description: Paddle offers a comprehensive platform for payments and subscription management. Handle transactions, manage subscriptions, and analyze revenue with Paddle’s integrated and flexible payment solutions.

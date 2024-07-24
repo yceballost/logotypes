@@ -1,0 +1,2 @@
+Title: Visual project management
+Description: Trello is a visual project management tool that helps teams organize tasks and projects using boards, lists, and cards. Enhance collaboration and productivity with Trello’s flexible and intuitive project management features.

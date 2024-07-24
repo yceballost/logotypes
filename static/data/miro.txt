@@ -1,0 +1,2 @@
+Title: Collaborative online whiteboard platform
+Description: Miro offers a collaborative online whiteboard platform for brainstorming and visualizing ideas. Work with your team in real-time, create interactive diagrams, and manage projects with Miro’s versatile whiteboard tools.

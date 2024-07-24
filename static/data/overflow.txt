@@ -1,0 +1,2 @@
+Title: Visual user flow and design collaboration
+Description: Overflow provides a platform for visual user flow design and collaboration. Create interactive user flows, gather feedback, and align your design team with Overflow’s intuitive and collaborative design tools.

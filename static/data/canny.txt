@@ -1,0 +1,2 @@
+Title: Collect and manage user feedback
+Description: Canny helps you collect, organize, and prioritize user feedback to improve your product. With Canny’s feedback management platform, you can easily track feature requests, bug reports, and customer suggestions to drive product development.

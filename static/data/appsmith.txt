@@ -1,0 +1,2 @@
+Title: Build internal apps quickly
+Description: Appsmith allows you to build and deploy internal apps quickly and efficiently. With a user-friendly interface and drag-and-drop functionality, Appsmith simplifies app development for internal tools and business applications.

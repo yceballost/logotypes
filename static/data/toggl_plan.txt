@@ -1,0 +1,2 @@
+Title: Project planning and team collaboration
+Description: Toggl Plan provides tools for project planning and team collaboration. Manage tasks, track progress, and coordinate with your team using Toggl Plan’s intuitive and visual planning features.

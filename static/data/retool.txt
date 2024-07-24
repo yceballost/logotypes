@@ -1,0 +1,2 @@
+Title: Build internal tools quickly
+Description: Retool helps you build internal tools quickly and efficiently. Customize and deploy web applications with Retool’s drag-and-drop interface and pre-built components, simplifying the development of internal tools and dashboards.
