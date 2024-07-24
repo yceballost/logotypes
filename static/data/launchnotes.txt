@@ -1,2 +1,0 @@
-Title: Communicate product updates effectively
-Description: LaunchNotes helps you communicate product updates and changes effectively to your users. Share release notes, product announcements, and feature updates with your audience, keeping them informed and engaged with LaunchNotes.

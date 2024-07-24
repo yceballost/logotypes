@@ -1,2 +1,0 @@
-Title: Automation and workflow integration
-Description: Zapier provides automation and workflow integration solutions for connecting apps and automating tasks. Create workflows and integrate various applications to streamline processes and improve productivity with Zapier.

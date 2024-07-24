@@ -1,2 +1,0 @@
-Title: Payment processing and financial infrastructure
-Description: Stripe provides payment processing and financial infrastructure for online businesses. Accept payments, manage transactions, and handle financial operations with Stripe’s comprehensive suite of tools and APIs.

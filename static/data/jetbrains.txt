@@ -1,2 +1,0 @@
-Title: Powerful tools for developers
-Description: JetBrains offers a range of powerful tools for developers, including IDEs and development environments. Enhance productivity, streamline coding, and manage projects efficiently with JetBrains’ comprehensive software solutions.

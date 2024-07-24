@@ -1,2 +1,0 @@
-Title: Versatile programming language
-Description: Python is a versatile and widely-used programming language known for its simplicity and readability. With a rich ecosystem of libraries and frameworks, Python supports a wide range of applications, from web development to data analysis.

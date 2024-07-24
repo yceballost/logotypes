@@ -1,2 +1,0 @@
-Title: Experimentation and optimization platform
-Description: Optimizely offers a platform for experimentation and optimization. Test and analyze different strategies, enhance user experiences, and drive growth with Optimizely’s robust tools for A/B testing and data-driven decision-making.

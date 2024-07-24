@@ -1,2 +1,0 @@
-Title: Geolocation and mapping solutions
-Description: Radar provides geolocation and mapping solutions for businesses. Track and analyze location data, build location-based features, and enhance user experiences with Radar’s comprehensive location technology platform.

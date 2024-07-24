@@ -1,2 +1,0 @@
-Title: Cloud storage and file sharing made easy
-Description: Dropbox provides cloud storage and file sharing solutions for individuals and teams. Store, access, and collaborate on files securely from anywhere with Dropbox’s intuitive platform designed for seamless file management.

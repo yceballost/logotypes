@@ -1,2 +1,0 @@
-Title: Email delivery and marketing
-Description: SendGrid provides reliable email delivery and marketing solutions. Ensure your emails reach the inbox with SendGrid’s advanced email infrastructure, including features for transactional and marketing email management.

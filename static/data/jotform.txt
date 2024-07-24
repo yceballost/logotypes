@@ -1,2 +1,0 @@
-Title: Create and manage online forms
-Description: Jotform allows you to create and manage online forms with ease. Build custom forms, collect responses, and analyze data with Jotform’s intuitive form builder and powerful features for form management.

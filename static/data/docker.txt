@@ -1,2 +1,0 @@
-Title: Simplify containerized application development
-Description: Docker enables efficient development and deployment of containerized applications. With Docker, you can create, manage, and scale containers across various environments, enhancing application consistency and reducing deployment complexity.

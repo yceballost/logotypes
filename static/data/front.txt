@@ -1,2 +1,0 @@
-Title: Collaborative inbox for team communication
-Description: Front offers a collaborative inbox solution to manage team communications effectively. Centralize emails, messages, and tasks in one place, and enhance team collaboration with Front’s shared inbox and workflow management features.

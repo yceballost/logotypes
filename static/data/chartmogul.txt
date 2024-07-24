@@ -1,2 +1,0 @@
-Title: Subscription analytics simplified
-Description: ChartMogul provides comprehensive analytics for subscription-based businesses. Track key metrics, analyze revenue trends, and gain insights into customer behavior to optimize your subscription model and drive growth.

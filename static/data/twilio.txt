@@ -1,2 +1,0 @@
-Title: Communication APIs and services
-Description: Twilio provides communication APIs and services for integrating messaging, voice, and video capabilities into applications. Enhance customer engagement and build communication solutions with Twilio’s robust API offerings.

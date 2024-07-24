@@ -1,2 +1,0 @@
-Title: Modern discussion platform for communities
-Description: Discourse is a modern discussion platform designed to facilitate engaging conversations and community interactions. With features like threaded discussions, notifications, and user management, Discourse enhances online community engagement.

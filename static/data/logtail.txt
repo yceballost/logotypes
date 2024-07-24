@@ -1,2 +1,0 @@
-Title: Centralized log management and monitoring
-Description: Logtail provides centralized log management and monitoring solutions. Collect, analyze, and visualize logs from your applications to ensure optimal performance and quickly identify issues with Logtail’s powerful tools.

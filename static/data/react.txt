@@ -1,2 +1,0 @@
-Title: JavaScript library for building user interfaces
-Description: React is a JavaScript library for building user interfaces, developed by Facebook. Create interactive and dynamic web applications with React’s component-based architecture and efficient rendering capabilities.

@@ -1,2 +1,0 @@
-Title: Data storytelling and visualization
-Description: NarrativeBI transforms complex data into compelling stories and visualizations. Empower your team to make data-driven decisions with intuitive tools for creating clear and actionable insights.

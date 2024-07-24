@@ -1,2 +1,0 @@
-Title: Understand user behavior with heatmaps
-Description: Hotjar helps you understand user behavior on your website with heatmaps, session recordings, and feedback tools. Gain insights into how users interact with your site and improve user experience with Hotjar’s analytics.

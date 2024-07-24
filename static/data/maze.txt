@@ -1,2 +1,0 @@
-Title: User testing and feedback collection
-Description: Maze helps you conduct user testing and collect feedback to improve your product. Create and run tests, gather insights, and make data-driven decisions with Maze’s user-friendly research and testing tools.

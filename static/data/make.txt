@@ -1,2 +1,0 @@
-Title: Automate workflows and processes
-Description: Make provides a platform for automating workflows and processes. Connect apps, automate repetitive tasks, and streamline operations with Make’s powerful automation tools and integrations.

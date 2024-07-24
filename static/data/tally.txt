@@ -1,2 +1,0 @@
-Title: Forms and data collection
-Description: Tally provides an easy-to-use platform for creating forms and collecting data. Build customizable forms, surveys, and questionnaires with Tally’s intuitive design tools and manage responses efficiently.

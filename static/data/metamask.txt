@@ -1,2 +1,0 @@
-Title: Secure cryptocurrency wallet and browser
-Description: MetaMask provides a secure cryptocurrency wallet and browser extension. Manage your digital assets, interact with decentralized applications, and protect your crypto investments with MetaMask’s secure and user-friendly tools.

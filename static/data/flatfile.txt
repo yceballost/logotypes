@@ -1,2 +1,0 @@
-Title: Transform and import data effortlessly
-Description: Flatfile simplifies data transformation and import processes. With an easy-to-use interface and powerful features, Flatfile helps you clean, validate, and import data efficiently, enhancing data management and integration.

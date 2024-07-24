@@ -1,2 +1,0 @@
-Title: Collect and analyze customer feedback
-Description: GetFeedback allows you to collect and analyze customer feedback to improve your products and services. Use surveys, feedback tools, and analytics to gain insights into customer experiences and drive business improvements.

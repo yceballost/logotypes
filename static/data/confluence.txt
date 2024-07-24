@@ -1,2 +1,0 @@
-Title: Collaborative documentation and knowledge sharing
-Description: Confluence provides a platform for collaborative documentation and knowledge sharing. Create, organize, and share content with your team, and enhance collaboration with Confluence’s rich editing and organizational features.

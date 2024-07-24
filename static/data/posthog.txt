@@ -1,2 +1,0 @@
-Title: Product analytics and feature tracking
-Description: PostHog provides product analytics and feature tracking solutions to help you understand user behavior and optimize your product. With tools for event tracking, feature flags, and user insights, PostHog empowers you to make data-driven decisions.

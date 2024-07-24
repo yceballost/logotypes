@@ -1,2 +1,0 @@
-Title: Simple and scalable cloud infrastructure
-Description: DigitalOcean provides a straightforward and scalable cloud infrastructure platform. Deploy and manage cloud resources with ease, and leverage DigitalOcean’s robust solutions for applications, databases, and storage.

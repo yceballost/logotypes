@@ -1,2 +1,0 @@
-Title: Structured content management
-Description: Sanity offers a structured content management system that provides flexibility and scalability for managing digital content. Create, edit, and organize content with Sanity’s customizable and developer-friendly CMS platform.

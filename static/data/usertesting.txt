@@ -1,2 +1,0 @@
-Title: User experience research
-Description: UserTesting offers a platform for user experience research and testing. Conduct usability tests, gather feedback, and gain insights into user behavior to enhance your product’s design and functionality with UserTesting.

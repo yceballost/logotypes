@@ -1,2 +1,0 @@
-Title: Build web apps without code
-Description: Bubble allows you to build and launch web applications without writing any code. With its drag-and-drop interface and powerful backend features, Bubble makes it easy for entrepreneurs and businesses to create custom web solutions.

@@ -1,2 +1,0 @@
-Title: Customer relationship management
-Description: Relate provides tools for managing and enhancing customer relationships. Track interactions, analyze customer data, and streamline communication with Relate’s CRM platform designed to improve client engagement and satisfaction.

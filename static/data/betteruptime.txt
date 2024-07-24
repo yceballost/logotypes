@@ -1,2 +1,0 @@
-Title: Reliable uptime monitoring
-Description: BetterUptime offers reliable uptime monitoring and incident management for your websites and applications. Ensure high availability and quick issue resolution with BetterUptime’s advanced monitoring solutions.

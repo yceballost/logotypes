@@ -1,2 +1,0 @@
-Title: Collaborative documentation and knowledge sharing
-Description: GitBook offers a platform for collaborative documentation and knowledge sharing. Create, organize, and manage documentation with GitBook’s tools, and enhance team collaboration with easy-to-use editing and sharing features.

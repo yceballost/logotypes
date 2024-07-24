@@ -1,2 +1,0 @@
-Title: Track and analyze website performance
-Description: Google Analytics provides powerful tools for tracking and analyzing website performance. Gain insights into user behavior, traffic sources, and engagement metrics to make data-driven decisions and optimize your online presence.

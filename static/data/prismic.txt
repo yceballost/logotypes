@@ -1,2 +1,0 @@
-Title: Headless CMS for flexible content management
-Description: Prismic is a headless content management system (CMS) that provides a flexible and scalable approach to managing digital content. Create, manage, and deliver content across multiple platforms with Prismic’s intuitive interface and API-driven features.

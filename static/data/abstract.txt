@@ -1,2 +1,0 @@
-Title: Design collaboration redefined
-Description: Abstract is a design collaboration tool that streamlines the design process. It enables teams to work together on design projects with version control, feedback management, and seamless integrations, enhancing productivity and creativity in the design workflow.

@@ -1,2 +1,0 @@
-Title: Robotic process automation
-Description: UiPath provides robotic process automation (RPA) solutions to automate repetitive tasks and business processes. Improve efficiency and reduce operational costs with UiPath’s advanced automation technology.

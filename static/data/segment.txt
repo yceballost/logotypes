@@ -1,2 +1,0 @@
-Title: Customer data infrastructure
-Description: Segment helps you manage and unify customer data across multiple platforms. Collect, analyze, and activate customer data with Segment’s powerful data infrastructure, enabling personalized experiences and data-driven decision making.

@@ -1,2 +1,0 @@
-Title: Modern web development and hosting
-Description: Netlify provides a platform for modern web development and hosting. Build, deploy, and scale websites and applications effortlessly with Netlify’s fast and secure deployment solutions.

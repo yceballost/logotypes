@@ -1,2 +1,0 @@
-Title: Design and prototyping made easy
-Description: Craft offers tools for design and prototyping, allowing you to create and iterate on digital designs efficiently. With Craft, designers can seamlessly integrate with popular design software and collaborate on interactive prototypes.

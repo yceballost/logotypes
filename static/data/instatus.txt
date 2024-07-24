@@ -1,2 +1,0 @@
-Title: Real-time status pages for transparency
-Description: Instatus provides real-time status pages to keep your users informed about system performance and incidents. Enhance transparency and communication with Instatus’s status page platform, ensuring users are always updated.

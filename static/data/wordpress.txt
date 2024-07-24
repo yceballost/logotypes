@@ -1,2 +1,0 @@
-Title: Content management system
-Description: WordPress is a content management system (CMS) that allows users to create and manage websites and blogs. Customize your site with themes and plugins using WordPress’s flexible and powerful CMS platform.

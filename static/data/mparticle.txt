@@ -1,2 +1,0 @@
-Title: Customer data platform for seamless integration
-Description: mParticle offers a customer data platform for seamless integration and management of customer data. Unify data from various sources, enhance analytics, and drive personalized experiences with mParticle’s comprehensive solutions.

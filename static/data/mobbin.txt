@@ -1,2 +1,0 @@
-Title: Design inspiration and UI patterns
-Description: Mobbin offers design inspiration and UI patterns from top mobile apps. Explore a collection of design patterns, interface elements, and best practices to enhance your own app’s design with Mobbin’s curated library.

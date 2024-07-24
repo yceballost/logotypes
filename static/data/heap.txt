@@ -1,2 +1,0 @@
-Title: Automated analytics for user behavior
-Description: Heap offers automated analytics to track and understand user behavior on your website or app. Gain insights into user interactions, conversion rates, and engagement metrics with Heap’s powerful data analytics tools.

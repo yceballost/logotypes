@@ -1,2 +1,0 @@
-Title: Design to code simplified
-Description: Anima bridges the gap between design and development by converting design files into production-ready code. With Anima, designers and developers can collaborate more effectively and accelerate the design-to-development workflow.

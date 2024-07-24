@@ -1,2 +1,0 @@
-Title: Automate your scheduling tasks
-Description: Cron simplifies scheduling tasks and automation with a powerful platform for managing cron jobs. Schedule and execute tasks effortlessly, optimize workflows, and ensure timely execution with Cron’s intuitive interface.

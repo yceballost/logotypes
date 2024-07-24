@@ -1,2 +1,0 @@
-Title: Complete DevOps platform
-Description: GitLab delivers a complete DevOps platform for managing the entire software development lifecycle. From version control to CI/CD pipelines, GitLab integrates development, operations, and monitoring in one comprehensive solution.

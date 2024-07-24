@@ -1,2 +1,0 @@
-Title: Data analytics and visualization
-Description: Pry offers data analytics and visualization tools to help you understand and interpret your data. Create insightful reports, visualize trends, and make data-driven decisions with Pry’s powerful analytics platform.

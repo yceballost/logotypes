@@ -1,2 +1,0 @@
-Title: Advanced prototyping for interactive designs
-Description: ProtoPie enables advanced prototyping with interactive and dynamic design features. Create high-fidelity prototypes with complex interactions and animations, and collaborate seamlessly with ProtoPie’s user-friendly design platform.

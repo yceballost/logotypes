@@ -1,2 +1,0 @@
-Title: Incident communication and status updates
-Description: Statuspage provides incident communication and status updates to keep users informed about system outages and performance issues. Create and manage status pages to communicate with your customers and maintain transparency during incidents.

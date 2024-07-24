@@ -1,2 +1,0 @@
-Title: Simple and efficient note-taking
-Description: Fig provides a simple and efficient note-taking solution for capturing ideas and managing information. With a clean interface and organizational features, Fig helps you stay organized and access your notes effortlessly.

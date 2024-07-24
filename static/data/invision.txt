@@ -1,2 +1,0 @@
-Title: Collaborative design and prototyping
-Description: InVision provides tools for collaborative design and prototyping, allowing teams to create and refine digital products. Use InVision’s platform to design, share, and gather feedback on prototypes, streamlining the design process.

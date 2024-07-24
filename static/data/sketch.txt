@@ -1,2 +1,0 @@
-Title: Design toolkit for digital projects
-Description: Sketch offers a design toolkit for creating user interfaces and digital projects. With vector-based design tools, collaborative features, and a focus on UI/UX design, Sketch supports designers in building engaging and functional digital products.

@@ -1,2 +1,0 @@
-Title: Flexible database management
-Description: Airtable offers a flexible and visual approach to database management. Customize your tables, views, and fields to organize and manage data effortlessly. Collaborate with teams and track projects with Airtable\'s intuitive interface.

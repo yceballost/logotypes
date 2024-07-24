@@ -1,2 +1,0 @@
-Title: Identity and access management solutions
-Description: Okta offers identity and access management solutions to secure and manage user access. Protect your applications and data with Okta’s comprehensive tools for authentication, single sign-on, and user management.
