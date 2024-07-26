@@ -289,6 +289,9 @@ header a:hover {
   .isMobile {
     flex-direction: column;
   }
+  section {
+    padding: 24px;
+  }
 }
 
 @media (prefers-color-scheme: dark) {
