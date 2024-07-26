@@ -7,6 +7,14 @@
   ],
   "routes": [
     {
+      "src": "/favicon.ico",
+      "dest": "/static/favicon.ico"
+    },
+    {
+      "src": "/static/(.*)",
+      "dest": "/static/$1"
+    },
+    {
       "src": "/(.*)",
       "dest": "src/app.py"
     }

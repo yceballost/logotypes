@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Logotypes</title>
+    <link rel="stylesheet" href="static/landing/styles.css" />
+    
+  </head>
+  <body>
+    <header>
+      <div id="logo">Logotypes.dev</div>
+    </header>
+    <div id="grid-2-columns">
+      <p id="product-description">
+        An open-source project that offers a wide range of logos for your
+        projects through an API.
+      </p>
+      <main>
+        <section>
+          <div class="stack-space-between">
+            <div class="inline-space-between">
+              <h2>Random logo with defined props</h2>
+              <div class="inline inline-32">
+                <div class="example-logo-container">
+                <img src="https://logotypes.dev/random" height="40" />
+              </div>
+            </div>
+          </div>
+          <div class="stack stack-16">
+          <div class="url">https://www.logotypes.dev/random <img src="static/landing/assets/copy.svg" class="copy-icon"></span></div>
+          </div>
+        </section>
+        <section>
+          <div class="stack-space-between">
+            <div class="inline-space-between">
+              <h2>Random logo with defined props</h2>
+              <div class="inline inline-32">
+                <div class="example-logo-container">
+                  <img
+                    src="https://www.logotypes.dev/random?variant=glyph"
+                    width="40"
+                    height="40"
+                  />
+                </div>
+                <div class="example-logo-container">
+                  <img
+                    src="https://www.logotypes.dev/random?version=black"
+                    width="40"
+                    height="40"
+                  />
+                </div>
+                <div class="example-logo-container">
+                  <img
+                    src="https://www.logotypes.dev/random?variant=wordmark&version=black"
+                    width="40"
+                    height="40"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="stack stack-16">
+              <div class="url">
+                https://www.logotypes.dev/random?variant=glyph <img src="static/landing/assets/copy.svg" class="copy-icon"></img>
+              </div>
+              <div class="url">
+                https://www.logotypes.dev/random?version=black <img src="static/landing/assets/copy.svg" class="copy-icon"></span>
+              </div>
+              <div class="url">
+                https://www.logotypes.dev/random?variant=wordmark&version=black <img src="static/landing/assets/copy.svg" class="copy-icon"></span>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+        <section>
+          <div class="stack-space-between">
+            <div class="inline-space-between">
+              <h2>Random logo with defined props</h2>
+              <div class="inline inline-32">
+                <div class="example-logo-container">
+                <img src="https://www.logotypes.dev/spotify" height="40" />
+              </div>
+            </div>
+          </div>
+          <div class="stack stack-16">
+          <div class="url">https://www.logotypes.dev/spotify <img src="static/landing/assets/copy.svg" class="copy-icon"></span></div>
+          </div>
+        </section>
+      </main>
+    </div>
+    <footer>
+      <p>&copy; 2024 Logotypes. All rights reserved.</p>
+    </footer>
+  </body>
+</html>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    // Get all elements with the class 'copy-icon'
+    const copyIcons = document.querySelectorAll(".copy-icon");
+    
+    // Add click event listener to each copy icon
+    copyIcons.forEach(icon => {
+      icon.addEventListener("click", function() {
+        // Get the URL text (previous sibling of the icon)
+        const url = this.previousSibling.textContent.trim();
+        
+        // Copy the URL to the clipboard
+        navigator.clipboard.writeText(url).then(() => {
+          alert("URL copied to clipboard: " + url);
+        }).catch(err => {
+          console.error("Could not copy text: ", err);
+        });
+      });
+    });
+  });
+</script>
+
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KQCFQFWW6V"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-KQCFQFWW6V');
+</script>

@@ -1,0 +1,166 @@
+/* Regular */
+@font-face {
+  font-family: "NeueMontreal";
+  font-style: normal;
+  font-weight: 400;
+  src: url("assets/PPNeueMontreal-Book.otf") format("woff2");
+}
+
+/* Light */
+@font-face {
+  font-family: "NeueMontreal";
+  font-style: normal;
+  font-weight: 300;
+  src: url("assets/PPNeueMontreal-Thin.otf") format("woff2");
+}
+
+/* Medium */
+@font-face {
+  font-family: "NeueMontreal";
+  font-style: normal;
+  font-weight: 500;
+  src: url("assets/PPNeueMontreal-Medium.otf") format("woff2");
+}
+
+/* Bold */
+@font-face {
+  font-family: "NeueMontreal";
+  font-style: normal;
+  font-weight: 700;
+  src: url("assets/PPNeueMontreal-Bold.otf") format("woff2");
+}
+
+/* ---------------------------------- */
+
+@font-face {
+  font-family: "Harmond";
+  font-style: normal;
+  font-weight: 300;
+  src: url("assets/Harmond-SemiBoldCondensed.otf") format("woff2");
+}
+
+html {
+  height: 100%;
+  display: flex;
+  font-family: "NeueMontreal", sans-serif;
+}
+
+body {
+  width: 100%;
+  padding: 40px;
+  background-color: #f5f5f5;
+  display: flex;
+  flex-direction: column;
+  gap: 256px;
+}
+
+header {
+  width: 100%;
+}
+
+#logo {
+  font-family: "Harmond", sans-serif;
+  font-size: 116px;
+}
+
+h1 {
+  font-size: 20rem;
+  font-weight: 300;
+}
+
+h2 {
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+
+p {
+  font-size: 1.25rem;
+}
+
+#grid-2-columns {
+  display: grid;
+  grid-template-columns: 0.2fr 1fr;
+  gap: 40px;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+}
+
+.stack-16 {
+  gap: 16px;
+}
+
+.stack-24 {
+  gap: 24px;
+}
+
+.stack-32 {
+  gap: 32px;
+}
+
+.inline {
+  display: flex;
+  flex-direction: row;
+}
+
+.inline-16 {
+  gap: 16px;
+}
+
+.inline-24 {
+  gap: 24px;
+}
+
+.inline-32 {
+  gap: 32px;
+}
+
+.stack-space-between {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.inline-space-between {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+
+main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+  grid-column-gap: 8px;
+  grid-row-gap: 8px;
+}
+
+section {
+  padding: 40px;
+  background: white;
+  border-radius: 24px;
+  height: 400px;
+  /* aspect-ratio: 1/1; */
+  flex-shrink: 0;
+  flex-basis: auto; /* default value */
+  flex-grow: 1;
+}
+#product-description {
+  min-width: 200px;
+}
+
+.url {
+  background: #f5f5f5;
+  padding: 16px;
+  border-radius: 8px;
+  font-size: 16px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  cursor: pointer;
+  align-items: center;
+}
