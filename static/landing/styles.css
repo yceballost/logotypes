@@ -219,9 +219,12 @@ a {
   background: rgba(255, 255, 255, 0.15);
 }
 
-.inverse a,
-h1,
-h2 {
+.inverse h1,
+.inverse h2 {
+  color: var(--textPrimaryInverse);
+}
+
+.inverse a {
   color: var(--textPrimaryInverse);
 }
 
