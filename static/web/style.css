@@ -288,6 +288,7 @@ header a:hover {
   }
   .isMobile {
     flex-direction: column;
+    flex-direction: column-reverse;
   }
   section {
     padding: 24px;
