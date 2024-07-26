@@ -274,7 +274,7 @@ header a:hover {
 
 @media (max-width: 764px) {
   body {
-    padding: 8px;
+    padding: 16px;
   }
 
   #grid-2-columns {
@@ -292,6 +292,10 @@ header a:hover {
   }
   section {
     padding: 32px 16px 16px 16px;
+    margin: 0 -8px;
+  }
+  .contribute-button {
+    font-weight: 500;
   }
 }
 
