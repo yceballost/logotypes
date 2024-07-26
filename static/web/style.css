@@ -272,6 +272,12 @@ header a:hover {
   flex-direction: row;
 }
 
+@media (max-width: 970px) {
+  body {
+    padding: 24px;
+  }
+}
+
 @media (max-width: 764px) {
   body {
     padding: 16px;
@@ -281,7 +287,7 @@ header a:hover {
     grid-template-columns: 1fr;
   }
   main {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: none;
   }
   #logo {
     font-size: 48px;
@@ -294,6 +300,7 @@ header a:hover {
     padding: 32px 16px 16px 16px;
     margin: 0 -8px;
   }
+
   .contribute-button {
     font-weight: 500;
   }
