@@ -5,7 +5,7 @@ import random
 import json
 import requests
 
-app = Flask(__name__, static_folder="../static")
+app = Flask(__name__, static_folder=os.path.join(os.path.dirname(__file__), 'static'))
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 @app.route('/')
@@ -14,7 +14,7 @@ def landing_page():
 
 @app.route('/favicon.ico')
 def favicon():
-    return send_from_directory(os.path.join(app.root_path, '../static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
+    return send_from_directory(app.static_folder, 'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 def generate_json_from_image_name(image_name):
     components = image_name.split('-')
@@ -27,7 +27,7 @@ def generate_json_from_image_name(image_name):
     version = components[2].split('.')[0]
     image_url = f"{request.host_url}static/images/{image_name}"
     metadata_filename = f"{name}.txt"
-    metadata_path = os.path.join('static/data', metadata_filename)
+    metadata_path = os.path.join(app.static_folder, 'data', metadata_filename)
     data = {
         "image": image_url,
         "name": name.capitalize(),
@@ -54,7 +54,7 @@ def generate_json_from_image_name(image_name):
 
 @app.route("/all")
 def generate_json():
-    folder_path = "static/images"
+    folder_path = os.path.join(app.static_folder, "images")
     image_files = [f for f in os.listdir(folder_path) if f.endswith('.svg')]
     json_data = {}
     for image_file in image_files:
@@ -69,7 +69,7 @@ def generate_json():
 
 @app.route("/random")
 def get_random_json():
-    folder_path = "static/images"
+    folder_path = os.path.join(app.static_folder, "images")
     image_files = [f for f in os.listdir(folder_path) if f.endswith('.svg')]
     variant_param = request.args.get("variant")
     version_param = request.args.get("version")
@@ -134,7 +134,7 @@ def get_name_data(name):
 
 @app.route("/<name>")
 def get_logo_variants(name):
-    folder_path = "static/images"
+    folder_path = os.path.join(app.static_folder, "images")
     image_files = [f for f in os.listdir(folder_path) if f.endswith('.svg')]
     variant_param = request.args.get("variant")
     version_param = request.args.get("version")
