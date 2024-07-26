@@ -1,0 +1,302 @@
+:root {
+  --background: #f5f5f5;
+  --backgroundContainerInverse: #000;
+  --backgroundContainer: #fff;
+  --backgroundUrl: #f5f5f5;
+  --textPrimary: #000;
+  --textPrimaryInverse: #fff;
+  --hover: #e6e6e6;
+}
+
+/* Regular */
+@font-face {
+  font-family: "NeueMontreal";
+  font-style: normal;
+  font-weight: 400;
+  src: url("assets/PPNeueMontreal-Book.otf") format("woff2");
+}
+
+/* Light */
+@font-face {
+  font-family: "NeueMontreal";
+  font-style: normal;
+  font-weight: 300;
+  src: url("assets/PPNeueMontreal-Thin.otf") format("woff2");
+}
+
+/* Medium */
+@font-face {
+  font-family: "NeueMontreal";
+  font-style: normal;
+  font-weight: 500;
+  src: url("assets/PPNeueMontreal-Medium.otf") format("woff2");
+}
+
+/* Bold */
+@font-face {
+  font-family: "NeueMontreal";
+  font-style: normal;
+  font-weight: 700;
+  src: url("assets/PPNeueMontreal-Bold.otf") format("woff2");
+}
+
+/* ---------------------------------- */
+
+@font-face {
+  font-family: "Harmond";
+  font-style: normal;
+  font-weight: 300;
+  src: url("assets/Harmond-SemiBoldCondensed.otf") format("woff2");
+}
+
+html {
+  display: flex;
+  font-family: "NeueMontreal", sans-serif;
+}
+
+body {
+  padding: 40px;
+  width: 100%;
+  background-color: var(--background);
+  display: flex;
+  flex-direction: column;
+  gap: 256px;
+}
+
+header {
+  width: 100%;
+}
+
+#logo {
+  font-family: "Harmond", sans-serif;
+  font-size: 116px;
+  color: var(--textPrimary);
+}
+
+h1 {
+  font-size: 20rem;
+  font-weight: 300;
+  color: var(--textPrimary);
+}
+
+h2 {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: var(--textPrimary);
+}
+
+p {
+  font-size: 1.25rem;
+  color: var(--textPrimary);
+}
+
+#grid-2-columns {
+  display: grid;
+  grid-template-columns: minmax(200px, 0.3fr) 1fr;
+  gap: 40px;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+}
+
+.stack-16 {
+  gap: 16px;
+}
+
+.stack-24 {
+  gap: 24px;
+}
+
+.stack-32 {
+  gap: 32px;
+}
+
+.inline {
+  display: flex;
+  flex-direction: row;
+}
+
+.inline-16 {
+  gap: 16px;
+}
+
+.inline-24 {
+  gap: 24px;
+}
+
+.inline-32 {
+  gap: 32px;
+}
+
+.stack-space-between {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.inline-space-between {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  gap: 24px;
+}
+
+main {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  grid-gap: 8px;
+}
+
+section {
+  padding: 40px;
+  background: var(--backgroundContainer);
+  border-radius: 24px;
+  height: 400px;
+  flex-shrink: 0;
+  flex-basis: auto; /* default value */
+  flex-grow: 1;
+}
+
+/* #product-description {
+  width: 100%;
+} */
+
+.url {
+  background: var(--backgroundUrl);
+  padding: 16px;
+  border-radius: 8px;
+  font-size: 16px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+a {
+  color: var(--textPrimary);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.icon {
+  width: 16px;
+  height: 16px;
+}
+
+.icon-button {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.icon-button:hover {
+  background: var(--hover);
+}
+
+.inverse {
+  background: var(--backgroundContainerInverse);
+  color: var(--textPrimaryInverse);
+}
+
+.inverse .url {
+  background: rgba(255, 255, 255, 0.15);
+  color: var(--textPrimaryInverse);
+}
+
+.inverse .icon {
+  filter: invert(100%);
+}
+
+.inverse .icon-button:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.inverse a,
+h1,
+h2 {
+  color: var(--textPrimaryInverse);
+}
+
+.inverse a:visited {
+  color: var(--textPrimaryInverse);
+}
+
+footer {
+  display: flex;
+  justify-content: right;
+  align-items: right;
+  gap: 16px;
+}
+
+footer p {
+  font-size: 14px;
+}
+
+.contribute-button {
+  text-decoration: none;
+  font-size: 1rem;
+  border: 1px solid #000;
+  padding: 8px 16px;
+  display: flex;
+  width: fit-content;
+  text-align: center;
+  border-radius: 999px;
+  min-width: fit-content;
+  content: "Fat this project in GitHub";
+}
+
+.contribute-button:hover {
+  background: #000;
+  color: #fff;
+}
+
+header a:hover {
+  opacity: 0.7;
+}
+
+@media (max-width: 764px) {
+  body {
+    padding: 16px;
+  }
+
+  #grid-2-columns {
+    grid-template-columns: 1fr;
+  }
+  main {
+    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  /* defaults to dark theme */
+  :root {
+    --background: #000;
+    --backgroundContainerInverse: #101010;
+    --backgroundContainer: #101010;
+    --backgroundUrl: #252525;
+    --textPrimary: #fff;
+    --textPrimaryInverse: #fff;
+    --hover: #2f2f2f;
+  }
+
+  .contribute-button {
+    border: 1px solid #fff;
+  }
+
+  .contribute-button:hover {
+    background: #fff;
+    color: #000;
+  }
+
+  .icon {
+    filter: invert(100%);
+  }
+}
