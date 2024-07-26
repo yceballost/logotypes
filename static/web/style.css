@@ -274,7 +274,7 @@ header a:hover {
 
 @media (max-width: 764px) {
   body {
-    padding: 16px;
+    padding: 8px;
   }
 
   #grid-2-columns {
@@ -291,7 +291,7 @@ header a:hover {
     flex-direction: column-reverse;
   }
   section {
-    padding: 24px;
+    padding: 32px 16px 16px 16px;
   }
 }
 
