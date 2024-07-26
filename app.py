@@ -5,16 +5,20 @@ import random
 import json
 import requests
 
-app = Flask(__name__, static_folder="../static")
+app = Flask(__name__, static_folder="static")
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 @app.route('/')
 def landing_page():
-    return send_from_directory(app.static_folder, 'landing/index.html')
+    return send_from_directory(app.static_folder, 'web/index.html')
+
+@app.route('/style.css')
+def style_file():
+    return send_from_directory(app.static_folder, 'web/style.css')
 
 @app.route('/favicon.ico')
 def favicon():
-    return send_from_directory(os.path.join(app.root_path, '../static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
+    return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 def generate_json_from_image_name(image_name):
     components = image_name.split('-')
