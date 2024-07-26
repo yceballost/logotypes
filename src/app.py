@@ -10,7 +10,7 @@ cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 @app.route('/')
 def landing_page():
-    return send_from_directory(app.static_folder, '../static/landing/index.html')
+    return send_from_directory(app.static_folder, 'landing/index.html')
 
 @app.route('/favicon.ico')
 def favicon():
