@@ -282,7 +282,10 @@ header a:hover {
   body {
     padding: 16px;
   }
-
+  header,
+  .inline-space-between {
+    align-items: baseline;
+  }
   #grid-2-columns {
     grid-template-columns: 1fr;
   }
@@ -300,7 +303,6 @@ header a:hover {
     padding: 32px 16px 16px 16px;
     margin: 0 -8px;
   }
-
   .contribute-button {
     font-weight: 500;
   }
