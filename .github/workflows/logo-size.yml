@@ -26,6 +26,9 @@ jobs:
         with:
           node-version: "18"
 
+      - name: Get branch name
+        uses: rlespinasse/github-slug-action@v3.x
+
       - name: Install dependencies
         run: |
           sudo python -m pip install --upgrade pip
@@ -40,12 +43,12 @@ jobs:
         run: |
           svgo -f static/logos -r -o static/logos
 
-      - name: Commit and push changes
+      - name: Commit and push changes in ${{ env.GITHUB_REF_SLUG_URL }}
         run: |
           git config user.name "action@github.com"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add .
           git commit -m "Resize SVGs to height 64px"
-          git push
+          git push origin ${{ env.GITHUB_REF_SLUG_URL }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
