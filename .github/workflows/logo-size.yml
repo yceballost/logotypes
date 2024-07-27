@@ -8,8 +8,6 @@ on:
   pull_request:
     branches:
       - main
-    paths:
-      - "static/logos/**"
 
 jobs:
   resize_svgs:
