@@ -2,11 +2,14 @@ name: Resize SVGs
 
 on:
   push:
-    branches:
-      - main
+    paths:
+      - "static/logos/**"
+      - ".github/scripts/resize-logos.py"
   pull_request:
     branches:
       - main
+    paths:
+      - "static/logos/**"
 
 jobs:
   resize_svgs:
@@ -43,12 +46,10 @@ jobs:
         run: |
           svgo -f static/logos -r -o static/logos
 
-      - name: Commit and push changes in ${{ env.GITHUB_REF_SLUG_URL }}
+      - name: Commit & Push in ${{ env.GITHUB_REF_SLUG_URL }}
         run: |
-          git config user.name "action@github.com"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
           git add .
-          git commit -m "Resize SVGs to height 64px"
+          git config user.name "github-actions"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git commit -am "update changelog"
           git push origin ${{ env.GITHUB_REF_SLUG_URL }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
