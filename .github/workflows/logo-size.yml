@@ -35,6 +35,7 @@ jobs:
           sudo python -m pip install --upgrade pip
           sudo pip install lxml
           npm install -g svgo
+          git checkout -b ${{ env.GITHUB_HEAD_REF_SLUG }}
 
       - name: Resize SVGs
         run: |
