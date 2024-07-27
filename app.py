@@ -29,7 +29,7 @@ def generate_json_from_image_name(image_name):
     name = components[0]
     variant = components[1]
     version = components[2].split('.')[0]
-    image_url = f"{request.host_url}static/images/{image_name}"
+    image_url = f"{request.host_url}static/logos/{image_name}"
     metadata_filename = f"{name}.txt"
     metadata_path = os.path.join('static/data', metadata_filename)
     data = {
@@ -58,7 +58,7 @@ def generate_json_from_image_name(image_name):
 
 @app.route("/all")
 def generate_json():
-    folder_path = "static/images"
+    folder_path = "static/logos"
     image_files = [f for f in os.listdir(folder_path) if f.endswith('.svg')]
     json_data = {}
     for image_file in image_files:
@@ -73,20 +73,20 @@ def generate_json():
 
 @app.route("/random")
 def get_random_json():
-    folder_path = "static/images"
+    folder_path = "static/logos"
     image_files = [f for f in os.listdir(folder_path) if f.endswith('.svg')]
     variant_param = request.args.get("variant")
     version_param = request.args.get("version")
-    filtered_images = []
+    filtered_logos = []
     for image_file in image_files:
         image_data = generate_json_from_image_name(image_file)
         if (variant_param and image_data.get("variant") != variant_param) or \
            (version_param and image_data.get("version") != version_param):
             continue
-        filtered_images.append(image_data)
+        filtered_logos.append(image_data)
 
-    if filtered_images:
-        random_image_data = random.choice(filtered_images)
+    if filtered_logos:
+        random_image_data = random.choice(filtered_logos)
         image_url = random_image_data['image']
         return redirect(image_url)
     else:
@@ -138,23 +138,23 @@ def get_name_data(name):
 
 @app.route("/<name>")
 def get_logo_variants(name):
-    folder_path = "static/images"
+    folder_path = "static/logos"
     image_files = [f for f in os.listdir(folder_path) if f.endswith('.svg')]
     variant_param = request.args.get("variant")
     version_param = request.args.get("version")
-    filtered_images = []
+    filtered_logos = []
     for image_file in image_files:
         image_data = generate_json_from_image_name(image_file)
         if image_data.get("name").lower() == name.lower():
             if (variant_param and image_data.get("variant") != variant_param) or \
                (version_param and image_data.get("version") != version_param):
                 continue
-            filtered_images.append(image_data)
+            filtered_logos.append(image_data)
 
-    if filtered_images:
-        sorted_images = sorted(filtered_images, key=lambda x: x['version'], reverse=True)
-        image_name = sorted_images[0]['image'].split('/')[-1]
-        return send_from_directory(app.static_folder, f"images/{image_name}")
+    if filtered_logos:
+        sorted_logos = sorted(filtered_logos, key=lambda x: x['version'], reverse=True)
+        image_name = sorted_logos[0]['image'].split('/')[-1]
+        return send_from_directory(app.static_folder, f"logos/{image_name}")
     else:
         return "No logo found with the specified parameters", 404
 
