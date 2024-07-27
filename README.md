@@ -87,7 +87,7 @@ I have tried to conceive this project from pure simplicity, from development to 
 
    For example: `nike-wordmark-black.svg`
 
-2. Simply make a pull request including the logos in the [static/images](static/images) folder with the correct naming structure and in .svg format, and you're good to go!
+2. Simply make a pull request including the logos in the [static/logos](static/logos) folder with the correct naming structure and in .svg format, and you're good to go!
 
 ### Improving the project as a developer
 
