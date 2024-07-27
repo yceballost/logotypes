@@ -44,10 +44,13 @@ jobs:
         run: |
           svgo -f static/logos -r -o static/logos
 
-      - name: Commit & Push in ${{ env.GITHUB_HEAD_REF_SLUG }}
+      - name: Create a branch and push changes
         run: |
+          git checkout -b ${{ env.GITHUB_HEAD_REF_SLUG }}
           git add .
           git config user.name "github-actions"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git commit -am "update changelog"
+          git commit -am "Resize SVGs to height 64px"
           git push origin ${{ env.GITHUB_HEAD_REF_SLUG }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
