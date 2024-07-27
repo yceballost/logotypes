@@ -44,10 +44,10 @@ jobs:
         run: |
           svgo -f static/logos -r -o static/logos
 
-      - name: Commit & Push in ${{ env.GITHUB_REF_SLUG_URL }}
+      - name: Commit & Push in ${{ env.GITHUB_HEAD_REF_SLUG }}
         run: |
           git add .
           git config user.name "github-actions"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git commit -am "update changelog"
-          git push origin ${{ env.GITHUB_REF_SLUG_URL }}
+          git push origin ${{ env.GITHUB_HEAD_REF_SLUG }}
