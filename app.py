@@ -12,28 +12,44 @@ cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 GA_TRACKING_ID = 'G-KQCFQFWW6V'
 
+import http.client
+import urllib.parse
+
 def track_event(category, action, label=None, value=0):
     """Send event to Google Analytics"""
-    try:
-        params = urllib.parse.urlencode({
-            'v': 1,
-            'tid': GA_TRACKING_ID,
-            'cid': '555',
-            't': 'event',
-            'ec': category,
-            'ea': action,
-            'el': label,
-            'ev': value
-        })
+    params = urllib.parse.urlencode({
+        'v': 1,                # API version
+        'tid': GA_TRACKING_ID, # Tracking ID
+        'cid': '555',          # Client ID
+        't': 'event',          # Event hit type
+        'ec': category,        # Event category
+        'ea': action,          # Event action
+        'el': label,           # Event label (optional)
+        'ev': value            # Event value (optional)
+    })
 
-        headers = {"Content-type": "application/x-www-form-urlencoded"}
-        conn = http.client.HTTPSConnection("www.google-analytics.com")
+    headers = {"Content-type": "application/x-www-form-urlencoded"}
+    conn = http.client.HTTPSConnection("www.google-analytics.com")
+    
+    try:
         conn.request("POST", "/collect", params, headers)
         response = conn.getresponse()
-        print(response.read().decode())
-        conn.close()
+        response_status = response.status
+        response_data = response.read()
+
+        if response_status == 200:
+            print(f"GA Response: {response_data.decode('utf-8', errors='ignore')}")
+        else:
+            print(f"GA Error {response_status}: {response_data.decode('utf-8', errors='ignore')}")
+    
     except Exception as e:
         print(f"Error tracking event: {e}")
+    
+    finally:
+        conn.close()
+
+
+
 
 @app.route('/')
 def landing_page():
@@ -101,7 +117,6 @@ def generate_json():
 
 @app.route("/random")
 def get_random_logo():
-    track_event('API', 'Access', '/random')
     folder_path = "static/logos"
     logo_files = [f for f in os.listdir(folder_path) if f.endswith('.svg')]
     variant_param = request.args.get("variant")
@@ -116,9 +131,15 @@ def get_random_logo():
 
     if filtered_logos:
         random_logo = random.choice(filtered_logos)
+        logo_name = os.path.basename(random_logo)
+        
+        # Track the event with the name of the logo
+        track_event(category='API', action='Access', label='/random', value=logo_name)
+        
         return send_from_directory(app.static_folder, f"logos/{random_logo}")
     else:
         return "No logo found with the specified parameters", 404
+
 
 @app.route("/random/data")
 def get_random_data():
