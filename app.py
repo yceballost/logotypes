@@ -1,39 +1,47 @@
-from flask import Flask, jsonify, request, redirect, send_from_directory
+from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 import os
 import random
-import json
 import requests
 import urllib.parse
 import http.client
 
 app = Flask(__name__, static_folder="static")
-cors = CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 GA_TRACKING_ID = 'G-KQCFQFWW6V'
 
-def track_event(category, action, label=None, value=0):
-    """Send event to Google Analytics"""
-    try:
-        params = urllib.parse.urlencode({
-            'v': 1,
-            'tid': GA_TRACKING_ID,
-            'cid': '555',
-            't': 'event',
-            'ec': category,
-            'ea': action,
-            'el': label,
-            'ev': value
-        })
+def track_pageview(page_title, page_path):
+    """Send pageview to Google Analytics with optional page title"""
+    params = {
+        'v': 1,                # API version
+        'tid': GA_TRACKING_ID, # Tracking ID
+        'cid': '555',          # Client ID
+        't': 'pageview',       # Pageview hit type
+        'dp': page_path,       # Document path (URL)
+        'dt': page_title       # Document title
+    }
+    encoded_params = urllib.parse.urlencode(params)
 
-        headers = {"Content-type": "application/x-www-form-urlencoded"}
-        conn = http.client.HTTPSConnection("www.google-analytics.com")
-        conn.request("POST", "/collect", params, headers)
+    headers = {"Content-type": "application/x-www-form-urlencoded"}
+    conn = http.client.HTTPSConnection("www.google-analytics.com")
+    
+    try:
+        conn.request("POST", "/collect", encoded_params, headers)
         response = conn.getresponse()
-        print(response.read().decode())
-        conn.close()
+        response_status = response.status
+        response_data = response.read()
+
+        if response_status == 200:
+            print(f"GA Response: {response_data.decode('utf-8', errors='ignore')}")
+        else:
+            print(f"GA Error {response_status}: {response_data.decode('utf-8', errors='ignore')}")
+    
     except Exception as e:
-        print(f"Error tracking event: {e}")
+        print(f"Error tracking pageview: {e}")
+    
+    finally:
+        conn.close()
 
 @app.route('/')
 def landing_page():
@@ -85,7 +93,6 @@ def generate_json_from_logo_name(logo_name):
 
 @app.route("/all")
 def generate_json():
-    track_event('API', 'Access', '/all')
     folder_path = "static/logos"
     logo_files = [f for f in os.listdir(folder_path) if f.endswith('.svg')]
     json_data = {}
@@ -101,12 +108,12 @@ def generate_json():
 
 @app.route("/random")
 def get_random_logo():
-    track_event('API', 'Access', '/random')
     folder_path = "static/logos"
     logo_files = [f for f in os.listdir(folder_path) if f.endswith('.svg')]
     variant_param = request.args.get("variant")
     version_param = request.args.get("version")
     filtered_logos = []
+
     for logo_file in logo_files:
         logo_data = generate_json_from_logo_name(logo_file)
         if (variant_param and logo_data.get("variant") != variant_param) or \
@@ -116,13 +123,15 @@ def get_random_logo():
 
     if filtered_logos:
         random_logo = random.choice(filtered_logos)
+        logo_data = generate_json_from_logo_name(random_logo)
+        # Send a pageview with the logo name as the page title
+        track_pageview(page_title=logo_data['name'], page_path=f'/random/{random_logo}')
         return send_from_directory(app.static_folder, f"logos/{random_logo}")
     else:
         return "No logo found with the specified parameters", 404
 
 @app.route("/random/data")
 def get_random_data():
-    track_event('API', 'Access', '/random/data')
     variant_param = request.args.get("variant")
     version_param = request.args.get("version")
     try:
@@ -149,7 +158,6 @@ def get_random_data():
 
 @app.route("/<name>/data")
 def get_name_data(name):
-    track_event('API', 'Access', f'/{name}/data')
     try:
         response = requests.get(f"{request.host_url}all")
         response.raise_for_status()
@@ -168,12 +176,12 @@ def get_name_data(name):
 
 @app.route("/<name>")
 def get_logo_variants(name):
-    track_event('API', 'Access', f'/{name}')
     folder_path = "static/logos"
     logo_files = [f for f in os.listdir(folder_path) if f.endswith('.svg')]
     variant_param = request.args.get("variant")
     version_param = request.args.get("version")
     filtered_logos = []
+
     for logo_file in logo_files:
         logo_data = generate_json_from_logo_name(logo_file)
         if logo_data.get("name").lower() == name.lower():
