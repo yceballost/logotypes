@@ -4,9 +4,36 @@ import os
 import random
 import json
 import requests
+import urllib.parse
+import http.client
 
 app = Flask(__name__, static_folder="static")
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
+
+GA_TRACKING_ID = 'G-KQCFQFWW6V'
+
+def track_event(category, action, label=None, value=0):
+    """Send event to Google Analytics"""
+    try:
+        params = urllib.parse.urlencode({
+            'v': 1,
+            'tid': GA_TRACKING_ID,
+            'cid': '555',
+            't': 'event',
+            'ec': category,
+            'ea': action,
+            'el': label,
+            'ev': value
+        })
+
+        headers = {"Content-type": "application/x-www-form-urlencoded"}
+        conn = http.client.HTTPSConnection("www.google-analytics.com")
+        conn.request("POST", "/collect", params, headers)
+        response = conn.getresponse()
+        print(response.read().decode())
+        conn.close()
+    except Exception as e:
+        print(f"Error tracking event: {e}")
 
 @app.route('/')
 def landing_page():
@@ -20,20 +47,20 @@ def style_file():
 def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
-def generate_json_from_image_name(image_name):
-    components = image_name.split('-')
+def generate_json_from_logo_name(logo_name):
+    components = logo_name.split('-')
     if len(components) < 3:
-        print(f"Not valid: {image_name}")
+        print(f"Not valid: {logo_name}")
         return None
 
     name = components[0]
     variant = components[1]
     version = components[2].split('.')[0]
-    image_url = f"{request.host_url}static/logos/{image_name}"
+    logo_url = f"{request.host_url}static/logos/{logo_name}"
     metadata_filename = f"{name}.txt"
     metadata_path = os.path.join('static/data', metadata_filename)
     data = {
-        "image": image_url,
+        "logo": logo_url,
         "name": name.capitalize(),
         "variant": variant,
         "version": version
@@ -58,42 +85,44 @@ def generate_json_from_image_name(image_name):
 
 @app.route("/all")
 def generate_json():
+    track_event('API', 'Access', '/all')
     folder_path = "static/logos"
-    image_files = [f for f in os.listdir(folder_path) if f.endswith('.svg')]
+    logo_files = [f for f in os.listdir(folder_path) if f.endswith('.svg')]
     json_data = {}
-    for image_file in image_files:
-        name = image_file.split('-')[0]
+    for logo_file in logo_files:
+        name = logo_file.split('-')[0]
         if name not in json_data:
             json_data[name] = []
-        json_data[name].append(generate_json_from_image_name(image_file))
+        json_data[name].append(generate_json_from_logo_name(logo_file))
     data_final = {
         "records": json_data
     }
     return jsonify(data_final)
 
 @app.route("/random")
-def get_random_json():
+def get_random_logo():
+    track_event('API', 'Access', '/random')
     folder_path = "static/logos"
-    image_files = [f for f in os.listdir(folder_path) if f.endswith('.svg')]
+    logo_files = [f for f in os.listdir(folder_path) if f.endswith('.svg')]
     variant_param = request.args.get("variant")
     version_param = request.args.get("version")
     filtered_logos = []
-    for image_file in image_files:
-        image_data = generate_json_from_image_name(image_file)
-        if (variant_param and image_data.get("variant") != variant_param) or \
-           (version_param and image_data.get("version") != version_param):
+    for logo_file in logo_files:
+        logo_data = generate_json_from_logo_name(logo_file)
+        if (variant_param and logo_data.get("variant") != variant_param) or \
+           (version_param and logo_data.get("version") != version_param):
             continue
-        filtered_logos.append(image_data)
+        filtered_logos.append(logo_file)
 
     if filtered_logos:
-        random_image_data = random.choice(filtered_logos)
-        image_url = random_image_data['image']
-        return redirect(image_url)
+        random_logo = random.choice(filtered_logos)
+        return send_from_directory(app.static_folder, f"logos/{random_logo}")
     else:
         return "No logo found with the specified parameters", 404
 
 @app.route("/random/data")
 def get_random_data():
+    track_event('API', 'Access', '/random/data')
     variant_param = request.args.get("variant")
     version_param = request.args.get("version")
     try:
@@ -120,6 +149,7 @@ def get_random_data():
 
 @app.route("/<name>/data")
 def get_name_data(name):
+    track_event('API', 'Access', f'/{name}/data')
     try:
         response = requests.get(f"{request.host_url}all")
         response.raise_for_status()
@@ -138,23 +168,24 @@ def get_name_data(name):
 
 @app.route("/<name>")
 def get_logo_variants(name):
+    track_event('API', 'Access', f'/{name}')
     folder_path = "static/logos"
-    image_files = [f for f in os.listdir(folder_path) if f.endswith('.svg')]
+    logo_files = [f for f in os.listdir(folder_path) if f.endswith('.svg')]
     variant_param = request.args.get("variant")
     version_param = request.args.get("version")
     filtered_logos = []
-    for image_file in image_files:
-        image_data = generate_json_from_image_name(image_file)
-        if image_data.get("name").lower() == name.lower():
-            if (variant_param and image_data.get("variant") != variant_param) or \
-               (version_param and image_data.get("version") != version_param):
+    for logo_file in logo_files:
+        logo_data = generate_json_from_logo_name(logo_file)
+        if logo_data.get("name").lower() == name.lower():
+            if (variant_param and logo_data.get("variant") != variant_param) or \
+               (version_param and logo_data.get("version") != version_param):
                 continue
-            filtered_logos.append(image_data)
+            filtered_logos.append(logo_data)
 
     if filtered_logos:
         sorted_logos = sorted(filtered_logos, key=lambda x: x['version'], reverse=True)
-        image_name = sorted_logos[0]['image'].split('/')[-1]
-        return send_from_directory(app.static_folder, f"logos/{image_name}")
+        logo_name = sorted_logos[0]['logo'].split('/')[-1]
+        return send_from_directory(app.static_folder, f"logos/{logo_name}")
     else:
         return "No logo found with the specified parameters", 404
 
