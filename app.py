@@ -14,23 +14,26 @@ GA_TRACKING_ID = 'G-KQCFQFWW6V'
 
 def track_event(category, action, label=None, value=0):
     """Send event to Google Analytics"""
-    params = urllib.parse.urlencode({
-        'v': 1,
-        'tid': GA_TRACKING_ID,
-        'cid': '555',
-        't': 'event',
-        'ec': category,
-        'ea': action,
-        'el': label,
-        'ev': value
-    })
+    try:
+        params = urllib.parse.urlencode({
+            'v': 1,
+            'tid': GA_TRACKING_ID,
+            'cid': '555',
+            't': 'event',
+            'ec': category,
+            'ea': action,
+            'el': label,
+            'ev': value
+        })
 
-    headers = {"Content-type": "application/x-www-form-urlencoded"}
-    conn = http.client.HTTPSConnection("www.google-analytics.com")
-    conn.request("POST", "/collect", params, headers)
-    response = conn.getresponse()
-    print(response.read().decode())
-    conn.close()
+        headers = {"Content-type": "application/x-www-form-urlencoded"}
+        conn = http.client.HTTPSConnection("www.google-analytics.com")
+        conn.request("POST", "/collect", params, headers)
+        response = conn.getresponse()
+        print(response.read().decode())
+        conn.close()
+    except Exception as e:
+        print(f"Error tracking event: {e}")
 
 @app.route('/')
 def landing_page():
@@ -42,7 +45,7 @@ def style_file():
 
 @app.route('/favicon.ico')
 def favicon():
-    return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='logo/vnd.microsoft.icon')
+    return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 def generate_json_from_logo_name(logo_name):
     components = logo_name.split('-')
