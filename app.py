@@ -10,7 +10,7 @@ import http.client
 app = Flask(__name__, static_folder="static")
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
-GA_TRACKING_ID = 'UA-XXXXX-Y'  # Reemplaza con tu ID de seguimiento de Google Analytics
+GA_TRACKING_ID = 'G-KQCFQFWW6V'
 
 def track_event(category, action, label=None, value=0):
     """Send event to Google Analytics"""
