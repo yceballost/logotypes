@@ -16,23 +16,24 @@ import http.client
 import urllib.parse
 
 def track_event(category, action, label=None, value=0):
-    """Send event to Google Analytics"""
-    params = urllib.parse.urlencode({
+    """Send event to Google Analytics with optional label"""
+    params = {
         'v': 1,                # API version
         'tid': GA_TRACKING_ID, # Tracking ID
         'cid': '555',          # Client ID
         't': 'event',          # Event hit type
         'ec': category,        # Event category
         'ea': action,          # Event action
-        'el': label,           # Event label (optional)
+        'el': label or '',     # Event label (optional)
         'ev': value            # Event value (optional)
-    })
+    }
+    encoded_params = urllib.parse.urlencode(params)
 
     headers = {"Content-type": "application/x-www-form-urlencoded"}
     conn = http.client.HTTPSConnection("www.google-analytics.com")
     
     try:
-        conn.request("POST", "/collect", params, headers)
+        conn.request("POST", "/collect", encoded_params, headers)
         response = conn.getresponse()
         response_status = response.status
         response_data = response.read()
@@ -117,11 +118,13 @@ def generate_json():
 
 @app.route("/random")
 def get_random_logo():
+    track_event('API', 'Access', label='Fetching random logo')
     folder_path = "static/logos"
     logo_files = [f for f in os.listdir(folder_path) if f.endswith('.svg')]
     variant_param = request.args.get("variant")
     version_param = request.args.get("version")
     filtered_logos = []
+
     for logo_file in logo_files:
         logo_data = generate_json_from_logo_name(logo_file)
         if (variant_param and logo_data.get("variant") != variant_param) or \
@@ -131,14 +134,12 @@ def get_random_logo():
 
     if filtered_logos:
         random_logo = random.choice(filtered_logos)
-        logo_name = os.path.basename(random_logo)
-        
-        # Track the event with the name of the logo
-        track_event(category='API', action='Access', label='/random', value=logo_name)
-        
+        logo_data = generate_json_from_logo_name(random_logo)
+        track_event('API', 'Random Logo', label=logo_data['name'])
         return send_from_directory(app.static_folder, f"logos/{random_logo}")
     else:
         return "No logo found with the specified parameters", 404
+
 
 
 @app.route("/random/data")
