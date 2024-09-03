@@ -103,6 +103,3 @@ This project has been built by an inexperienced designer in coding and assisted 
 | :---------------------------------------------------------------------: | -------- | --------------------------------------------------- |
 | <img src="https://logotypes.dev/reddit?variant=wordmark" width="112" /> | Wordmark | a logo format that is made up of a symbol and text. |
 |  <img src="https://logotypes.dev/reddit?variant=glyph" height="40" />   | Glyph    | consists of only one symbol or drawing.             |
-
-## To-Do List
-- [ ] Analytics for API requests: Just to know the usage and ensure the best experience with API.
