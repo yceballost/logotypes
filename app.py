@@ -7,6 +7,11 @@ import requests
 import urllib.parse
 import http.client
 from functools import wraps
+import logging
+
+# Configura el logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 app = Flask(__name__, static_folder="static")
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
@@ -30,7 +35,17 @@ def send_to_ga(endpoint):
         }]
     }
     
-    requests.post(ga_endpoint, json=payload)
+    logger.info(f"Sending event to GA for endpoint: {endpoint}")
+    try:
+        response = requests.post(ga_endpoint, json=payload)
+        logger.info(f"GA Response: {response.status_code} - {response.text}")
+        
+        if response.status_code != 200:
+            logger.error(f"Error sending to GA: {response.text}")
+        else:
+            logger.info("Successfully sent event to GA")
+    except Exception as e:
+        logger.error(f"Exception occurred while sending to GA: {str(e)}")
 
 # Decorador para rastrear llamadas API
 def track_api_call(f):
