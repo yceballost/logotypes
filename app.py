@@ -6,46 +6,40 @@ import json
 import requests
 import urllib.parse
 import http.client
+from functools import wraps
 
 app = Flask(__name__, static_folder="static")
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 GA_TRACKING_ID = 'G-KQCFQFWW6V'
 
-def track_event(category, action, label=None, value=0):
-    """Send event to Google Analytics"""
-    try:
-        params = urllib.parse.urlencode({
-            'v': 1,
-            'tid': GA_TRACKING_ID,
-            'cid': '555',
-            't': 'event',
-            'ec': category,
-            'ea': action,
-            'el': label,
-            'ev': value
-        })
+# Función para enviar eventos a Google Analytics
+def send_to_ga(endpoint):
+    measurement_id = 'G-KQCFQFWW6V'  # Tu ID de GA4 actual
+    api_secret = os.environ.get('GA_API_SECRET')
+    
+    ga_endpoint = f'https://www.google-analytics.com/mp/collect?measurement_id={measurement_id}&api_secret={api_secret}'
+    
+    payload = {
+        'client_id': '555', 
+        'events': [{
+            'name': 'api_call',
+            'params': {
+                'endpoint': endpoint
+            }
+        }]
+    }
+    
+    requests.post(ga_endpoint, json=payload)
 
-        headers = {"Content-type": "application/x-www-form-urlencoded"}
-        conn = http.client.HTTPSConnection("www.google-analytics.com")
-        conn.request("POST", "/collect", params, headers)
-        response = conn.getresponse()
-        print(response.read().decode())
-        conn.close()
-    except Exception as e:
-        print(f"Error tracking event: {e}")
-
-@app.route('/')
-def landing_page():
-    return send_from_directory(app.static_folder, 'web/index.html')
-
-@app.route('/style.css')
-def style_file():
-    return send_from_directory(app.static_folder, 'web/style.css')
-
-@app.route('/favicon.ico')
-def favicon():
-    return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
+# Decorador para rastrear llamadas API
+def track_api_call(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        endpoint = request.path
+        send_to_ga(endpoint)
+        return f(*args, **kwargs)
+    return decorated_function
 
 def generate_json_from_logo_name(logo_name):
     components = logo_name.split('-')
@@ -83,9 +77,21 @@ def generate_json_from_logo_name(logo_name):
 
     return data
 
+@app.route('/')
+def landing_page():
+    return send_from_directory(app.static_folder, 'web/index.html')
+
+@app.route('/style.css')
+def style_file():
+    return send_from_directory(app.static_folder, 'web/style.css')
+
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
+
 @app.route("/all")
+@track_api_call
 def generate_json():
-    track_event('API', 'Access', '/all')
     folder_path = "static/logos"
     logo_files = [f for f in os.listdir(folder_path) if f.endswith('.svg')]
     json_data = {}
@@ -100,8 +106,8 @@ def generate_json():
     return jsonify(data_final)
 
 @app.route("/random")
+@track_api_call
 def get_random_logo():
-    track_event('API', 'Access', '/random')
     folder_path = "static/logos"
     logo_files = [f for f in os.listdir(folder_path) if f.endswith('.svg')]
     variant_param = request.args.get("variant")
@@ -121,8 +127,8 @@ def get_random_logo():
         return "No logo found with the specified parameters", 404
 
 @app.route("/random/data")
+@track_api_call
 def get_random_data():
-    track_event('API', 'Access', '/random/data')
     variant_param = request.args.get("variant")
     version_param = request.args.get("version")
     try:
@@ -148,8 +154,8 @@ def get_random_data():
         return "Error fetching data", 500
 
 @app.route("/<name>/data")
+@track_api_call
 def get_name_data(name):
-    track_event('API', 'Access', f'/{name}/data')
     try:
         response = requests.get(f"{request.host_url}all")
         response.raise_for_status()
@@ -167,8 +173,8 @@ def get_name_data(name):
         return "Error fetching data", 500
 
 @app.route("/<name>")
+@track_api_call
 def get_logo_variants(name):
-    track_event('API', 'Access', f'/{name}')
     folder_path = "static/logos"
     logo_files = [f for f in os.listdir(folder_path) if f.endswith('.svg')]
     variant_param = request.args.get("variant")
@@ -188,6 +194,12 @@ def get_logo_variants(name):
         return send_from_directory(app.static_folder, f"logos/{logo_name}")
     else:
         return "No logo found with the specified parameters", 404
+
+@app.route('/api/datos')
+@track_api_call
+def get_datos():
+    # Tu lógica aquí
+    return {"mensaje": "Datos obtenidos"}
 
 if __name__ == "__main__":
     app.run(debug=False)
