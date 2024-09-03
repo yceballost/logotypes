@@ -16,11 +16,11 @@ logger = logging.getLogger(__name__)
 app = Flask(__name__, static_folder="static")
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
-GA_TRACKING_ID = 'G-KQCFQFWW6V'
+GA_TRACKING_ID = os.environ.get('GA_TRACKING_ID')
 
 # Función para enviar eventos a Google Analytics
 def send_to_ga(endpoint):
-    measurement_id = 'G-KQCFQFWW6V'
+    measurement_id = GA_TRACKING_ID
     api_secret = os.environ.get('GA_API_SECRET')
     
     ga_endpoint = f'https://www.google-analytics.com/mp/collect?measurement_id={measurement_id}&api_secret={api_secret}'
