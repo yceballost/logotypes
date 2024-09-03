@@ -20,7 +20,7 @@ GA_TRACKING_ID = 'G-KQCFQFWW6V'
 
 # Función para enviar eventos a Google Analytics
 def send_to_ga(endpoint):
-    measurement_id = 'G-KQCFQFWW6V'  # Tu ID de GA4 actual
+    measurement_id = 'G-KQCFQFWW6V'
     api_secret = os.environ.get('GA_API_SECRET')
     
     ga_endpoint = f'https://www.google-analytics.com/mp/collect?measurement_id={measurement_id}&api_secret={api_secret}'
@@ -36,16 +36,24 @@ def send_to_ga(endpoint):
     }
     
     logger.info(f"Sending event to GA for endpoint: {endpoint}")
+    logger.info(f"GA Endpoint: {ga_endpoint}")
+    logger.info(f"Payload: {json.dumps(payload)}")
+    
     try:
-        response = requests.post(ga_endpoint, json=payload)
-        logger.info(f"GA Response: {response.status_code} - {response.text}")
+        response = requests.post(ga_endpoint, json=payload, timeout=10)
+        logger.info(f"GA Response: {response.status_code}")
+        logger.info(f"GA Response content: {response.text}")
         
         if response.status_code != 200:
-            logger.error(f"Error sending to GA: {response.text}")
+            logger.error(f"Error sending to GA. Status code: {response.status_code}")
+            logger.error(f"Error response: {response.text}")
+            logger.error(f"Response headers: {response.headers}")
         else:
             logger.info("Successfully sent event to GA")
-    except Exception as e:
+    except requests.exceptions.RequestException as e:
         logger.error(f"Exception occurred while sending to GA: {str(e)}")
+    except Exception as e:
+        logger.error(f"Unexpected error while sending to GA: {str(e)}")
 
 # Decorador para rastrear llamadas API
 def track_api_call(f):
