@@ -19,7 +19,7 @@ cors = CORS(app, resources={r"/*": {"origins": "*"}})
 GA_TRACKING_ID = os.environ.get('GA_TRACKING_ID')
 
 # Función para enviar eventos a Google Analytics
-def send_to_ga(endpoint):
+def send_to_ga(endpoint, full_url, referrer):
     measurement_id = GA_TRACKING_ID
     api_secret = os.environ.get('GA_API_SECRET')
     
@@ -30,7 +30,9 @@ def send_to_ga(endpoint):
         'events': [{
             'name': 'api_call',
             'params': {
-                'endpoint': endpoint
+                'endpoint': endpoint,
+                'full_url': full_url,
+                'referrer': referrer
             }
         }]
     }
@@ -61,7 +63,14 @@ def track_api_call(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         endpoint = request.path
-        send_to_ga(endpoint)
+        full_url = request.url
+        referrer = request.referrer or 'No referrer'
+        
+        logger.info(f"API call to endpoint: {endpoint}")
+        logger.info(f"Full URL: {full_url}")
+        logger.info(f"Referrer: {referrer}")
+        
+        send_to_ga(endpoint, full_url, referrer)
         return f(*args, **kwargs)
     return decorated_function
 
