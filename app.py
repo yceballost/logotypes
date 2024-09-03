@@ -42,9 +42,10 @@ def send_to_ga(endpoint):
     try:
         response = requests.post(ga_endpoint, json=payload, timeout=10)
         logger.info(f"GA Response: {response.status_code}")
-        logger.info(f"GA Response content: {response.text}")
         
-        if response.status_code != 200:
+        if response.status_code == 204:
+            logger.info("Successfully sent event to GA (204 No Content)")
+        elif response.status_code != 200:
             logger.error(f"Error sending to GA. Status code: {response.status_code}")
             logger.error(f"Error response: {response.text}")
             logger.error(f"Response headers: {response.headers}")
