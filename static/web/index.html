@@ -299,6 +299,115 @@
         </section>
       </main>
     </div>
+    <div id="grid-2-columns">
+      <div>
+        <h2>Available Logos</h2>
+        <div class="stack stack-16">
+          <div>
+            <label for="search-input">Search:</label>
+            <input
+              type="text"
+              id="search-input"
+              placeholder="Search by logo name"
+            />
+          </div>
+          <div>
+            <label for="type-filter">Type:</label>
+            <select id="type-filter">
+              <option value="all">All</option>
+              <option value="Wordmark">Wordmark</option>
+              <option value="Glyph">Glyph</option>
+            </select>
+            <label for="color-filter">Color:</label>
+            <select id="color-filter">
+              <option value="all">All</option>
+              <option value="Color">Color</option>
+              <option value="White">White</option>
+              <option value="Black">Black</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <section id="logo-grid"></section>
+
+      <script>
+        function loadLogos() {
+          fetch("/all")
+            .then((response) => response.json())
+            .then((data) => {
+              const grid = document.getElementById("logo-grid");
+              grid.innerHTML = ""; // Limpiar la grid
+
+              for (const [name, variants] of Object.entries(data.records)) {
+                variants.forEach((logo) => {
+                  const cell = document.createElement("div");
+                  cell.className = "logo-cell";
+                  cell.setAttribute(
+                    "data-type",
+                    logo.variant === "wordmark" ? "Wordmark" : "Glyph"
+                  );
+                  cell.setAttribute("data-color", logo.version);
+                  cell.setAttribute("data-name", logo.name.toLowerCase());
+
+                  cell.innerHTML = `
+                  <div class="stack stack-24" style="align-items: center;">
+                    <img height="56" src="${logo.logo}" alt="${
+                    logo.name
+                  }" style="max-width: 100px; max-height: 50px;">
+                  <div class="stack stack-24" style="align-items: center;">
+                    <p id="logo-name">${logo.name}</p>
+                    <div class="inline inline-8">
+                      <p class="tag" id="logo-variant">${
+                        logo.variant === "wordmark" ? "Wordmark" : "Glyph"
+                      }</p>
+                      <p class="tag" id="logo-version">${logo.version}</p>
+                    </div>
+                  </div>
+                  </div>
+                  `;
+
+                  grid.appendChild(cell);
+                });
+              }
+              filterLogos(); // Aplicar filtros iniciales
+            });
+        }
+
+        function filterLogos() {
+          const searchInput = document
+            .getElementById("search-input")
+            .value.toLowerCase();
+          const typeFilter = document.getElementById("type-filter").value;
+          const colorFilter = document.getElementById("color-filter").value;
+          const cells = document.querySelectorAll("#logo-grid .logo-cell");
+
+          cells.forEach((cell) => {
+            const name = cell.getAttribute("data-name");
+            const type = cell.getAttribute("data-type");
+            const color = cell.getAttribute("data-color");
+            const nameMatch = name.includes(searchInput);
+            const typeMatch = typeFilter === "all" || type === typeFilter;
+            const colorMatch =
+              colorFilter === "all" ||
+              color.toLowerCase() === colorFilter.toLowerCase();
+            cell.style.display =
+              nameMatch && typeMatch && colorMatch ? "" : "none";
+          });
+        }
+
+        document
+          .getElementById("search-input")
+          .addEventListener("input", filterLogos);
+        document
+          .getElementById("type-filter")
+          .addEventListener("change", filterLogos);
+        document
+          .getElementById("color-filter")
+          .addEventListener("change", filterLogos);
+
+        window.addEventListener("load", loadLogos);
+      </script>
+    </div>
     <footer>
       <p>
         &copy; 2024 Logotypes.dev. All rights reserved.
