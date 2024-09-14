@@ -381,3 +381,121 @@ header a:hover {
   padding: 4px 8px;
   border-radius: 999px;
 }
+
+input#search-input {
+  margin: 0 auto;
+  width: -webkit-fill-available;
+  height: 56px;
+  padding: 0 20px;
+  font-size: 1rem;
+  border: 1px solid #d0cfce;
+  border-radius: 999px;
+  outline: none;
+  &:focus {
+    border: 1px solid #000;
+    transition: 0.35s ease;
+    color: #000;
+    &::-webkit-input-placeholder {
+      opacity: 0;
+    }
+    &::-moz-placeholder {
+      opacity: 0;
+    }
+    &:-ms-placeholder {
+      opacity: 0;
+    }
+  }
+}
+
+.search-icon {
+  position: relative;
+  float: right;
+  width: 75px;
+  height: 75px;
+  top: -62px;
+  right: -45px;
+}
+
+.chip-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  padding: 12px 24px;
+  border-radius: 999px;
+  border: 1px solid #ccc;
+  background-color: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.chip .check-icon,
+.chip .x-icon {
+  font-size: 14px;
+  width: 14px;
+  text-align: center;
+}
+
+.chip .check-icon {
+  display: none;
+  color: #4caf50;
+}
+
+.chip .x-icon {
+  display: inline;
+  color: #f44336;
+}
+
+.chip.active .check-icon {
+  display: inline;
+}
+
+.chip.active .x-icon {
+  display: none;
+}
+
+.chip.active {
+  background-color: #000;
+  color: white;
+  border-color: #000;
+}
+
+.chip:hover {
+  background-color: #e0e0e0;
+}
+
+.chip.active:hover {
+  background-color: #1d1d1d;
+}
+
+@media (prefers-color-scheme: dark) {
+  .chip {
+    background-color: #2f2f2f;
+    border-color: #444;
+    color: #fff;
+  }
+
+  .chip:hover {
+    background-color: #3f3f3f;
+  }
+
+  .chip.active {
+    background-color: #fff;
+  }
+
+  .chip.active:hover {
+    background-color: #fff;
+  }
+
+  .chip .check-icon {
+    color: #81c784;
+  }
+
+  .chip .x-icon {
+    color: #e57373;
+  }
+}

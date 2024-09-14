@@ -300,31 +300,32 @@
       </main>
     </div>
     <div id="grid-2-columns">
-      <div>
+      <div class="stack stack-32">
         <h2>Available Logos</h2>
-        <div class="stack stack-16">
+        <div class="stack stack-32">
           <div>
-            <label for="search-input">Search:</label>
             <input
               type="text"
               id="search-input"
               placeholder="Search by logo name"
             />
           </div>
-          <div>
-            <label for="type-filter">Type:</label>
-            <select id="type-filter">
-              <option value="all">All</option>
-              <option value="Wordmark">Wordmark</option>
-              <option value="Glyph">Glyph</option>
-            </select>
-            <label for="color-filter">Color:</label>
-            <select id="color-filter">
-              <option value="all">All</option>
-              <option value="Color">Color</option>
-              <option value="White">White</option>
-              <option value="Black">Black</option>
-            </select>
+          <div class="stack stack-8">
+            <div>
+              <div id="type-chips" class="chip-container">
+                <button class="chip active" data-type="Wordmark">
+                  Wordmark
+                </button>
+                <button class="chip active" data-type="Glyph">Glyph</button>
+              </div>
+            </div>
+            <div>
+              <div id="color-chips" class="chip-container">
+                <button class="chip active" data-color="Color">Color</button>
+                <button class="chip active" data-color="White">White</button>
+                <button class="chip active" data-color="Black">Black</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -377,8 +378,12 @@
           const searchInput = document
             .getElementById("search-input")
             .value.toLowerCase();
-          const typeFilter = document.getElementById("type-filter").value;
-          const colorFilter = document.getElementById("color-filter").value;
+          const activeTypeChips = document.querySelectorAll(
+            "#type-chips .chip.active"
+          );
+          const activeColorChips = document.querySelectorAll(
+            "#color-chips .chip.active"
+          );
           const cells = document.querySelectorAll("#logo-grid .logo-cell");
 
           cells.forEach((cell) => {
@@ -386,24 +391,31 @@
             const type = cell.getAttribute("data-type");
             const color = cell.getAttribute("data-color");
             const nameMatch = name.includes(searchInput);
-            const typeMatch = typeFilter === "all" || type === typeFilter;
-            const colorMatch =
-              colorFilter === "all" ||
-              color.toLowerCase() === colorFilter.toLowerCase();
+            const typeMatch = Array.from(activeTypeChips).some(
+              (chip) => chip.dataset.type === type
+            );
+            const colorMatch = Array.from(activeColorChips).some(
+              (chip) => chip.dataset.color.toLowerCase() === color.toLowerCase()
+            );
             cell.style.display =
               nameMatch && typeMatch && colorMatch ? "" : "none";
           });
         }
 
+        function toggleChip(chip) {
+          chip.classList.toggle("active");
+          filterLogos();
+        }
+
         document
           .getElementById("search-input")
           .addEventListener("input", filterLogos);
+
         document
-          .getElementById("type-filter")
-          .addEventListener("change", filterLogos);
-        document
-          .getElementById("color-filter")
-          .addEventListener("change", filterLogos);
+          .querySelectorAll("#type-chips .chip, #color-chips .chip")
+          .forEach((chip) => {
+            chip.addEventListener("click", () => toggleChip(chip));
+          });
 
         window.addEventListener("load", loadLogos);
       </script>
@@ -471,3 +483,41 @@
 
   gtag("config", "G-KQCFQFWW6V");
 </script>
+<!-- Google tag (gtag.js) -->
+<script
+  async
+  src="https://www.googletagmanager.com/gtag/js?id=G-KQCFQFWW6V"
+></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
+
+  gtag("config", "G-KQCFQFWW6V");
+</script>
+
+
+  gtag("config", "G-KQCFQFWW6V");
+</script>
+  gtag("config", "G-KQCFQFWW6V");
+</script>
+          const searchInput = document
+            .getElementById("search-input")
+            .value.toLowerCase();
+          const activeTypeChips = Array.from(
+          const activeChips = document.querySelectorAll(
+            ".chip-container .chip.active"
+          );)
+          ).map((chip) => chip.dataset.color);            const typeMatch =
+              activeTypeChips.length === 0 || activeTypeChips.includes(type);
+            const colorMatch =
+              activeColorChips.length === 0 ||
+              activeColorChips.includes(color.toLowerCase());
+            cell.style.display =
+              nameMatch && typeMatch && colorMatch ? "" : "            const typeMatch = Array.from(activeChips).some(            const colorMatch = Array.from(activeChips).some(
+              (chip) => chip.dataset.color && chip.dataset.color.toLowerCase() === color.toLowerCase() nameMatch && (typeMatch || col"" : "none";          .querySelectorAll(".chip-container .chip")          .querySelectorAll("#type-chips .chip, #color-chips .chip")              (chip) =>
+                chip.dataset.color &&
+                chip.dataset.color.toLowerCase() === color.toLowerCase()            nameMatch && typeMatch && colorMatch ? "" : "none";
+  
