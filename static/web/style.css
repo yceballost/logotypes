@@ -83,6 +83,12 @@ h1 {
 }
 
 h2 {
+  font-size: 1.525rem;
+  font-weight: 500;
+  color: var(--textPrimary);
+}
+
+h3 {
   font-size: 1.125rem;
   font-weight: 500;
   color: var(--textPrimary);
@@ -139,6 +145,12 @@ p {
 
 .inline-32 {
   gap: 32px;
+}
+
+.inline-wrap {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .stack-space-between {
@@ -420,6 +432,7 @@ input#search-input {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  justify-content: flex-start;
 }
 
 .chip {
@@ -431,6 +444,7 @@ input#search-input {
   display: flex;
   align-items: center;
   gap: 6px;
+  white-space: nowrap;
 }
 
 .chip .check-icon,

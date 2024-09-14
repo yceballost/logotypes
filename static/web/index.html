@@ -45,7 +45,7 @@
         <section>
           <div class="stack-space-between">
             <div class="inline-space-between isMobile">
-              <h2>Random logo with defined props</h2>
+              <h3>Random logo with defined props</h3>
               <div class="inline inline-32">
                 <div class="example-logo-container">
                   <img src="https://logotypes.dev/random" height="40" />
@@ -67,7 +67,7 @@
         <section>
           <div class="stack-space-between">
             <div class="inline-space-between isMobile">
-              <h2>Random logo with defined props</h2>
+              <h3>Random logo with defined props</h3>
               <div class="inline inline-32">
                 <div class="example-logo-container">
                   <img
@@ -132,7 +132,7 @@
         <section>
           <div class="stack-space-between">
             <div class="inline-space-between isMobile">
-              <h2>By logo name</h2>
+              <h3>By logo name</h3>
               <div class="inline inline-32">
                 <div class="example-logo-container">
                   <img src="https://www.logotypes.dev/spotify" height="40" />
@@ -155,7 +155,7 @@
         <section>
           <div class="stack-space-between">
             <div class="inline-space-between isMobile">
-              <h2>By logo name with defined props</h2>
+              <h3>By logo name with defined props</h3>
               <div class="inline inline-32">
                 <div class="example-logo-container">
                   <img
@@ -221,7 +221,7 @@
         <section class="inverse">
           <div class="stack-space-between">
             <div class="inline-space-between isMobile">
-              <h2>All & specific data</h2>
+              <h3>All & specific data</h3>
             </div>
             <div class="stack stack-16">
               <div class="url">
@@ -250,7 +250,7 @@
         <section class="inverse">
           <div class="stack-space-between">
             <div class="inline-space-between isMobile">
-              <h2>Random data</h2>
+              <h3>Random data</h3>
             </div>
 
             <div class="stack stack-16">
@@ -311,19 +311,23 @@
             />
           </div>
           <div class="stack stack-8">
-            <div>
-              <div id="type-chips" class="chip-container">
+            <div class="inline inline-wrap">
+              <div id="type-chips">
+                <button class="chip active" data-type="Glyph">Glyph</button>
+              </div>
+              <div id="type-chips">
                 <button class="chip active" data-type="Wordmark">
                   Wordmark
                 </button>
-                <button class="chip active" data-type="Glyph">Glyph</button>
               </div>
-            </div>
-            <div>
-              <div id="color-chips" class="chip-container">
+              <div id="color-chips">
                 <button class="chip active" data-color="Color">Color</button>
-                <button class="chip active" data-color="White">White</button>
-                <button class="chip active" data-color="Black">Black</button>
+              </div>
+              <div id="color-chips">
+                <button class="chip" data-color="White">White</button>
+              </div>
+              <div id="color-chips">
+                <button class="chip" data-color="Black">Black</button>
               </div>
             </div>
           </div>
@@ -351,7 +355,7 @@
                   cell.setAttribute("data-name", logo.name.toLowerCase());
 
                   cell.innerHTML = `
-                  <div class="stack stack-24" style="align-items: center;">
+                  <div class="stack stack-24" style="align-items: center; ">
                     <img height="56" src="${logo.logo}" alt="${
                     logo.name
                   }" style="max-width: 100px; max-height: 50px;">
@@ -497,27 +501,27 @@
 
   gtag("config", "G-KQCFQFWW6V");
 </script>
+<script>
+  const searchInput = document
+    .getElementById("search-input")
+    .value.toLowerCase();
+  const activeTypeChips = document.querySelectorAll("#type-chips .chip.active");
+  const activeColorChips = document.querySelectorAll(
+    "#color-chips .chip.active"
+  );
+  const cells = document.querySelectorAll("#logo-grid .logo-cell");
 
-
-  gtag("config", "G-KQCFQFWW6V");
+  cells.forEach((cell) => {
+    const name = cell.getAttribute("data-name");
+    const type = cell.getAttribute("data-type");
+    const color = cell.getAttribute("data-color");
+    const nameMatch = name.includes(searchInput);
+    const typeMatch = Array.from(activeTypeChips).some(
+      (chip) => chip.dataset.type === type
+    );
+    const colorMatch = Array.from(activeColorChips).some(
+      (chip) => chip.dataset.color.toLowerCase() === color.toLowerCase()
+    );
+    cell.style.display = nameMatch && typeMatch && colorMatch ? "" : "none";
+  });
 </script>
-  gtag("config", "G-KQCFQFWW6V");
-</script>
-          const searchInput = document
-            .getElementById("search-input")
-            .value.toLowerCase();
-          const activeTypeChips = Array.from(
-          const activeChips = document.querySelectorAll(
-            ".chip-container .chip.active"
-          );)
-          ).map((chip) => chip.dataset.color);            const typeMatch =
-              activeTypeChips.length === 0 || activeTypeChips.includes(type);
-            const colorMatch =
-              activeColorChips.length === 0 ||
-              activeColorChips.includes(color.toLowerCase());
-            cell.style.display =
-              nameMatch && typeMatch && colorMatch ? "" : "            const typeMatch = Array.from(activeChips).some(            const colorMatch = Array.from(activeChips).some(
-              (chip) => chip.dataset.color && chip.dataset.color.toLowerCase() === color.toLowerCase() nameMatch && (typeMatch || col"" : "none";          .querySelectorAll(".chip-container .chip")          .querySelectorAll("#type-chips .chip, #color-chips .chip")              (chip) =>
-                chip.dataset.color &&
-                chip.dataset.color.toLowerCase() === color.toLowerCase()            nameMatch && typeMatch && colorMatch ? "" : "none";
-  
