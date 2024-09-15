@@ -6,6 +6,34 @@
   --textPrimary: #000;
   --textPrimaryInverse: #fff;
   --hover: #e6e6e6;
+  --border: #ddd;
+}
+
+@media (prefers-color-scheme: dark) {
+  /* defaults to dark theme */
+  :root {
+    --background: #000;
+    --backgroundContainerInverse: #101010;
+    --backgroundContainer: #101010;
+    --backgroundUrl: #252525;
+    --textPrimary: #fff;
+    --textPrimaryInverse: #fff;
+    --hover: #2f2f2f;
+    --border: #444;
+  }
+
+  .contribute-button {
+    border: 1px solid #fff;
+  }
+
+  .contribute-button:hover {
+    background: #fff;
+    color: #000;
+  }
+
+  .icon {
+    filter: invert(100%);
+  }
 }
 
 /* Regular */
@@ -328,32 +356,6 @@ header a:hover {
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  /* defaults to dark theme */
-  :root {
-    --background: #000;
-    --backgroundContainerInverse: #101010;
-    --backgroundContainer: #101010;
-    --backgroundUrl: #252525;
-    --textPrimary: #fff;
-    --textPrimaryInverse: #fff;
-    --hover: #2f2f2f;
-  }
-
-  .contribute-button {
-    border: 1px solid #fff;
-  }
-
-  .contribute-button:hover {
-    background: #fff;
-    color: #000;
-  }
-
-  .icon {
-    filter: invert(100%);
-  }
-}
-
 #logo-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -369,7 +371,6 @@ header a:hover {
 }
 
 #logo-grid #logo-variant {
-  border: 1px solid #ddd;
   padding: 4px 8px;
   border-radius: 999px;
   margin: 0;
@@ -384,12 +385,20 @@ header a:hover {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  transition: all 0.2s ease-in-out;
+  max-width: 300px;
+}
+
+.logo-cell:hover {
+  background: var(--backgroundUrl);
+  cursor: pointer;
+  border-radius: 16px;
 }
 
 .tag {
   font-size: 12px;
   color: #666;
-  border: 1px solid #ddd;
+  border: 1px solid var(--border);
   padding: 4px 8px;
   border-radius: 999px;
 }
@@ -488,7 +497,7 @@ input#search-input {
 
 @media (prefers-color-scheme: dark) {
   .chip {
-    background-color: #2f2f2f;
+    background-color: var(--background);
     border-color: #444;
     color: #fff;
   }
@@ -499,10 +508,11 @@ input#search-input {
 
   .chip.active {
     background-color: #fff;
+    color: #000;
   }
 
   .chip.active:hover {
-    background-color: #fff;
+    background-color: #ddd;
   }
 
   .chip .check-icon {
@@ -511,5 +521,81 @@ input#search-input {
 
   .chip .x-icon {
     color: #e57373;
+  }
+}
+
+#snackbar {
+  visibility: hidden;
+  width: fit-content;
+  margin-left: -125px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  padding: 16px 24px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  bottom: 30px;
+  border-radius: 999px;
+  font-size: 17px;
+  opacity: 0;
+  transition: visibility 0s 0.2s, opacity 0.2s linear;
+}
+
+#snackbar.show {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 0.2s linear;
+}
+
+#snackbar.hide {
+  visibility: visible;
+  opacity: 0;
+  transition: visibility 0s 0.2s, opacity 0.2s linear;
+}
+
+/* Animations to fade the snackbar in and out */
+@-webkit-keyframes fadein {
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
+  to {
+    bottom: 30px;
+    opacity: 1;
+  }
+}
+
+@keyframes fadein {
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
+  to {
+    bottom: 30px;
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fadeout {
+  from {
+    bottom: 30px;
+    opacity: 1;
+  }
+  to {
+    bottom: 0;
+    opacity: 0;
+  }
+}
+
+@keyframes fadeout {
+  from {
+    bottom: 30px;
+    opacity: 1;
+  }
+  to {
+    bottom: 0;
+    opacity: 0;
   }
 }

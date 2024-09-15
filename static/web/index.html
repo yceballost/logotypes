@@ -57,7 +57,7 @@
                 <a href="https://www.logotypes.dev/random" target="_blank">
                   https://www.logotypes.dev/random</a
                 >
-                <div class="icon-button">
+                <div class="icon-button" onclick="showSnackbar()">
                   <img src="/static/web/assets/copy.svg" class="icon" />
                 </div>
               </div>
@@ -100,7 +100,7 @@
                 >
                   https://www.logotypes.dev/random?variant=glyph</a
                 >
-                <div class="icon-button">
+                <div class="icon-button" onclick="showSnackbar()">
                   <img src="/static/web/assets/copy.svg" class="icon" />
                 </div>
               </div>
@@ -111,7 +111,7 @@
                 >
                   https://www.logotypes.dev/random?version=black</a
                 >
-                <div class="icon-button">
+                <div class="icon-button" onclick="showSnackbar()">
                   <img src="/static/web/assets/copy.svg" class="icon" />
                 </div>
               </div>
@@ -122,7 +122,7 @@
                 >
                   https://www.logotypes.dev/random?variant=wordmark&version=black</a
                 >
-                <div class="icon-button">
+                <div class="icon-button" onclick="showSnackbar()">
                   <img src="/static/web/assets/copy.svg" class="icon" />
                 </div>
               </div>
@@ -144,7 +144,7 @@
                 <a href="https://www.logotypes.dev/spotify" target="_blank">
                   https://www.logotypes.dev/spotify</a
                 >
-                <div class="icon-button">
+                <div class="icon-button" onclick="showSnackbar()">
                   <img src="/static/web/assets/copy.svg" class="icon" />
                 </div>
               </div>
@@ -188,7 +188,7 @@
                 >
                   https://www.logotypes.dev/apple?variant=glyph</a
                 >
-                <div class="icon-button">
+                <div class="icon-button" onclick="showSnackbar()">
                   <img src="/static/web/assets/copy.svg" class="icon" />
                 </div>
               </div>
@@ -199,7 +199,7 @@
                 >
                   https://www.logotypes.dev/apple?version=color</a
                 >
-                <div class="icon-button">
+                <div class="icon-button" onclick="showSnackbar()">
                   <img src="/static/web/assets/copy.svg" class="icon" />
                 </div>
               </div>
@@ -210,7 +210,7 @@
                 >
                   https://www.logotypes.dev/apple?variant=glyph&version=black</a
                 >
-                <div class="icon-button">
+                <div class="icon-button" onclick="showSnackbar()">
                   <img src="/static/web/assets/copy.svg" class="icon" />
                 </div>
               </div>
@@ -228,7 +228,7 @@
                 <a href="https://www.logotypes.dev/all" target="_blank">
                   https://www.logotypes.dev/all</a
                 >
-                <div class="icon-button">
+                <div class="icon-button" onclick="showSnackbar()">
                   <img src="/static/web/assets/copy.svg" class="icon" />
                 </div>
               </div>
@@ -239,7 +239,7 @@
                 >
                   https://www.logotypes.dev/spotify/data</a
                 >
-                <div class="icon-button">
+                <div class="icon-button" onclick="showSnackbar()">
                   <img src="/static/web/assets/copy.svg" class="icon" />
                 </div>
               </div>
@@ -258,7 +258,7 @@
                 <a href="https://www.logotypes.dev/random/data" target="_blank">
                   https://www.logotypes.dev/random/data</a
                 >
-                <div class="icon-button">
+                <div class="icon-button" onclick="showSnackbar()">
                   <img src="/static/web/assets/copy.svg" class="icon" />
                 </div>
               </div>
@@ -268,7 +268,7 @@
                   target="_blank"
                   >https://www.logotypes.dev/random/data?variant=wordmark</a
                 >
-                <div class="icon-button">
+                <div class="icon-button" onclick="showSnackbar()">
                   <img src="/static/web/assets/copy.svg" class="icon" />
                 </div>
               </div>
@@ -279,7 +279,7 @@
                 >
                   https://www.logotypes.dev/random/data?version=black
                 </a>
-                <div class="icon-button">
+                <div class="icon-button" onclick="showSnackbar()">
                   <img src="/static/web/assets/copy.svg" class="icon" />
                 </div>
               </div>
@@ -290,7 +290,7 @@
                 >
                   https://www.logotypes.dev/random/data?variant=wordmark&version=black
                 </a>
-                <div class="icon-button">
+                <div class="icon-button" onclick="showSnackbar()">
                   <img src="/static/web/assets/copy.svg" class="icon" />
                 </div>
               </div>
@@ -334,8 +334,21 @@
         </div>
       </div>
       <section id="logo-grid"></section>
+      <div id="snackbar">Copied to clipboard!</div>
 
       <script>
+        function showSnackbar() {
+          var snackbar = document.getElementById("snackbar");
+          snackbar.classList.add("show");
+          setTimeout(function() {
+            snackbar.classList.add("hide");
+            snackbar.addEventListener('transitionend', function() {
+              snackbar.classList.remove("show");
+              snackbar.classList.remove("hide");
+            }, {once: true});
+          }, 3000);
+        }
+
         function loadLogos() {
           fetch("/all")
             .then((response) => response.json())
@@ -353,6 +366,10 @@
                   );
                   cell.setAttribute("data-color", logo.version);
                   cell.setAttribute("data-name", logo.name.toLowerCase());
+                  
+                  // Crear la URL de la API para este logo
+                  const apiUrl = `https://www.logotypes.dev/${logo.name.toLowerCase()}?variant=${logo.variant}&version=${logo.version}`;
+                  cell.setAttribute("data-api-url", apiUrl);
 
                   cell.innerHTML = `
                   <div class="stack stack-24" style="align-items: center; ">
@@ -370,6 +387,15 @@
                   </div>
                   </div>
                   `;
+
+                  cell.addEventListener("click", function() {
+                    const url = this.getAttribute("data-api-url");
+                    navigator.clipboard.writeText(url).then(() => {
+                      showSnackbar();
+                    }).catch(err => {
+                      console.error("Error al copiar: ", err);
+                    });
+                  });
 
                   grid.appendChild(cell);
                 });
@@ -521,6 +547,11 @@
     );
     const colorMatch = Array.from(activeColorChips).some(
       (chip) => chip.dataset.color.toLowerCase() === color.toLowerCase()
+    );
+    cell.style.display = nameMatch && typeMatch && colorMatch ? "" : "none";
+  });
+</script>
+
     );
     cell.style.display = nameMatch && typeMatch && colorMatch ? "" : "none";
   });
