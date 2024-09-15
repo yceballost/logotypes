@@ -340,12 +340,16 @@
         function showSnackbar() {
           var snackbar = document.getElementById("snackbar");
           snackbar.classList.add("show");
-          setTimeout(function() {
+          setTimeout(function () {
             snackbar.classList.add("hide");
-            snackbar.addEventListener('transitionend', function() {
-              snackbar.classList.remove("show");
-              snackbar.classList.remove("hide");
-            }, {once: true});
+            snackbar.addEventListener(
+              "transitionend",
+              function () {
+                snackbar.classList.remove("show");
+                snackbar.classList.remove("hide");
+              },
+              { once: true }
+            );
           }, 3000);
         }
 
@@ -366,9 +370,11 @@
                   );
                   cell.setAttribute("data-color", logo.version);
                   cell.setAttribute("data-name", logo.name.toLowerCase());
-                  
+
                   // Crear la URL de la API para este logo
-                  const apiUrl = `https://www.logotypes.dev/${logo.name.toLowerCase()}?variant=${logo.variant}&version=${logo.version}`;
+                  const apiUrl = `https://www.logotypes.dev/${logo.name.toLowerCase()}?variant=${
+                    logo.variant
+                  }&version=${logo.version}`;
                   cell.setAttribute("data-api-url", apiUrl);
 
                   cell.innerHTML = `
@@ -388,13 +394,16 @@
                   </div>
                   `;
 
-                  cell.addEventListener("click", function() {
+                  cell.addEventListener("click", function () {
                     const url = this.getAttribute("data-api-url");
-                    navigator.clipboard.writeText(url).then(() => {
-                      showSnackbar();
-                    }).catch(err => {
-                      console.error("Error al copiar: ", err);
-                    });
+                    navigator.clipboard
+                      .writeText(url)
+                      .then(() => {
+                        showSnackbar();
+                      })
+                      .catch((err) => {
+                        console.error("Error al copiar: ", err);
+                      });
                   });
 
                   grid.appendChild(cell);
@@ -497,37 +506,7 @@
       });
     });
   });
-</script>
 
-<!-- Google tag (gtag.js) -->
-<script
-  async
-  src="https://www.googletagmanager.com/gtag/js?id=G-KQCFQFWW6V"
-></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag() {
-    dataLayer.push(arguments);
-  }
-  gtag("js", new Date());
-
-  gtag("config", "G-KQCFQFWW6V");
-</script>
-<!-- Google tag (gtag.js) -->
-<script
-  async
-  src="https://www.googletagmanager.com/gtag/js?id=G-KQCFQFWW6V"
-></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag() {
-    dataLayer.push(arguments);
-  }
-  gtag("js", new Date());
-
-  gtag("config", "G-KQCFQFWW6V");
-</script>
-<script>
   const searchInput = document
     .getElementById("search-input")
     .value.toLowerCase();
@@ -552,7 +531,17 @@
   });
 </script>
 
-    );
-    cell.style.display = nameMatch && typeMatch && colorMatch ? "" : "none";
-  });
+<!-- Google tag (gtag.js) -->
+<script
+  async
+  src="https://www.googletagmanager.com/gtag/js?id=G-KQCFQFWW6V"
+></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
+
+  gtag("config", "G-KQCFQFWW6V");
 </script>
