@@ -87,6 +87,7 @@ h2 {
   font-size: 1.525rem;
   font-weight: 500;
   color: var(--textPrimary);
+  margin: 0;
 }
 
 h3 {
