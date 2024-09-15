@@ -325,12 +325,12 @@ header a:hover {
   justify-content: center;
   transition: all 0.2s ease-in-out;
   max-width: 300px;
+  border-radius: 16px;
 }
 
 .logo-cell:hover {
   background: var(--backgroundUrl);
   cursor: pointer;
-  border-radius: 16px;
 }
 
 .tag {
