@@ -9,33 +9,6 @@
   --border: #ddd;
 }
 
-@media (prefers-color-scheme: dark) {
-  /* defaults to dark theme */
-  :root {
-    --background: #000;
-    --backgroundContainerInverse: #101010;
-    --backgroundContainer: #101010;
-    --backgroundUrl: #252525;
-    --textPrimary: #fff;
-    --textPrimaryInverse: #fff;
-    --hover: #2f2f2f;
-    --border: #444;
-  }
-
-  .contribute-button {
-    border: 1px solid #fff;
-  }
-
-  .contribute-button:hover {
-    background: #fff;
-    color: #000;
-  }
-
-  .icon {
-    filter: invert(100%);
-  }
-}
-
 /* Regular */
 @font-face {
   font-family: "NeueMontreal";
@@ -597,5 +570,32 @@ input#search-input {
   to {
     bottom: 0;
     opacity: 0;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  /* defaults to dark theme */
+  :root {
+    --background: #000;
+    --backgroundContainerInverse: #101010;
+    --backgroundContainer: #101010;
+    --backgroundUrl: #252525;
+    --textPrimary: #fff;
+    --textPrimaryInverse: #fff;
+    --hover: #2f2f2f;
+    --border: #444;
+  }
+
+  .contribute-button {
+    border: 1px solid #fff;
+  }
+
+  .contribute-button:hover {
+    background: #fff;
+    color: #000;
+  }
+
+  .icon {
+    filter: invert(100%);
   }
 }
