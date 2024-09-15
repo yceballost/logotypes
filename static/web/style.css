@@ -293,42 +293,6 @@ header a:hover {
   flex-direction: row;
 }
 
-@media (max-width: 970px) {
-  body {
-    padding: 24px;
-  }
-}
-
-@media (max-width: 764px) {
-  body {
-    padding: 16px;
-  }
-  header,
-  .inline-space-between {
-    align-items: baseline;
-  }
-  #grid-2-columns {
-    grid-template-columns: 1fr;
-  }
-  main {
-    grid-template-columns: none;
-  }
-  #logo {
-    font-size: 48px;
-  }
-  .isMobile {
-    flex-direction: column;
-    flex-direction: column-reverse;
-  }
-  section {
-    padding: 32px 16px 16px 16px;
-    margin: 0 -8px;
-  }
-  .contribute-button {
-    font-weight: 500;
-  }
-}
-
 #logo-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -401,6 +365,12 @@ input#search-input {
   }
 }
 
+.sticky {
+  position: sticky;
+  top: 0; /* Fija la columna en la parte superior cuando haces scroll */
+  height: 100vh;
+}
+
 .search-icon {
   position: relative;
   float: right;
@@ -466,35 +436,6 @@ input#search-input {
 
 .chip.active:hover {
   background-color: #1d1d1d;
-}
-
-@media (prefers-color-scheme: dark) {
-  .chip {
-    background-color: var(--background);
-    border-color: #444;
-    color: #fff;
-  }
-
-  .chip:hover {
-    background-color: #3f3f3f;
-  }
-
-  .chip.active {
-    background-color: #fff;
-    color: #000;
-  }
-
-  .chip.active:hover {
-    background-color: #ddd;
-  }
-
-  .chip .check-icon {
-    color: #81c784;
-  }
-
-  .chip .x-icon {
-    color: #e57373;
-  }
 }
 
 #snackbar {
@@ -597,5 +538,74 @@ input#search-input {
 
   .icon {
     filter: invert(100%);
+  }
+
+  .chip {
+    background-color: var(--background);
+    border-color: #444;
+    color: #fff;
+  }
+
+  .chip:hover {
+    background-color: #3f3f3f;
+  }
+
+  .chip.active {
+    background-color: #fff;
+    color: #000;
+  }
+
+  .chip.active:hover {
+    background-color: #ddd;
+  }
+
+  .chip .check-icon {
+    color: #81c784;
+  }
+
+  .chip .x-icon {
+    color: #e57373;
+  }
+}
+
+@media (max-width: 970px) {
+  body {
+    padding: 24px;
+  }
+}
+
+@media (max-width: 764px) {
+  body {
+    padding: 16px;
+  }
+  header,
+  .inline-space-between {
+    align-items: baseline;
+  }
+  #grid-2-columns {
+    grid-template-columns: 1fr;
+  }
+  main {
+    grid-template-columns: none;
+  }
+  #logo {
+    font-size: 48px;
+  }
+  .isMobile {
+    flex-direction: column;
+    flex-direction: column-reverse;
+  }
+  section {
+    padding: 32px 16px 16px 16px;
+    margin: 0 -8px;
+  }
+  .contribute-button {
+    font-weight: 500;
+  }
+
+  .sticky {
+    position: relative;
+    top: 0;
+    height: auto;
   }
 }
