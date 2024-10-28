@@ -170,6 +170,10 @@ p {
   gap: 24px;
 }
 
+.github-logo {
+  filter: invert(100%);
+}
+
 main {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
@@ -566,6 +570,10 @@ input#search-input {
 
   .chip .x-icon {
     color: #e57373;
+  }
+
+  .github-logo {
+    filter: invert(0%);
   }
 }
 
