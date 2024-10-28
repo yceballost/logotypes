@@ -303,7 +303,7 @@ header a:hover {
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   grid-auto-rows: 200px;
   gap: 16px;
-  height: auto;
+  height: fit-content;
 }
 
 #logo-grid #logo-name {
