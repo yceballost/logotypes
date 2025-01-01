@@ -16,7 +16,31 @@
     <meta property="og:image:height" content="627" />
     <title>Logotypes.dev</title>
     <link rel="stylesheet" href="/public/web/style.css" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.ico?random=1" />
+    <link
+      id="dynamic-favicon"
+      rel="icon"
+      href="/public/logos/default-icon.svg"
+      type="image/svg+xml"
+    />
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // Array de URLs de favicons
+        const favicons = [
+          "/public/logos/sentry-glyph-color.svg",
+          "/public/logos/shopify-glyph-color.svg",
+          "/public/logos/sketch-glyph-color.svg",
+          "/public/logos/spotify-glyph-color.svg",
+        ];
+
+        // Selecciona un favicon aleatorio
+        const randomFavicon =
+          favicons[Math.floor(Math.random() * favicons.length)];
+
+        // Cambia el favicon dinámicamente
+        const faviconElement = document.getElementById("dynamic-favicon");
+        faviconElement.href = randomFavicon;
+      });
+    </script>
     <script
       src="https://analytics.ahrefs.com/analytics.js"
       data-key="NxIL3uTxgf1M7lSfSVpbWA"

@@ -233,23 +233,23 @@ def get_datos():
     # Tu lógica aquí
     return {"mensaje": "Datos obtenidos"}
 
-@app.route('/favicon.ico')
-def dynamic_favicon():
-    logo_dir = 'public/logos'
-    logos = [
-        f for f in os.listdir(logo_dir)
-        if "glyph" in f and "color" in f and f.endswith('.svg')
-    ]
-    if logos:
-        selected_logo = random.choice(logos)
-        response = send_file(os.path.join(logo_dir, selected_logo))
-        response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
-        response.headers['Pragma'] = 'no-cache'
-        response.headers['Expires'] = '0'
-        return response
-    else:
-        # Si no se encuentran logos, devuelve un favicon genérico
-        return send_file('public/favicon.ico')
+# @app.route('/favicon.ico')
+# def dynamic_favicon():
+#     logo_dir = 'public/logos'
+#     logos = [
+#         f for f in os.listdir(logo_dir)
+#         if "glyph" in f and "color" in f and f.endswith('.svg')
+#     ]
+#     if logos:
+#         selected_logo = random.choice(logos)
+#         response = send_file(os.path.join(logo_dir, selected_logo))
+#         response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+#         response.headers['Pragma'] = 'no-cache'
+#         response.headers['Expires'] = '0'
+#         return response
+#     else:
+#         # Si no se encuentran logos, devuelve un favicon genérico
+#         return send_file('public/favicon.ico')
 
 
 if __name__ == "__main__":
