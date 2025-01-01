@@ -1,5 +1,6 @@
-from flask import Flask, jsonify, request, redirect, send_from_directory
+from flask import Flask, jsonify, request, send_from_directory, send_file
 from flask_cors import CORS
+
 import os
 import random
 import json
@@ -8,6 +9,8 @@ import urllib.parse
 import http.client
 from functools import wraps
 import logging
+
+
 
 # Configura el logging
 logging.basicConfig(level=logging.INFO)
@@ -117,10 +120,6 @@ def landing_page():
 @app.route('/style.css')
 def style_file():
     return send_from_directory(app.static_folder, 'web/style.css')
-
-@app.route('/favicon.ico')
-def favicon():
-    return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 @app.route("/all")
 @track_api_call
@@ -233,6 +232,17 @@ def get_logo_variants(name):
 def get_datos():
     # Tu lógica aquí
     return {"mensaje": "Datos obtenidos"}
+
+@app.route('/favicon-list')
+def list_favicons():
+    logo_dir = 'static/logos'
+    try:
+        # Filtrar solo los archivos que contienen "glyph" y "color"
+        logos = [f for f in os.listdir(logo_dir) if f.endswith('.svg') and "glyph" in f and "color" in f]
+        return jsonify(logos)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 
 if __name__ == "__main__":
     app.run(debug=False)

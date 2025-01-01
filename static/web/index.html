@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="Cache-Control" content="no-cache, mustrevalidate" />
     <meta property="og:title" content="Logotypes API" />
-    <meta property="og:image" content="assets/thumbnail.png" />
+    <meta property="og:image" content="/static/web/assets/thumbnail.png" />
     <meta
       property="og:description"
       content="An open-source project that offers a wide range of logos for your
@@ -16,6 +16,39 @@
     <meta property="og:image:height" content="627" />
     <title>Logotypes.dev</title>
     <link rel="stylesheet" href="/static/web/style.css" />
+    <link
+      id="dynamic-favicon"
+      rel="icon"
+      href="/static/favicon.ico"
+      type="image/svg+xml"
+    />
+    <script>
+      document.addEventListener("DOMContentLoaded", async () => {
+        try {
+          // Fetch the list of favicons from the backend
+          const response = await fetch("/favicon-list");
+          if (!response.ok) throw new Error("Error fetching favicon list");
+
+          const favicons = await response.json();
+
+          // Ensure we have a valid list of favicons
+          if (Array.isArray(favicons) && favicons.length > 0) {
+            // Pick a random favicon
+            const randomFavicon = `/static/logos/${
+              favicons[Math.floor(Math.random() * favicons.length)]
+            }`;
+
+            // Set the favicon dynamically
+            const faviconElement = document.getElementById("dynamic-favicon");
+            faviconElement.href = randomFavicon;
+          } else {
+            console.warn("No favicons found in the list");
+          }
+        } catch (error) {
+          console.error("Error setting dynamic favicon:", error);
+        }
+      });
+    </script>
     <script
       src="https://analytics.ahrefs.com/analytics.js"
       data-key="NxIL3uTxgf1M7lSfSVpbWA"
