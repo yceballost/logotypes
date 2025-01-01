@@ -3,13 +3,13 @@ name: Resize SVGs
 on:
   push:
     paths:
-      - "public/logos/**"
+      - "static/logos/**"
       - ".github/scripts/resize-logos.py"
   pull_request:
     branches:
       - main
     paths:
-      - "public/logos/**"
+      - "static/logos/**"
 
 jobs:
   resize_svgs:
@@ -49,11 +49,11 @@ jobs:
 
       - name: Resize SVGs
         run: |
-          sudo python .github/scripts/resize-logos.py public/logos 64
+          sudo python .github/scripts/resize-logos.py static/logos 64
 
       - name: Optimize SVGs with SVGO
         run: |
-          svgo -f public/logos -r -o public/logos
+          svgo -f static/logos -r -o static/logos
 
       - name: Check if there are changes to commit
         id: check_changes

@@ -3,7 +3,7 @@ import path from "path";
 
 export default async function handler(req, res) {
   try {
-    const logoDir = path.resolve("public/logos");
+    const logoDir = path.resolve("static/logos");
     const files = fs.readdirSync(logoDir);
 
     // Filtrar logos que contienen "glyph" y "color"
@@ -24,7 +24,7 @@ export default async function handler(req, res) {
 
     // Configurar encabezados para servir el archivo
     res.setHeader("Content-Type", "image/svg+xml");
-    res.setHeader("Cache-Control", "public, max-age=3600"); // Cache por 1 hora
+    res.setHeader("Cache-Control", "static, max-age=3600"); // Cache por 1 hora
     res.status(200).send(fs.readFileSync(filePath));
   } catch (error) {
     console.error("Error serving favicon:", error);
