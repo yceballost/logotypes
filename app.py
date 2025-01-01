@@ -13,7 +13,7 @@ import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-app = Flask(__name__, static_folder="static")
+app = Flask(__name__, static_folder="public")
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 GA_TRACKING_ID = os.environ.get('GA_TRACKING_ID')
@@ -83,9 +83,9 @@ def generate_json_from_logo_name(logo_name):
     name = components[0]
     variant = components[1]
     version = components[2].split('.')[0]
-    logo_url = f"{request.host_url}static/logos/{logo_name}"
+    logo_url = f"{request.host_url}public/logos/{logo_name}"
     metadata_filename = f"{name}.txt"
-    metadata_path = os.path.join('static/data', metadata_filename)
+    metadata_path = os.path.join('public/data', metadata_filename)
     data = {
         "logo": logo_url,
         "name": name.capitalize(),
@@ -121,7 +121,7 @@ def style_file():
 @app.route("/all")
 @track_api_call
 def generate_json():
-    folder_path = "static/logos"
+    folder_path = "public/logos"
     logo_files = [f for f in os.listdir(folder_path) if f.endswith('.svg')]
     json_data = {}
     for logo_file in logo_files:
@@ -137,7 +137,7 @@ def generate_json():
 @app.route("/random")
 @track_api_call
 def get_random_logo():
-    folder_path = "static/logos"
+    folder_path = "public/logos"
     logo_files = [f for f in os.listdir(folder_path) if f.endswith('.svg')]
     variant_param = request.args.get("variant")
     version_param = request.args.get("version")
@@ -204,7 +204,7 @@ def get_name_data(name):
 @app.route("/<name>")
 @track_api_call
 def get_logo_variants(name):
-    folder_path = "static/logos"
+    folder_path = "public/logos"
     logo_files = [f for f in os.listdir(folder_path) if f.endswith('.svg')]
     variant_param = request.args.get("variant")
     version_param = request.args.get("version")

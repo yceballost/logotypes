@@ -1,20 +1,11 @@
 {
   "builds": [
-    {
-      "src": "app.py",
-      "use": "@vercel/python"
-    },
+    { "src": "app.py", "use": "@vercel/python" },
     { "src": "api/**/*.js", "use": "@vercel/node" }
   ],
   "routes": [
     { "src": "/api/(.*)", "dest": "api/$1" },
-    {
-      "src": "/favicon.ico",
-      "dest": "/api/favicon"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "app.py"
-    }
+    { "src": "/favicon.ico", "dest": "/api/favicon" },
+    { "src": "/(.*)", "dest": "app.py" }
   ]
 }

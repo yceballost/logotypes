@@ -1396,7 +1396,7 @@ data = [
 
 
 # Directorio para los archivos de salida
-output_dir = "static/data"
+output_dir = "public/data"
 os.makedirs(output_dir, exist_ok=True)
 
 # Función para escapar comillas

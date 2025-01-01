@@ -3,8 +3,7 @@ import path from "path";
 
 export default async function handler(req, res) {
   try {
-    // Ruta al directorio donde están los logos
-    const logoDir = path.resolve("./static/logos");
+    const logoDir = path.resolve("public/logos");
     const files = fs.readdirSync(logoDir);
 
     // Filtrar logos que contienen "glyph" y "color"
