@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request, send_from_directory, send_file
 from flask_cors import CORS
+
 import os
 import random
 import json
@@ -8,6 +9,8 @@ import urllib.parse
 import http.client
 from functools import wraps
 import logging
+
+
 
 # Configura el logging
 logging.basicConfig(level=logging.INFO)
@@ -231,22 +234,23 @@ def get_datos():
     return {"mensaje": "Datos obtenidos"}
 
 @app.route('/favicon.ico')
-def random_favicon():
-    folder_path = "public/logos"
-    try:
-        # Filtrar los archivos SVG disponibles en la carpeta
-        svg_files = [f for f in os.listdir(folder_path) if f.endswith('.svg')]
-        if not svg_files:
-            return "No SVG files found", 404
+def dynamic_favicon():
+    logo_dir = 'public/logos'
+    logos = [
+        f for f in os.listdir(logo_dir)
+        if "glyph" in f and "color" in f and f.endswith('.svg')
+    ]
+    if logos:
+        selected_logo = random.choice(logos)
+        response = send_file(os.path.join(logo_dir, selected_logo))
+        response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+        response.headers['Pragma'] = 'no-cache'
+        response.headers['Expires'] = '0'
+        return response
+    else:
+        # Si no se encuentran logos, devuelve un favicon genérico
+        return send_file('public/favicon.ico')
 
-        # Seleccionar un archivo SVG aleatorio
-        random_file = random.choice(svg_files)
-        random_file_path = os.path.join(folder_path, random_file)
-
-        # Servir el archivo como un favicon
-        return send_file(random_file_path, mimetype='image/svg+xml')
-    except Exception as e:
-        return f"Error serving favicon: {str(e)}", 500
 
 if __name__ == "__main__":
     app.run(debug=False)
