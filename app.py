@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, redirect, send_from_directory
+from flask import Flask, jsonify, request, send_from_directory, send_file
 from flask_cors import CORS
 import os
 import random
@@ -119,8 +119,18 @@ def style_file():
     return send_from_directory(app.static_folder, 'web/style.css')
 
 @app.route('/favicon.ico')
-def favicon():
-    return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
+def dynamic_favicon():
+    logo_dir = 'static/logos'
+    logos = [
+        f for f in os.listdir(logo_dir)
+        if "glyph" in f and "color" in f and f.endswith('.svg')
+    ]
+    if logos:
+        selected_logo = random.choice(logos)
+        return send_file(os.path.join(logo_dir, selected_logo))
+    else:
+        # Si no se encuentran logos, devuelve un favicon genérico
+        return send_file('static/favicon.ico')
 
 @app.route("/all")
 @track_api_call
