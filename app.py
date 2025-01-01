@@ -230,5 +230,23 @@ def get_datos():
     # Tu lógica aquí
     return {"mensaje": "Datos obtenidos"}
 
+@app.route('/favicon.ico')
+def random_favicon():
+    folder_path = "public/logos"
+    try:
+        # Filtrar los archivos SVG disponibles en la carpeta
+        svg_files = [f for f in os.listdir(folder_path) if f.endswith('.svg')]
+        if not svg_files:
+            return "No SVG files found", 404
+
+        # Seleccionar un archivo SVG aleatorio
+        random_file = random.choice(svg_files)
+        random_file_path = os.path.join(folder_path, random_file)
+
+        # Servir el archivo como un favicon
+        return send_file(random_file_path, mimetype='image/svg+xml')
+    except Exception as e:
+        return f"Error serving favicon: {str(e)}", 500
+
 if __name__ == "__main__":
     app.run(debug=False)
