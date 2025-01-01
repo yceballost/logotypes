@@ -3,12 +3,14 @@
     {
       "src": "app.py",
       "use": "@vercel/python"
-    }
+    },
+    { "src": "api/**/*.js", "use": "@vercel/node" }
   ],
   "routes": [
+    { "src": "/api/(.*)", "dest": "api/$1" },
     {
       "src": "/favicon.ico",
-      "dest": "/static/favicon.ico"
+      "dest": "/api/favicon"
     },
     {
       "src": "/(.*)",
