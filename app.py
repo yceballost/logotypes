@@ -10,9 +10,7 @@ import http.client
 from functools import wraps
 import logging
 
-
-
-# Configura el logging
+# Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -21,7 +19,7 @@ cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 GA_TRACKING_ID = os.environ.get('GA_TRACKING_ID')
 
-# Función para enviar eventos a Google Analytics
+# Function to send events to Google Analytics
 def send_to_ga(endpoint, full_url, referrer):
     measurement_id = GA_TRACKING_ID
     api_secret = os.environ.get('GA_API_SECRET')
@@ -61,7 +59,7 @@ def send_to_ga(endpoint, full_url, referrer):
     except Exception as e:
         logger.error(f"Unexpected error while sending to GA: {str(e)}")
 
-# Decorador para rastrear llamadas API
+# Decorator to track API calls
 def track_api_call(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -77,6 +75,7 @@ def track_api_call(f):
         return f(*args, **kwargs)
     return decorated_function
 
+# Function to generate JSON from logo file name
 def generate_json_from_logo_name(logo_name):
     components = logo_name.split('-')
     if len(components) < 3:
@@ -113,6 +112,7 @@ def generate_json_from_logo_name(logo_name):
 
     return data
 
+# Function to wrap SVG content in HTML with Ahrefs tracking
 def wrap_with_analytics(name, svg_content):
     return f"""
     <!DOCTYPE html>
@@ -122,7 +122,7 @@ def wrap_with_analytics(name, svg_content):
         <title>{name.capitalize()} Logo</title>
         <script
           src="https://analytics.ahrefs.com/analytics.js"
-          data-key="TU_CLAVE_AHREFS"
+          data-key="YOUR_AHREFS_KEY"
           async
         ></script>
       </head>
@@ -146,8 +146,8 @@ def style_file():
 @track_api_call
 def generate_json():
     """
-    Endpoint para listar todos los logos.
-    Devuelve HTML con rastreo de Ahrefs o JSON crudo.
+    Endpoint to list all logos.
+    Returns HTML with Ahrefs tracking or raw JSON.
     """
     folder_path = "static/logos"
     logo_files = [f for f in os.listdir(folder_path) if f.endswith('.svg')]
@@ -161,37 +161,36 @@ def generate_json():
                 json_data[name] = []
             json_data[name].append(logo_data)
 
-    # Detectar si la solicitud es para JSON o HTML
+    # Detect if the request is for JSON or HTML
     accept_header = request.headers.get("Accept", "")
     if "application/json" in accept_header:
-        # Devolver JSON crudo
+        # Return raw JSON
         return jsonify({"records": json_data})
 
-    # Formatear los datos como HTML con rastreo de Ahrefs
+    # Format the data as HTML with Ahrefs tracking
     html_content = wrap_with_analytics(
         "All Logos",
         f"<pre>{json.dumps({'records': json_data}, indent=2)}</pre>"
     )
     return Response(html_content, content_type="text/html")
 
-
 @app.route("/random")
 @track_api_call
 def get_random_logo():
     """
-    Endpoint para servir un logo aleatorio.
-    Puede devolver un HTML con rastreo de Ahrefs o SVG crudo.
+    Endpoint to serve a random logo.
+    Returns an HTML with Ahrefs tracking or raw SVG.
     """
     folder_path = "static/logos"
     logo_files = [f for f in os.listdir(folder_path) if f.endswith('.svg')]
 
     if not logo_files:
-        return "No se encontraron logos", 404
+        return "No logos found", 404
 
     variant_param = request.args.get("variant")
     version_param = request.args.get("version")
 
-    # Filtrar los logos según los parámetros
+    # Filter logos based on parameters
     filtered_logos = []
     for logo_file in logo_files:
         logo_data = generate_json_from_logo_name(logo_file)
@@ -200,66 +199,67 @@ def get_random_logo():
             filtered_logos.append(logo_file)
 
     if not filtered_logos:
-        return "No se encontró un logo con los parámetros especificados", 404
+        return "No logo found with the specified parameters", 404
 
-    # Seleccionar un logo aleatorio
+    # Select a random logo
     random_logo = random.choice(filtered_logos)
     svg_path = os.path.join(folder_path, random_logo)
 
-    # Leer el contenido del SVG
+    # Read the SVG content
     with open(svg_path, "r", encoding="utf-8") as svg_file:
         svg_content = svg_file.read()
 
-    # Detectar el tipo de solicitud
+    # Detect the type of request
     accept_header = request.headers.get("Accept", "")
     if "text/html" in accept_header:
-        # Servir HTML con rastreo
+        # Serve HTML with tracking
         html_content = wrap_with_analytics("random", svg_content)
         return Response(html_content, content_type="text/html")
 
-    # Servir SVG crudo
+    # Serve raw SVG
     return Response(svg_content, content_type="image/svg+xml")
+
 
 @app.route("/random/data")
 @track_api_call
 def get_random_data():
     """
-    Endpoint para obtener los datos de un logo aleatorio.
-    Devuelve HTML con rastreo de Ahrefs o JSON crudo.
+    Endpoint to retrieve data for a random logo.
+    Returns HTML with Ahrefs tracking or raw JSON.
     """
     folder_path = "static/logos"
     logo_files = [f for f in os.listdir(folder_path) if f.endswith('.svg')]
 
     if not logo_files:
-        return "No se encontraron logos", 404
+        return "No logos found", 404
 
-    # Obtener los parámetros de la solicitud
+    # Retrieve request parameters
     variant_param = request.args.get("variant")
     version_param = request.args.get("version")
 
-    # Filtrar los logos según los parámetros
+    # Filter logos based on parameters
     filtered_logos = []
     for logo_file in logo_files:
         logo_data = generate_json_from_logo_name(logo_file)
-        if logo_data:  # Asegurarnos de que el logo tenga datos válidos
+        if logo_data:  # Ensure the logo has valid data
             if (not variant_param or logo_data.get("variant") == variant_param) and \
                (not version_param or logo_data.get("version") == version_param):
                 filtered_logos.append(logo_data)
 
     if not filtered_logos:
-        return "No se encontraron datos con los parámetros especificados", 404
+        return "No data found with the specified parameters", 404
 
-    # Seleccionar un logo aleatorio de los filtrados
+    # Select random data from filtered logos
     random_data = random.choice(filtered_logos)
 
-    # Detectar el tipo de solicitud
+    # Detect the type of request
     accept_header = request.headers.get("Accept", "")
     if "text/html" in accept_header:
-        # Formatear los datos como HTML con el rastreo de Ahrefs
+        # Format data as HTML with Ahrefs tracking
         html_content = wrap_with_analytics("random data", f"<pre>{json.dumps(random_data, indent=2)}</pre>")
         return Response(html_content, content_type="text/html")
 
-    # Devolver los datos en formato JSON crudo
+    # Return raw JSON data
     return jsonify(random_data)
 
 
@@ -267,11 +267,11 @@ def get_random_data():
 @track_api_call
 def get_name_data(name):
     """
-    Endpoint para obtener los datos de un logo específico.
-    Devuelve HTML con rastreo de Ahrefs o JSON crudo.
+    Endpoint to retrieve data for a specific logo.
+    Returns HTML with Ahrefs tracking or raw JSON.
     """
     try:
-        # Cargar los datos directamente desde el sistema de archivos
+        # Load data directly from the file system
         folder_path = "static/logos"
         logo_files = [f for f in os.listdir(folder_path) if f.endswith('.svg')]
         records = {}
@@ -284,23 +284,23 @@ def get_name_data(name):
                     records[logo_name] = []
                 records[logo_name].append(logo_data)
 
-        # Obtener los datos del logo solicitado
+        # Retrieve data for the requested logo
         name_data = records.get(name.lower(), [])
 
         if not name_data:
             return "Name not found", 404
 
-        # Detectar el tipo de solicitud (HTML o JSON crudo)
+        # Detect the type of request (HTML or raw JSON)
         accept_header = request.headers.get("Accept", "")
         if "text/html" in accept_header:
-            # Formatear los datos como HTML con rastreo de Ahrefs
+            # Format data as HTML with Ahrefs tracking
             html_content = wrap_with_analytics(
                 name,
                 f"<pre>{json.dumps(name_data, indent=2)}</pre>"
             )
             return Response(html_content, content_type="text/html")
 
-        # Devolver los datos en formato JSON crudo
+        # Return raw JSON data
         return jsonify(name_data)
 
     except Exception as e:
@@ -311,19 +311,19 @@ def get_name_data(name):
 @app.route("/<name>")
 def get_logo(name):
     """
-    Endpoint principal para servir SVGs o HTML con rastreo de Ahrefs.
+    Main endpoint to serve SVGs or HTML with Ahrefs tracking.
     """
     folder_path = "static/logos"
     logo_files = [f for f in os.listdir(folder_path) if f.endswith('.svg') and name.lower() in f.lower()]
 
     if not logo_files:
-        return "No se encontró el logo", 404
+        return "Logo not found", 404
 
-    # Obtener los parámetros opcionales
+    # Retrieve optional parameters
     variant_param = request.args.get("variant")
     version_param = request.args.get("version")
 
-    # Filtrar logos según los parámetros proporcionados
+    # Filter logos based on provided parameters
     filtered_logos = []
     for logo_file in logo_files:
         logo_data = generate_json_from_logo_name(logo_file)
@@ -332,42 +332,38 @@ def get_logo(name):
             filtered_logos.append(logo_file)
 
     if not filtered_logos:
-        return "No se encontró un logo con los parámetros especificados", 404
+        return "No logo found with the specified parameters", 404
 
-    # Seleccionar el primer logo filtrado
+    # Select the first filtered logo
     selected_logo = filtered_logos[0]
     svg_path = os.path.join(folder_path, selected_logo)
 
-    # Leer el contenido del SVG
+    # Read the SVG content
     with open(svg_path, "r", encoding="utf-8") as svg_file:
         svg_content = svg_file.read()
 
-    # Registrar acceso para rastreo adicional
-    logger.info(f"Acceso al logo: {name}, Variant: {variant_param}, Version: {version_param}")
+    # Log access for additional tracking
+    logger.info(f"Accessed logo: {name}, Variant: {variant_param}, Version: {version_param}")
 
-    # Detectar el tipo de solicitud (HTML o SVG crudo)
+    # Detect the type of request (HTML or raw SVG)
     accept_header = request.headers.get("Accept", "")
     if "text/html" in accept_header:
-        # Servir HTML con el rastreo de Ahrefs
+        # Serve HTML with Ahrefs tracking
         svg_url = f"{request.host_url}{name}?variant={variant_param}&version={version_param}"
         html_content = wrap_with_analytics(name, svg_content)
         return Response(html_content, content_type="text/html")
 
-    # Servir SVG crudo si el navegador lo solicita explícitamente
+    # Serve raw SVG if explicitly requested by the browser
     return Response(svg_content, content_type="image/svg+xml")
-
-
-@app.route('/api/datos')
-@track_api_call
-def get_datos():
-    # Tu lógica aquí
-    return {"mensaje": "Datos obtenidos"}
 
 @app.route('/favicon-list')
 def list_favicons():
+    """
+    Endpoint to list all available favicons.
+    """
     logo_dir = 'static/logos'
     try:
-        # Filtrar solo los archivos que contienen "glyph" y "color"
+        # Filter only files containing "glyph" and "color"
         logos = [f for f in os.listdir(logo_dir) if f.endswith('.svg') and "glyph" in f and "color" in f]
         return jsonify(logos)
     except Exception as e:
