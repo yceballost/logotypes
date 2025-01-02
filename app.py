@@ -5,12 +5,7 @@ import os
 import random
 import json
 import requests
-import urllib.parse
-import http.client
-from functools import wraps
 import logging
-
-
 
 # Configura el logging
 logging.basicConfig(level=logging.INFO)
@@ -19,63 +14,28 @@ logger = logging.getLogger(__name__)
 app = Flask(__name__, static_folder="static")
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
-GA_TRACKING_ID = os.environ.get('GA_TRACKING_ID')
-
-# Función para enviar eventos a Google Analytics
-def send_to_ga(endpoint, full_url, referrer):
-    measurement_id = GA_TRACKING_ID
-    api_secret = os.environ.get('GA_API_SECRET')
-    
-    ga_endpoint = f'https://www.google-analytics.com/mp/collect?measurement_id={measurement_id}&api_secret={api_secret}'
-    
-    payload = {
-        'client_id': '555', 
-        'events': [{
-            'name': 'api_call',
-            'params': {
-                'endpoint': endpoint,
-                'full_url': full_url,
-                'referrer': referrer
-            }
-        }]
-    }
-    
-    logger.info(f"Sending event to GA for endpoint: {endpoint}")
-    logger.info(f"GA Endpoint: {ga_endpoint}")
-    logger.info(f"Payload: {json.dumps(payload)}")
-    
-    try:
-        response = requests.post(ga_endpoint, json=payload, timeout=10)
-        logger.info(f"GA Response: {response.status_code}")
-        
-        if response.status_code == 204:
-            logger.info("Successfully sent event to GA (204 No Content)")
-        elif response.status_code != 200:
-            logger.error(f"Error sending to GA. Status code: {response.status_code}")
-            logger.error(f"Error response: {response.text}")
-            logger.error(f"Response headers: {response.headers}")
-        else:
-            logger.info("Successfully sent event to GA")
-    except requests.exceptions.RequestException as e:
-        logger.error(f"Exception occurred while sending to GA: {str(e)}")
-    except Exception as e:
-        logger.error(f"Unexpected error while sending to GA: {str(e)}")
-
-# Decorador para rastrear llamadas API
-def track_api_call(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        endpoint = request.path
-        full_url = request.url
-        referrer = request.referrer or 'No referrer'
-        
-        logger.info(f"API call to endpoint: {endpoint}")
-        logger.info(f"Full URL: {full_url}")
-        logger.info(f"Referrer: {referrer}")
-        
-        send_to_ga(endpoint, full_url, referrer)
-        return f(*args, **kwargs)
-    return decorated_function
+# Función para envolver contenido SVG en HTML con Ahrefs script
+def analytics_wrapper(svg_content, title="Logo"):
+    """
+    Envuelve un contenido SVG en un HTML con el script de Ahrefs.
+    """
+    return f"""
+    <!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <title>{title}</title>
+        <script
+          src="https://analytics.ahrefs.com/analytics.js"
+          data-key="NxIL3uTxgf1M7lSfSVpbWA"
+          async
+        ></script>
+      </head>
+      <body>
+        {svg_content}
+      </body>
+    </html>
+    """
 
 def generate_json_from_logo_name(logo_name):
     components = logo_name.split('-')
@@ -113,29 +73,6 @@ def generate_json_from_logo_name(logo_name):
 
     return data
 
-def analytics_wrapper(svg_content, title="Logo"):
-    """
-    Envuelve un contenido SVG en un HTML con el script de Ahrefs.
-    """
-    return f"""
-    <!DOCTYPE html>
-    <html lang="en">
-      <head>
-        <meta charset="UTF-8" />
-        <title>{title}</title>
-        <script
-          src="https://analytics.ahrefs.com/analytics.js"
-          data-key="NxIL3uTxgf1M7lSfSVpbWA"
-          async
-        ></script>
-      </head>
-      <body>
-        {svg_content}
-      </body>
-    </html>
-    """
-
-
 @app.route('/')
 def landing_page():
     return send_from_directory(app.static_folder, 'web/index.html')
@@ -145,7 +82,6 @@ def style_file():
     return send_from_directory(app.static_folder, 'web/style.css')
 
 @app.route("/all")
-@track_api_call
 def generate_json():
     folder_path = "static/logos"
     logo_files = [f for f in os.listdir(folder_path) if f.endswith('.svg')]
@@ -168,9 +104,7 @@ def generate_json():
     )
     return Response(html_content, content_type='text/html')
 
-
 @app.route("/random")
-@track_api_call
 def get_random_logo():
     folder_path = "static/logos"
     logo_files = [f for f in os.listdir(folder_path) if f.endswith('.svg')]
@@ -198,9 +132,7 @@ def get_random_logo():
     else:
         return "No logo found with the specified parameters", 404
 
-
 @app.route("/random/data")
-@track_api_call
 def get_random_data():
     variant_param = request.args.get("variant")
     version_param = request.args.get("version")
@@ -233,9 +165,7 @@ def get_random_data():
         print(f"Error fetching data: {e}")
         return "Error fetching data", 500
 
-
 @app.route("/<name>/data")
-@track_api_call
 def get_name_data(name):
     try:
         response = requests.get(f"{request.host_url}all")
@@ -245,10 +175,7 @@ def get_name_data(name):
         name_data = records.get(name.lower(), [])
 
         if name_data:
-            # Convertir los datos en formato JSON
             json_data = json.dumps(name_data, indent=2)
-
-            # Crear el HTML envolviendo los datos
             html_content = analytics_wrapper(
                 f"<pre>{json_data}</pre>", 
                 title=f"{name.capitalize()} Data"
@@ -261,9 +188,7 @@ def get_name_data(name):
         print(f"Error fetching data: {e}")
         return "Error fetching data", 500
 
-
 @app.route("/<name>")
-@track_api_call
 def get_logo_variants(name):
     folder_path = "static/logos"
     logo_files = [f for f in os.listdir(folder_path) if f.endswith('.svg')]
@@ -293,7 +218,6 @@ def get_logo_variants(name):
     else:
         return "No logo found with the specified parameters", 404
 
-
 @app.route('/favicon-list')
 def list_favicons():
     logo_dir = 'static/logos'
@@ -303,8 +227,6 @@ def list_favicons():
         return jsonify(logos)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
-
 
 if __name__ == "__main__":
     app.run(debug=False)
