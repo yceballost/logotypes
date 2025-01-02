@@ -370,6 +370,11 @@ input#search-input {
   }
 }
 
+#grid-logos {
+  max-width: 100px;
+  max-height: 56px;
+}
+
 .sticky {
   position: sticky;
   top: 0; /* Fija la columna en la parte superior cuando haces scroll */
