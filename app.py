@@ -249,6 +249,9 @@ def get_name_data(name):
 
 @app.route("/<name>")
 def get_logo(name):
+    if name.startswith("umami"):
+        return "Not handled by app.py", 404
+    
     """
     Main endpoint to serve SVGs or HTML with tracking.
     """
