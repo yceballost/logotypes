@@ -3,9 +3,9 @@
     { "src": "app.py", "use": "@vercel/python" },
     { "src": "api/**/*.js", "use": "@vercel/node" }
   ],
-  "routes": [
-    { "src": "/favicon.ico", "dest": "/favicon.ico" },
-    { "src": "/(.*)", "dest": "app.py" }
+  "rewrites": [
+    { "source": "/favicon.ico", "destination": "/favicon.ico" },
+    { "source": "/(.*)", "destination": "app.py" }
   ],
   "headers": [
     {
