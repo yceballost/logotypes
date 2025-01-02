@@ -327,14 +327,19 @@ header a:hover {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease-in-out;
+  transition: background 0.2s linear, transform 0.1s ease-in-out;
   max-width: 300px;
   border-radius: 16px;
+  padding: 24px;
 }
 
 .logo-cell:hover {
   background: var(--backgroundUrl);
   cursor: pointer;
+}
+
+.logo-cell:active {
+  transform: scale(0.98);
 }
 
 .tag {
@@ -368,6 +373,25 @@ input#search-input {
       opacity: 0;
     }
   }
+}
+
+#grid-container {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  height: 100%;
+}
+
+#grid-logos-container {
+  height: 100%;
+  display: flex;
+  align-content: center;
+  align-items: center;
+}
+
+#grid-logos {
+  max-width: 100px;
+  max-height: 56px;
 }
 
 .sticky {
@@ -459,19 +483,20 @@ input#search-input {
   border-radius: 999px;
   font-size: 17px;
   opacity: 0;
-  transition: visibility 0s 0.2s, opacity 0.2s linear;
+  transform: translateY(50%);
+  transition: visibility 0.2s, opacity 0.2s linear, transform 0.2s ease-in-out;
 }
 
 #snackbar.show {
   visibility: visible;
   opacity: 1;
-  transition: opacity 0.2s linear;
+  transform: translateY(0%);
 }
 
 #snackbar.hide {
-  visibility: visible;
+  visibility: hidden;
   opacity: 0;
-  transition: visibility 0s 0.2s, opacity 0.2s linear;
+  transform: translateY(50%);
 }
 
 /* Animations to fade the snackbar in and out */

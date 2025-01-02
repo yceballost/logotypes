@@ -60,11 +60,7 @@
       <div class="inline-space-between">
         <div id="logo">Logotypes.dev</div>
         <a href="https://github.com/yceballost/logotypes" target="_blank">
-          <img
-            class="github-logo"
-            src="https://logotypes.dev/github"
-            height="32"
-          />
+          <img class="github-logo" src="/github" height="32" />
         </a>
       </div>
     </header>
@@ -346,20 +342,28 @@
       <div id="snackbar">Copied to clipboard!</div>
 
       <script>
-        function showSnackbar() {
-          var snackbar = document.getElementById("snackbar");
-          snackbar.classList.add("show");
-          setTimeout(function () {
+        let snackbarTimeout;
+
+        function showSnackbar(message = "Copied to clipboard!") {
+          const snackbar = document.getElementById("snackbar");
+
+          // Configurar el mensaje dinámicamente
+          snackbar.textContent = message;
+
+          // Si la snackbar ya está visible, reinicia el temporizador
+          if (snackbar.classList.contains("show")) {
+            clearTimeout(snackbarTimeout); // Cancelar el temporizador anterior
+          } else {
+            // Mostrar la snackbar si no está activa
+            snackbar.classList.remove("hide");
+            snackbar.classList.add("show");
+          }
+
+          // Configurar el temporizador para ocultar la snackbar
+          snackbarTimeout = setTimeout(() => {
+            snackbar.classList.remove("show");
             snackbar.classList.add("hide");
-            snackbar.addEventListener(
-              "transitionend",
-              function () {
-                snackbar.classList.remove("show");
-                snackbar.classList.remove("hide");
-              },
-              { once: true }
-            );
-          }, 3000);
+          }, 3000); // 3 segundos de visibilidad
         }
 
         function loadLogos() {
@@ -391,14 +395,16 @@
                     logo.variant === "wordmark" ? "Wordmark" : "Glyph"
                   );
                   cell.setAttribute("data-color", logo.version);
-                  cell.setAttribute("data-name", logo.name.toLowerCase());
+                  cell.setAttribute("data-name", logo.name);
 
                   const apiUrl = `${logo.logo}`;
                   cell.setAttribute("data-api-url", apiUrl);
 
                   cell.innerHTML = `
-          <div class="stack stack-24" style="align-items: center;">
-            <img width="100" height="56" src="${logo.logo}" alt="${logo.name}" style="max-width: 100px; max-height: 50px;">
+          <div id="grid-container" class="stack stack-24">
+            <div id="grid-logos-container">
+              <img id="grid-logos" src="${logo.logo}" alt="${logo.name}">
+            </div>
             <div class="stack stack-24" style="align-items: center;">
               <p id="logo-name">${logo.name}</p>
               <div class="inline inline-8">
@@ -411,9 +417,12 @@
 
                   cell.addEventListener("click", function () {
                     const url = this.getAttribute("data-api-url");
+                    const logoName = this.getAttribute("data-name"); // Obtener el nombre del logo
                     navigator.clipboard
                       .writeText(url)
-                      .then(() => showSnackbar())
+                      .then(() =>
+                        showSnackbar(`${logoName} logo copied to clipboard!`)
+                      )
                       .catch((err) => console.error("Error copying URL:", err));
                   });
 
