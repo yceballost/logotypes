@@ -281,19 +281,31 @@ def get_logo(name):
     with open(svg_path, "r", encoding="utf-8") as svg_file:
         svg_content = svg_file.read()
 
-    # Log access for additional tracking
-    logger.info(f"Accessed logo: {name}, Variant: {variant_param}, Version: {version_param}")
+    # Log access for tracking
+    referrer = request.referrer or "No referrer"
+    user_agent = request.headers.get("User-Agent", "Unknown")
+    logger.info(f"Accessed logo: {name}, Referrer: {referrer}, User-Agent: {user_agent}")
 
-    # Detect the type of request (HTML or raw SVG)
-    accept_header = request.headers.get("Accept", "")
-    if "text/html" in accept_header:
-        # Serve HTML with Ahrefs tracking
-        svg_url = f"{request.host_url}{name}?variant={variant_param}&version={version_param}"
-        html_content = wrap_with_analytics(name, svg_content)
-        return Response(html_content, content_type="text/html")
+    # Send tracking data to Ahrefs analytics (or another system)
+    try:
+        tracking_url = f"https://analytics.ahrefs.com/track"
+        tracking_data = {
+            "name": name,
+            "variant": variant_param,
+            "version": version_param,
+            "referrer": referrer,
+            "user_agent": user_agent
+        }
+        headers = {"Content-Type": "application/json"}
+        response = requests.post(tracking_url, json=tracking_data, headers=headers)
+        if response.status_code != 200:
+            logger.warning(f"Tracking failed for logo: {name}. Status: {response.status_code}")
+    except Exception as e:
+        logger.error(f"Error tracking logo: {name}. Exception: {str(e)}")
 
     # Serve raw SVG if explicitly requested by the browser
     return Response(svg_content, content_type="image/svg+xml")
+
 
 @app.route('/favicon-list')
 def list_favicons():
