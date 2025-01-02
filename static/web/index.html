@@ -398,7 +398,9 @@
 
                   cell.innerHTML = `
           <div id="grid-container" class="stack stack-24">
-            <img id="grid-logos" src="${logo.logo}" alt="${logo.name}">
+            <div id="grid-logos-container">
+              <img id="grid-logos" src="${logo.logo}" alt="${logo.name}">
+            </div>
             <div class="stack stack-24" style="align-items: center;">
               <p id="logo-name">${logo.name}</p>
               <div class="inline inline-8">

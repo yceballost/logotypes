@@ -330,6 +330,7 @@ header a:hover {
   transition: all 0.2s ease-in-out;
   max-width: 300px;
   border-radius: 16px;
+  padding: 24px;
 }
 
 .logo-cell:hover {
@@ -374,6 +375,14 @@ input#search-input {
   display: flex;
   align-items: center;
   text-align: center;
+  height: 100%;
+}
+
+#grid-logos-container {
+  height: 100%;
+  display: flex;
+  align-content: center;
+  align-items: center;
 }
 
 #grid-logos {
