@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, send_from_directory, send_file
+from flask import Flask, jsonify, request, send_from_directory, Response
 from flask_cors import CORS
 
 import os
@@ -113,6 +113,27 @@ def generate_json_from_logo_name(logo_name):
 
     return data
 
+def wrap_with_analytics(name, svg_content):
+    return f"""
+    <!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <title>{name.capitalize()} Logo</title>
+        <script
+          src="https://analytics.ahrefs.com/analytics.js"
+          data-key="TU_CLAVE_AHREFS"
+          async
+        ></script>
+      </head>
+      <body>
+        <div>
+          {svg_content}
+        </div>
+      </body>
+    </html>
+    """
+
 @app.route('/')
 def landing_page():
     return send_from_directory(app.static_folder, 'web/index.html')
@@ -205,27 +226,53 @@ def get_name_data(name):
         return "Error fetching data", 500
 
 @app.route("/<name>")
-@track_api_call
-def get_logo_variants(name):
+def get_logo(name):
+    """
+    Endpoint principal para servir SVGs o HTML con rastreo de Ahrefs.
+    """
     folder_path = "static/logos"
-    logo_files = [f for f in os.listdir(folder_path) if f.endswith('.svg')]
+    logo_files = [f for f in os.listdir(folder_path) if f.endswith('.svg') and name.lower() in f.lower()]
+
+    if not logo_files:
+        return "No se encontró el logo", 404
+
+    # Obtener los parámetros opcionales
     variant_param = request.args.get("variant")
     version_param = request.args.get("version")
+
+    # Filtrar logos según los parámetros proporcionados
     filtered_logos = []
     for logo_file in logo_files:
         logo_data = generate_json_from_logo_name(logo_file)
-        if logo_data.get("name").lower() == name.lower():
-            if (variant_param and logo_data.get("variant") != variant_param) or \
-               (version_param and logo_data.get("version") != version_param):
-                continue
-            filtered_logos.append(logo_data)
+        if (not variant_param or logo_data.get("variant") == variant_param) and \
+           (not version_param or logo_data.get("version") == version_param):
+            filtered_logos.append(logo_file)
 
-    if filtered_logos:
-        sorted_logos = sorted(filtered_logos, key=lambda x: x['version'], reverse=True)
-        logo_name = sorted_logos[0]['logo'].split('/')[-1]
-        return send_from_directory(app.static_folder, f"logos/{logo_name}")
-    else:
-        return "No logo found with the specified parameters", 404
+    if not filtered_logos:
+        return "No se encontró un logo con los parámetros especificados", 404
+
+    # Seleccionar el primer logo filtrado
+    selected_logo = filtered_logos[0]
+    svg_path = os.path.join(folder_path, selected_logo)
+
+    # Leer el contenido del SVG
+    with open(svg_path, "r", encoding="utf-8") as svg_file:
+        svg_content = svg_file.read()
+
+    # Registrar acceso para rastreo adicional
+    logger.info(f"Acceso al logo: {name}, Variant: {variant_param}, Version: {version_param}")
+
+    # Detectar el tipo de solicitud (HTML o SVG crudo)
+    accept_header = request.headers.get("Accept", "")
+    if "text/html" in accept_header:
+        # Servir HTML con el rastreo de Ahrefs
+        svg_url = f"{request.host_url}{name}?variant={variant_param}&version={version_param}"
+        html_content = wrap_with_analytics(name, svg_content)
+        return Response(html_content, content_type="text/html")
+
+    # Servir SVG crudo si el navegador lo solicita explícitamente
+    return Response(svg_content, content_type="image/svg+xml")
+
 
 @app.route('/api/datos')
 @track_api_call
