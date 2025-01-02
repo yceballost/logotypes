@@ -370,6 +370,12 @@ input#search-input {
   }
 }
 
+#grid-container {
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
 #grid-logos {
   max-width: 100px;
   max-height: 56px;
