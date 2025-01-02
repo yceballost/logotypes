@@ -6,10 +6,7 @@
   "rewrites": [
     { "source": "/favicon.ico", "destination": "/favicon.ico" },
     { "source": "/static/(.*)", "destination": "/static/$1" },
-    {
-      "source": "/stats/:match*",
-      "destination": "https://analytics.logotypes.dev/:match*"
-    },
+    { "source": "/stats/:match*", "destination": "umami/.next/$1" },
     { "source": "/(.*)", "destination": "app.py" }
   ],
   "headers": [
