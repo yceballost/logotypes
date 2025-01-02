@@ -364,26 +364,13 @@
 
         function loadLogos() {
           fetch("/all", { headers: { Accept: "application/json" } })
-            .then((response) => {
-              console.log("Response status:", response.status); // Verifica el estado HTTP
-              return response.json();
-            })
+            .then((response) => response.json())
             .then((data) => {
-              console.log("Data received from /all:", data); // Verifica los datos
-
-              if (!data.records) {
-                console.error("No 'records' key found in the response data");
-                return;
-              }
-
               const grid = document.getElementById("logo-grid");
-              grid.innerHTML = ""; // Limpia la grid antes de llenarla
+              grid.innerHTML = ""; // Limpiar la grid
 
               for (const [name, variants] of Object.entries(data.records)) {
-                console.log(`Processing logo: ${name}`); // Registro por cada logo
                 variants.forEach((logo) => {
-                  console.log(`Adding variant:`, logo); // Registro por cada variante
-
                   const cell = document.createElement("div");
                   cell.className = "logo-cell";
                   cell.setAttribute(
@@ -393,37 +380,46 @@
                   cell.setAttribute("data-color", logo.version);
                   cell.setAttribute("data-name", logo.name.toLowerCase());
 
-                  const apiUrl = `${logo.logo}`;
+                  // Crear la URL de la API para este logo
+                  const apiUrl = `https://www.logotypes.dev/${logo.name.toLowerCase()}?variant=${
+                    logo.variant
+                  }&version=${logo.version}`;
                   cell.setAttribute("data-api-url", apiUrl);
 
                   cell.innerHTML = `
-          <div class="stack stack-24" style="align-items: center;">
-            <img height="56" src="${logo.logo}" alt="${logo.name}" style="max-width: 100px; max-height: 50px;">
-            <div class="stack stack-24" style="align-items: center;">
-              <p id="logo-name">${logo.name}</p>
-              <div class="inline inline-8">
-                <p class="tag" id="logo-variant">${logo.variant}</p>
-                <p class="tag" id="logo-version">${logo.version}</p>
-              </div>
-            </div>
-          </div>
-          `;
+                  <div class="stack stack-24" style="align-items: center; ">
+                    <img height="56" src="${logo.logo}" alt="${
+                    logo.name
+                  }" style="max-width: 100px; max-height: 50px;">
+                  <div class="stack stack-24" style="align-items: center;">
+                    <p id="logo-name">${logo.name}</p>
+                    <div class="inline inline-8">
+                      <p class="tag" id="logo-variant">${
+                        logo.variant === "wordmark" ? "Wordmark" : "Glyph"
+                      }</p>
+                      <p class="tag" id="logo-version">${logo.version}</p>
+                    </div>
+                  </div>
+                  </div>
+                  `;
 
                   cell.addEventListener("click", function () {
                     const url = this.getAttribute("data-api-url");
                     navigator.clipboard
                       .writeText(url)
-                      .then(() => showSnackbar())
-                      .catch((err) => console.error("Error copying URL:", err));
+                      .then(() => {
+                        showSnackbar();
+                      })
+                      .catch((err) => {
+                        console.error("Error al copiar: ", err);
+                      });
                   });
 
                   grid.appendChild(cell);
                 });
               }
-
-              filterLogos(); // Aplica filtros iniciales
-            })
-            .catch((error) => console.error("Error fetching logos:", error));
+              filterLogos(); // Aplicar filtros iniciales
+            });
         }
 
         function filterLogos() {
