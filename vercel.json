@@ -7,6 +7,10 @@
     { "source": "/favicon.ico", "destination": "/favicon.ico" },
     { "source": "/static/(.*)", "destination": "/static/$1" },
     { "source": "/umami/(.*)", "destination": "umami/.next/$1" },
+    {
+      "source": "/stats/:match*",
+      "destination": "https://cloud.umami.is/:match*"
+    },
     { "source": "/(.*)", "destination": "app.py" }
   ],
   "headers": [
