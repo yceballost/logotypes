@@ -14,6 +14,15 @@
           "value": "default-src 'self'; script-src 'self' https://analytics.ahrefs.com 'unsafe-inline'; connect-src 'self' https://analytics.ahrefs.com;"
         }
       ]
+    },
+    {
+      "source": "/script.js",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "https://www.logotypes.dev"
+        }
+      ]
     }
   ]
 }
