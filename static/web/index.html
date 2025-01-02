@@ -399,7 +399,7 @@
                     logo.variant === "wordmark" ? "Wordmark" : "Glyph"
                   );
                   cell.setAttribute("data-color", logo.version);
-                  cell.setAttribute("data-name", logo.name.toLowerCase());
+                  cell.setAttribute("data-name", logo.name);
 
                   const apiUrl = `${logo.logo}`;
                   cell.setAttribute("data-api-url", apiUrl);
@@ -421,9 +421,12 @@
 
                   cell.addEventListener("click", function () {
                     const url = this.getAttribute("data-api-url");
+                    const logoName = this.getAttribute("data-name"); // Obtener el nombre del logo
                     navigator.clipboard
                       .writeText(url)
-                      .then(() => showSnackbar())
+                      .then(() =>
+                        showSnackbar(`${logoName} logo copied to clipboard!`)
+                      )
                       .catch((err) => console.error("Error copying URL:", err));
                   });
 
