@@ -346,20 +346,28 @@
       <div id="snackbar">Copied to clipboard!</div>
 
       <script>
-        function showSnackbar() {
-          var snackbar = document.getElementById("snackbar");
-          snackbar.classList.add("show");
-          setTimeout(function () {
+        let snackbarTimeout;
+
+        function showSnackbar(message = "Copied to clipboard!") {
+          const snackbar = document.getElementById("snackbar");
+
+          // Configurar el mensaje dinámicamente
+          snackbar.textContent = message;
+
+          // Si la snackbar ya está visible, reinicia el temporizador
+          if (snackbar.classList.contains("show")) {
+            clearTimeout(snackbarTimeout); // Cancelar el temporizador anterior
+          } else {
+            // Mostrar la snackbar si no está activa
+            snackbar.classList.remove("hide");
+            snackbar.classList.add("show");
+          }
+
+          // Configurar el temporizador para ocultar la snackbar
+          snackbarTimeout = setTimeout(() => {
+            snackbar.classList.remove("show");
             snackbar.classList.add("hide");
-            snackbar.addEventListener(
-              "transitionend",
-              function () {
-                snackbar.classList.remove("show");
-                snackbar.classList.remove("hide");
-              },
-              { once: true }
-            );
-          }, 3000);
+          }, 3000); // 3 segundos de visibilidad
         }
 
         function loadLogos() {

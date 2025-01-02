@@ -483,19 +483,20 @@ input#search-input {
   border-radius: 999px;
   font-size: 17px;
   opacity: 0;
-  transition: visibility 0s 0.2s, opacity 0.2s linear;
+  transform: translateY(50%);
+  transition: visibility 0.2s, opacity 0.2s linear, transform 0.2s ease-in-out;
 }
 
 #snackbar.show {
   visibility: visible;
   opacity: 1;
-  transition: opacity 0.2s linear;
+  transform: translateY(0%);
 }
 
 #snackbar.hide {
-  visibility: visible;
+  visibility: hidden;
   opacity: 0;
-  transition: visibility 0s 0.2s, opacity 0.2s linear;
+  transform: translateY(50%);
 }
 
 /* Animations to fade the snackbar in and out */
