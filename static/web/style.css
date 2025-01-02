@@ -467,6 +467,7 @@ input#search-input {
   background-color: #1d1d1d;
 }
 
+/* Comments in English: Basic styling for the snackbar */
 #snackbar {
   visibility: hidden;
   width: fit-content;
@@ -474,7 +475,6 @@ input#search-input {
   background-color: #333;
   color: #fff;
   text-align: center;
-  border-radius: 2px;
   padding: 16px 24px;
   position: fixed;
   z-index: 1;
@@ -482,21 +482,60 @@ input#search-input {
   bottom: 30px;
   border-radius: 999px;
   font-size: 17px;
+
+  /* Initial states (no animation needed here) */
   opacity: 0;
   transform: translateY(50%);
-  transition: visibility 0.2s, opacity 0.2s linear, transform 0.2s ease-in-out;
+  filter: blur(6px);
 }
 
+/* When showing, run the "slideIn" animation */
 #snackbar.show {
-  visibility: visible;
-  opacity: 1;
-  transform: translateY(0%);
+  visibility: visible; /* Make sure it's visible at the start of the animation */
+  animation: slideIn 0.5s forwards;
 }
 
+/* Keyframes for showing the snackbar */
+@keyframes slideIn {
+  0% {
+    /* Start off-screen, blurred, and invisible */
+    opacity: 0;
+    transform: translateY(50%);
+    filter: blur(6px);
+  }
+  100% {
+    /* End fully visible and at the final position */
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+/* When hiding, run the "slideOut" animation */
 #snackbar.hide {
-  visibility: hidden;
-  opacity: 0;
-  transform: translateY(50%);
+  /* Comments in English:
+     The element will start from its current state (visible) 
+     and animate to hidden.
+  */
+  animation: slideOut 0.8s forwards;
+}
+
+/* Keyframes for hiding the snackbar */
+@keyframes slideOut {
+  0% {
+    /* Start visible at final position */
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+    visibility: visible; /* Still visible at start */
+  }
+  100% {
+    /* End off-screen, blurred, and hidden */
+    opacity: 0;
+    transform: translateY(50%);
+    filter: blur(30px);
+    visibility: hidden; /* Hidden at the end of the animation */
+  }
 }
 
 /* Animations to fade the snackbar in and out */
