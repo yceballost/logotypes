@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, send_from_directory, send_file
+from flask import Flask, jsonify, request, send_from_directory, send_file, Response
 from flask_cors import CORS
 
 import os
@@ -113,6 +113,29 @@ def generate_json_from_logo_name(logo_name):
 
     return data
 
+def analytics_wrapper(svg_content, title="Logo"):
+    """
+    Envuelve un contenido SVG en un HTML con el script de Ahrefs.
+    """
+    return f"""
+    <!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <title>{title}</title>
+        <script
+          src="https://analytics.ahrefs.com/analytics.js"
+          data-key="NxIL3uTxgf1M7lSfSVpbWA"
+          async
+        ></script>
+      </head>
+      <body>
+        {svg_content}
+      </body>
+    </html>
+    """
+
+
 @app.route('/')
 def landing_page():
     return send_from_directory(app.static_folder, 'web/index.html')
@@ -132,10 +155,19 @@ def generate_json():
         if name not in json_data:
             json_data[name] = []
         json_data[name].append(generate_json_from_logo_name(logo_file))
+
     data_final = {
         "records": json_data
     }
-    return jsonify(data_final)
+    json_data_formatted = json.dumps(data_final, indent=2)
+
+    # Envolver en HTML
+    html_content = analytics_wrapper(
+        f"<pre>{json_data_formatted}</pre>",
+        title="All Logos Data"
+    )
+    return Response(html_content, content_type='text/html')
+
 
 @app.route("/random")
 @track_api_call
@@ -154,9 +186,18 @@ def get_random_logo():
 
     if filtered_logos:
         random_logo = random.choice(filtered_logos)
-        return send_from_directory(app.static_folder, f"logos/{random_logo}")
+        svg_path = os.path.join(folder_path, random_logo)
+
+        # Leer el contenido del archivo SVG
+        with open(svg_path, "r", encoding="utf-8") as svg_file:
+            svg_content = svg_file.read()
+
+        # Usar la función para envolver el SVG
+        html_content = analytics_wrapper(svg_content, title="Random Logo")
+        return Response(html_content, content_type='text/html')
     else:
         return "No logo found with the specified parameters", 404
+
 
 @app.route("/random/data")
 @track_api_call
@@ -177,13 +218,21 @@ def get_random_data():
 
         if all_items:
             random_item = random.choice(all_items)
-            return jsonify(random_item)
+            json_data = json.dumps(random_item, indent=2)
+
+            # Envolver en HTML
+            html_content = analytics_wrapper(
+                f"<pre>{json_data}</pre>",
+                title="Random Data"
+            )
+            return Response(html_content, content_type='text/html')
         else:
             return "No data available with the specified parameters", 404
 
     except requests.RequestException as e:
         print(f"Error fetching data: {e}")
         return "Error fetching data", 500
+
 
 @app.route("/<name>/data")
 @track_api_call
@@ -196,13 +245,22 @@ def get_name_data(name):
         name_data = records.get(name.lower(), [])
 
         if name_data:
-            return jsonify(name_data)
+            # Convertir los datos en formato JSON
+            json_data = json.dumps(name_data, indent=2)
+
+            # Crear el HTML envolviendo los datos
+            html_content = analytics_wrapper(
+                f"<pre>{json_data}</pre>", 
+                title=f"{name.capitalize()} Data"
+            )
+            return Response(html_content, content_type='text/html')
         else:
             return "Name not found", 404
 
     except requests.RequestException as e:
         print(f"Error fetching data: {e}")
         return "Error fetching data", 500
+
 
 @app.route("/<name>")
 @track_api_call
@@ -223,15 +281,18 @@ def get_logo_variants(name):
     if filtered_logos:
         sorted_logos = sorted(filtered_logos, key=lambda x: x['version'], reverse=True)
         logo_name = sorted_logos[0]['logo'].split('/')[-1]
-        return send_from_directory(app.static_folder, f"logos/{logo_name}")
+        svg_path = os.path.join(folder_path, logo_name)
+
+        # Leer el contenido del archivo SVG
+        with open(svg_path, "r", encoding="utf-8") as svg_file:
+            svg_content = svg_file.read()
+
+        # Usar la función para envolver el SVG
+        html_content = analytics_wrapper(svg_content, title=f"{name.capitalize()} Logo")
+        return Response(html_content, content_type='text/html')
     else:
         return "No logo found with the specified parameters", 404
 
-@app.route('/api/datos')
-@track_api_call
-def get_datos():
-    # Tu lógica aquí
-    return {"mensaje": "Datos obtenidos"}
 
 @app.route('/favicon-list')
 def list_favicons():
@@ -242,6 +303,7 @@ def list_favicons():
         return jsonify(logos)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
 
 
 if __name__ == "__main__":
