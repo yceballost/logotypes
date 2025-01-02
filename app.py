@@ -250,7 +250,7 @@ def get_name_data(name):
 @app.route("/<name>")
 def get_logo(name):
     """
-    Main endpoint to serve SVGs or HTML with Ahrefs tracking.
+    Main endpoint to serve SVGs or HTML with tracking.
     """
     folder_path = "static/logos"
     logo_files = [f for f in os.listdir(folder_path) if f.endswith('.svg') and name.lower() in f.lower()]
@@ -277,10 +277,6 @@ def get_logo(name):
     selected_logo = filtered_logos[0]
     svg_path = os.path.join(folder_path, selected_logo)
 
-    # Read the SVG content
-    with open(svg_path, "r", encoding="utf-8") as svg_file:
-        svg_content = svg_file.read()
-
     # Log access for tracking
     referrer = request.referrer or "No referrer"
     user_agent = request.headers.get("User-Agent", "Unknown")
@@ -288,7 +284,7 @@ def get_logo(name):
 
     # Send tracking data to Ahrefs analytics (or another system)
     try:
-        tracking_url = f"https://analytics.ahrefs.com/track"
+        tracking_url = "https://analytics.ahrefs.com/track"
         tracking_data = {
             "name": name,
             "variant": variant_param,
@@ -303,8 +299,18 @@ def get_logo(name):
     except Exception as e:
         logger.error(f"Error tracking logo: {name}. Exception: {str(e)}")
 
-    # Serve raw SVG if explicitly requested by the browser
-    return Response(svg_content, content_type="image/svg+xml")
+    # Serve raw SVG or HTML based on Accept header
+    accept_header = request.headers.get("Accept", "")
+    if "text/html" in accept_header:
+        # Wrap SVG in HTML with tracking script
+        with open(svg_path, "r", encoding="utf-8") as svg_file:
+            svg_content = svg_file.read()
+        html_content = wrap_with_analytics(name, svg_content)
+        return Response(html_content, content_type="text/html")
+
+    # Serve raw SVG for image requests
+    return send_from_directory(folder_path, selected_logo)
+
 
 
 @app.route('/favicon-list')
