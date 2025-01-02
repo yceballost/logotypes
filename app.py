@@ -122,7 +122,7 @@ def wrap_with_analytics(name, svg_content):
         <title>{name.capitalize()} Logo</title>
         <script
           src="https://analytics.ahrefs.com/analytics.js"
-          data-key="YOUR_AHREFS_KEY"
+          data-key="NxIL3uTxgf1M7lSfSVpbWA"
           async
         ></script>
       </head>
