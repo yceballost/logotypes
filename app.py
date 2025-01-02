@@ -249,7 +249,7 @@ def get_name_data(name):
 
 @app.route("/<name>")
 def get_logo(name):
-    if name.startswith("umami"):
+    if name.startswith("stats"):
         return "Not handled by app.py", 404
     
     """
