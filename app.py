@@ -17,63 +17,6 @@ logger = logging.getLogger(__name__)
 app = Flask(__name__, static_folder="static")
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
-GA_TRACKING_ID = os.environ.get('GA_TRACKING_ID')
-
-# Function to send events to Google Analytics
-def send_to_ga(endpoint, full_url, referrer):
-    measurement_id = GA_TRACKING_ID
-    api_secret = os.environ.get('GA_API_SECRET')
-    
-    ga_endpoint = f'https://www.google-analytics.com/mp/collect?measurement_id={measurement_id}&api_secret={api_secret}'
-    
-    payload = {
-        'client_id': '555', 
-        'events': [{
-            'name': 'api_call',
-            'params': {
-                'endpoint': endpoint,
-                'full_url': full_url,
-                'referrer': referrer
-            }
-        }]
-    }
-    
-    logger.info(f"Sending event to GA for endpoint: {endpoint}")
-    logger.info(f"GA Endpoint: {ga_endpoint}")
-    logger.info(f"Payload: {json.dumps(payload)}")
-    
-    try:
-        response = requests.post(ga_endpoint, json=payload, timeout=10)
-        logger.info(f"GA Response: {response.status_code}")
-        
-        if response.status_code == 204:
-            logger.info("Successfully sent event to GA (204 No Content)")
-        elif response.status_code != 200:
-            logger.error(f"Error sending to GA. Status code: {response.status_code}")
-            logger.error(f"Error response: {response.text}")
-            logger.error(f"Response headers: {response.headers}")
-        else:
-            logger.info("Successfully sent event to GA")
-    except requests.exceptions.RequestException as e:
-        logger.error(f"Exception occurred while sending to GA: {str(e)}")
-    except Exception as e:
-        logger.error(f"Unexpected error while sending to GA: {str(e)}")
-
-# Decorator to track API calls
-def track_api_call(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        endpoint = request.path
-        full_url = request.url
-        referrer = request.referrer or 'No referrer'
-        
-        logger.info(f"API call to endpoint: {endpoint}")
-        logger.info(f"Full URL: {full_url}")
-        logger.info(f"Referrer: {referrer}")
-        
-        send_to_ga(endpoint, full_url, referrer)
-        return f(*args, **kwargs)
-    return decorated_function
 
 # Function to generate JSON from logo file name
 def generate_json_from_logo_name(logo_name):
@@ -143,7 +86,6 @@ def style_file():
     return send_from_directory(app.static_folder, 'web/style.css')
 
 @app.route("/all")
-@track_api_call
 def generate_json():
     """
     Endpoint to list all logos.
@@ -175,7 +117,6 @@ def generate_json():
     return Response(html_content, content_type="text/html")
 
 @app.route("/random")
-@track_api_call
 def get_random_logo():
     """
     Endpoint to serve a random logo.
@@ -221,7 +162,6 @@ def get_random_logo():
 
 
 @app.route("/random/data")
-@track_api_call
 def get_random_data():
     """
     Endpoint to retrieve data for a random logo.
@@ -264,7 +204,6 @@ def get_random_data():
 
 
 @app.route("/<name>/data")
-@track_api_call
 def get_name_data(name):
     """
     Endpoint to retrieve data for a specific logo.
@@ -369,6 +308,9 @@ def list_favicons():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+@app.route('/test.html')
+def serve_test_page():
+    return send_from_directory('static/web', 'test.html')
 
 if __name__ == "__main__":
     app.run(debug=False)
