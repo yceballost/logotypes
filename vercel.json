@@ -1,8 +1,5 @@
 {
-  "builds": [
-    { "src": "app.py", "use": "@vercel/python" },
-    { "src": "api/**/*.js", "use": "@vercel/node" }
-  ],
+  "builds": [{ "src": "app.py", "use": "@vercel/python" }],
   "rewrites": [
     { "source": "/favicon.ico", "destination": "/favicon.ico" },
     { "source": "/static/(.*)", "destination": "/static/$1" },
@@ -14,7 +11,7 @@
       "headers": [
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' https://analytics.ahrefs.com; connect-src 'self';"
+          "value": "script-src 'self' https://analytics.ahrefs.com"
         }
       ]
     }
