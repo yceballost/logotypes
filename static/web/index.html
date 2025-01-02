@@ -364,19 +364,26 @@
 
         function loadLogos() {
           fetch("/all", { headers: { Accept: "application/json" } })
-            .then((response) => response.json())
+            .then((response) => {
+              console.log("Response status:", response.status); // Verifica el estado HTTP
+              return response.json();
+            })
             .then((data) => {
-              console.log("Data received:", data); // Verifica que los datos sean correctos
-              const grid = document.getElementById("logo-grid");
-              grid.innerHTML = ""; // Limpiar la grid
+              console.log("Data received from /all:", data); // Verifica los datos
 
               if (!data.records) {
                 console.error("No 'records' key found in the response data");
                 return;
               }
 
+              const grid = document.getElementById("logo-grid");
+              grid.innerHTML = ""; // Limpia la grid antes de llenarla
+
               for (const [name, variants] of Object.entries(data.records)) {
+                console.log(`Processing logo: ${name}`); // Registro por cada logo
                 variants.forEach((logo) => {
+                  console.log(`Adding variant:`, logo); // Registro por cada variante
+
                   const cell = document.createElement("div");
                   cell.className = "logo-cell";
                   cell.setAttribute(
@@ -391,7 +398,7 @@
 
                   cell.innerHTML = `
           <div class="stack stack-24" style="align-items: center;">
-            <img height="56" src="${logo.logo}" alt="${logo.name}" style="max-width: 100px; max-height: 50px;">
+            <img width="100" height="56" src="${logo.logo}" alt="${logo.name}" style="max-width: 100px; max-height: 50px;">
             <div class="stack stack-24" style="align-items: center;">
               <p id="logo-name">${logo.name}</p>
               <div class="inline inline-8">
@@ -413,7 +420,8 @@
                   grid.appendChild(cell);
                 });
               }
-              filterLogos(); // Aplicar filtros iniciales
+
+              filterLogos(); // Aplica filtros iniciales
             })
             .catch((error) => console.error("Error fetching logos:", error));
         }
