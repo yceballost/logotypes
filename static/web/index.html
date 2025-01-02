@@ -402,7 +402,7 @@
         }
 
         function loadLogos() {
-          fetch("/all")
+          fetch("/all?format=json")
             .then((response) => response.json())
             .then((data) => {
               const grid = document.getElementById("logo-grid");
@@ -420,27 +420,29 @@
                   cell.setAttribute("data-name", logo.name.toLowerCase());
 
                   // Crear la URL de la API para este logo
-                  const apiUrl = `https://www.logotypes.dev/${logo.name.toLowerCase()}?variant=${
-                    logo.variant
-                  }&version=${logo.version}`;
+                  const apiUrl = `${logo.logo}`;
                   cell.setAttribute("data-api-url", apiUrl);
 
                   cell.innerHTML = `
-                  <div class="stack stack-24" style="align-items: center; ">
-                    <img height="56" src="${logo.logo}" alt="${
+                    <div class="stack stack-24" style="align-items: center;">
+                        <img height="56" src="${logo.logo}" alt="${
                     logo.name
                   }" style="max-width: 100px; max-height: 50px;">
-                  <div class="stack stack-24" style="align-items: center;">
-                    <p id="logo-name">${logo.name}</p>
-                    <div class="inline inline-8">
-                      <p class="tag" id="logo-variant">${
-                        logo.variant === "wordmark" ? "Wordmark" : "Glyph"
-                      }</p>
-                      <p class="tag" id="logo-version">${logo.version}</p>
+                        <div class="stack stack-24" style="align-items: center;">
+                            <p id="logo-name">${logo.name}</p>
+                            <div class="inline inline-8">
+                                <p class="tag" id="logo-variant">${
+                                  logo.variant === "wordmark"
+                                    ? "Wordmark"
+                                    : "Glyph"
+                                }</p>
+                                <p class="tag" id="logo-version">${
+                                  logo.version
+                                }</p>
+                            </div>
+                        </div>
                     </div>
-                  </div>
-                  </div>
-                  `;
+                    `;
 
                   cell.addEventListener("click", function () {
                     const url = this.getAttribute("data-api-url");
@@ -457,7 +459,7 @@
                   grid.appendChild(cell);
                 });
               }
-              filterLogos(); // Aplicar filtros iniciales
+              filterLogos();
             });
         }
 
