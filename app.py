@@ -64,6 +64,8 @@ def send_umami_event(name, title, data=None):
                 "name": name,  # Custom event name
                 "title": title,  # Event title
                 "language": request.headers.get("Accept-Language", "en-US"),
+                "referrer": request.referrer or "Direct Access",  # Include referrer or "Direct Access"
+                "origin": request.headers.get("Origin", "Unknown"),  # Include Origin if available
                 "data": data or {}  # Additional metadata
             }
         }
@@ -80,6 +82,7 @@ def send_umami_event(name, title, data=None):
         logger.error(f"Timeout error while sending event: {name}")
     except Exception as e:
         logger.error(f"Error sending event {name}. Exception: {str(e)}")
+
 
 
 @app.route('/')
