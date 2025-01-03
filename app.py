@@ -68,6 +68,11 @@ def wrap_with_analytics(name, svg_content):
           data-key="NxIL3uTxgf1M7lSfSVpbWA"
           async
         ></script>
+         <script
+        defer
+        src="http://localhost:3000/script.js"
+        data-website-id="e5291a10-0fea-4aad-9d53-22d3481ada30"
+        ></script>
       </head>
       <body>
         <div>
@@ -250,7 +255,8 @@ def get_name_data(name):
 @app.route("/<name>")
 def get_logo(name):
     """
-    Main endpoint to serve SVGs or HTML with tracking.
+    Main endpoint to serve SVGs with tracking.
+    Tracks image usage and sends event data to Umami.
     """
     folder_path = "static/logos"
     logo_files = [f for f in os.listdir(folder_path) if f.endswith('.svg') and name.lower() in f.lower()]
@@ -282,35 +288,39 @@ def get_logo(name):
     user_agent = request.headers.get("User-Agent", "Unknown")
     logger.info(f"Accessed logo: {name}, Referrer: {referrer}, User-Agent: {user_agent}")
 
-    # Send tracking data to Ahrefs analytics (or another system)
+    # Send tracking data to Umami analytics
     try:
-        tracking_url = "https://analytics.ahrefs.com/track"
-        tracking_data = {
-            "name": name,
-            "variant": variant_param,
-            "version": version_param,
-            "referrer": referrer,
-            "user_agent": user_agent
+        umami_url = "https://analytics.logotypes.dev/api/send"
+        payload = {
+            "payload": {
+                "hostname": "localhost",
+                "language": request.headers.get("Accept-Language", "en-US"),
+                "referrer": referrer,
+                "screen": "1920x1080",
+                "title": f"Logo: {name}",
+                "url": f"/{name}",
+                "website": "e5291a10-0fea-4aad-9d53-22d3481ada30",
+                "name": "image-access",
+                "data": {
+                    "variant": variant_param,
+                    "version": version_param
+                }
+            },
+            "type": "event"
         }
-        headers = {"Content-Type": "application/json"}
-        response = requests.post(tracking_url, json=tracking_data, headers=headers)
+        headers = {
+            "Content-Type": "application/json",
+            "User-Agent": user_agent  # Umami requiere un User-Agent válido
+        }
+        response = requests.post(umami_url, json=payload, headers=headers)
+        logger.info(f"Umami response: {response.status_code}, {response.text}")
         if response.status_code != 200:
-            logger.warning(f"Tracking failed for logo: {name}. Status: {response.status_code}")
+            logger.warning(f"Error tracking event: {response.text}")
     except Exception as e:
         logger.error(f"Error tracking logo: {name}. Exception: {str(e)}")
 
-    # Serve raw SVG or HTML based on Accept header
-    accept_header = request.headers.get("Accept", "")
-    if "text/html" in accept_header:
-        # Wrap SVG in HTML with tracking script
-        with open(svg_path, "r", encoding="utf-8") as svg_file:
-            svg_content = svg_file.read()
-        html_content = wrap_with_analytics(name, svg_content)
-        return Response(html_content, content_type="text/html")
-
     # Serve raw SVG for image requests
     return send_from_directory(folder_path, selected_logo)
-
 
 
 @app.route('/favicon-list')
