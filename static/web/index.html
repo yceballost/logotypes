@@ -375,12 +375,9 @@
         function loadLogos() {
           fetch("/all", { headers: { Accept: "application/json" } })
             .then((response) => {
-              console.log("Response status:", response.status); // Verifica el estado HTTP
               return response.json();
             })
             .then((data) => {
-              console.log("Data received from /all:", data); // Verifica los datos
-
               if (!data.records) {
                 console.error("No 'records' key found in the response data");
                 return;
@@ -389,11 +386,10 @@
               const grid = document.getElementById("logo-grid");
               grid.innerHTML = ""; // Limpia la grid antes de llenarla
 
-              for (const [name, variants] of Object.entries(data.records)) {
-                console.log(`Processing logo: ${name}`); // Registro por cada logo
-                variants.forEach((logo) => {
-                  console.log(`Adding variant:`, logo); // Registro por cada variante
+              const baseUrl = `${window.location.protocol}//${window.location.host}`;
 
+              for (const [name, variants] of Object.entries(data.records)) {
+                variants.forEach((logo) => {
                   const cell = document.createElement("div");
                   cell.className = "logo-cell";
                   cell.setAttribute(
@@ -403,31 +399,30 @@
                   cell.setAttribute("data-color", logo.version);
                   cell.setAttribute("data-name", logo.name);
 
-                  const apiUrl = `${logo.logo}`;
+                  // Crear URL relativa dinámica
+                  const apiUrl = `${baseUrl}/${logo.name}?variant=${logo.variant}&version=${logo.version}`;
                   cell.setAttribute("data-api-url", apiUrl);
 
                   cell.innerHTML = `
-          <div id="grid-container" class="stack stack-24">
-            <div id="grid-logos-container">
-              <img id="grid-logos" src="${logo.logo}" alt="${logo.name}">
-            </div>
-            <div class="stack stack-24" style="align-items: center;">
-              <p id="logo-name">${logo.name}</p>
-              <div class="inline inline-8">
-                <p class="tag" id="logo-variant">${logo.variant}</p>
-                <p class="tag" id="logo-version">${logo.version}</p>
+            <div id="grid-container" class="stack stack-24">
+              <div id="grid-logos-container">
+                <img id="grid-logos" src="${logo.logo}" alt="${logo.name}">
+              </div>
+              <div class="stack stack-24" style="align-items: center;">
+                <p id="logo-name">${logo.name}</p>
+                <div class="inline inline-8">
+                  <p class="tag" id="logo-variant">${logo.variant}</p>
+                  <p class="tag" id="logo-version">${logo.version}</p>
+                </div>
               </div>
             </div>
-          </div>
           `;
 
                   cell.addEventListener("click", function () {
-                    const url = this.getAttribute("data-api-url");
-                    const logoName = this.getAttribute("data-name"); // Obtener el nombre del logo
                     navigator.clipboard
-                      .writeText(url)
+                      .writeText(apiUrl)
                       .then(() =>
-                        showSnackbar(`${logoName} logo copied to clipboard!`)
+                        showSnackbar(`${logo.name} logo copied to clipboard!`)
                       )
                       .catch((err) => console.error("Error copying URL:", err));
                   });
