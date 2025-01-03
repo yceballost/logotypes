@@ -1,4 +1,5 @@
 Flask==3.0.3
 Flask_cors==4.0.1
+Flask_compress==1.17
 Werkzeug==3.0.3
 requests==2.32.3
