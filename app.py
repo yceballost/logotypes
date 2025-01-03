@@ -55,22 +55,17 @@ def generate_json_from_logo_name(logo_name):
 
     return data
 
-# Function to wrap SVG content in HTML with Ahrefs tracking
-def wrap_with_analytics(name, svg_content):
+# Function to wrap SVG content in HTML with Umami tracking
+def wrap_analytics(name, svg_content):
     return f"""
     <!DOCTYPE html>
     <html lang="en">
       <head>
         <meta charset="UTF-8" />
         <title>{name.capitalize()} Logo</title>
-        <script
-          src="https://analytics.ahrefs.com/analytics.js"
-          data-key="NxIL3uTxgf1M7lSfSVpbWA"
-          async
-        ></script>
          <script
         defer
-        src="http://localhost:3000/script.js"
+        src="https://analytics.logotypes.dev/script.js"
         data-website-id="e5291a10-0fea-4aad-9d53-22d3481ada30"
         ></script>
       </head>
@@ -94,7 +89,7 @@ def style_file():
 def generate_json():
     """
     Endpoint to list all logos.
-    Returns HTML with Ahrefs tracking or raw JSON.
+    Returns HTML with Umami tracking or raw JSON.
     """
     folder_path = "static/logos"
     logo_files = [f for f in os.listdir(folder_path) if f.endswith('.svg')]
@@ -114,8 +109,8 @@ def generate_json():
         # Return raw JSON
         return jsonify({"records": json_data})
 
-    # Format the data as HTML with Ahrefs tracking
-    html_content = wrap_with_analytics(
+    # Format the data as HTML with Umami tracking
+    html_content = wrap_analytics(
         "All Logos",
         f"<pre>{json.dumps({'records': json_data}, indent=2)}</pre>"
     )
@@ -125,7 +120,7 @@ def generate_json():
 def get_random_logo():
     """
     Endpoint to serve a random logo.
-    Returns an HTML with Ahrefs tracking or raw SVG.
+    Returns an HTML with Umami tracking or raw SVG.
     """
     folder_path = "static/logos"
     logo_files = [f for f in os.listdir(folder_path) if f.endswith('.svg')]
@@ -159,7 +154,7 @@ def get_random_logo():
     accept_header = request.headers.get("Accept", "")
     if "text/html" in accept_header:
         # Serve HTML with tracking
-        html_content = wrap_with_analytics("random", svg_content)
+        html_content = wrap_analytics("random", svg_content)
         return Response(html_content, content_type="text/html")
 
     # Serve raw SVG
@@ -170,7 +165,7 @@ def get_random_logo():
 def get_random_data():
     """
     Endpoint to retrieve data for a random logo.
-    Returns HTML with Ahrefs tracking or raw JSON.
+    Returns HTML with Umami tracking or raw JSON.
     """
     folder_path = "static/logos"
     logo_files = [f for f in os.listdir(folder_path) if f.endswith('.svg')]
@@ -200,8 +195,8 @@ def get_random_data():
     # Detect the type of request
     accept_header = request.headers.get("Accept", "")
     if "text/html" in accept_header:
-        # Format data as HTML with Ahrefs tracking
-        html_content = wrap_with_analytics("random data", f"<pre>{json.dumps(random_data, indent=2)}</pre>")
+        # Format data as HTML with Umami tracking
+        html_content = wrap_analytics("random data", f"<pre>{json.dumps(random_data, indent=2)}</pre>")
         return Response(html_content, content_type="text/html")
 
     # Return raw JSON data
@@ -212,7 +207,7 @@ def get_random_data():
 def get_name_data(name):
     """
     Endpoint to retrieve data for a specific logo.
-    Returns HTML with Ahrefs tracking or raw JSON.
+    Returns HTML with Umami tracking or raw JSON.
     """
     try:
         # Load data directly from the file system
@@ -237,8 +232,8 @@ def get_name_data(name):
         # Detect the type of request (HTML or raw JSON)
         accept_header = request.headers.get("Accept", "")
         if "text/html" in accept_header:
-            # Format data as HTML with Ahrefs tracking
-            html_content = wrap_with_analytics(
+            # Format data as HTML with Umami tracking
+            html_content = wrap_analytics(
                 name,
                 f"<pre>{json.dumps(name_data, indent=2)}</pre>"
             )
@@ -296,7 +291,6 @@ def get_logo(name):
                 "hostname": "localhost",
                 "language": request.headers.get("Accept-Language", "en-US"),
                 "referrer": referrer,
-                "screen": "1920x1080",
                 "title": f"Logo: {name}",
                 "url": f"/{name}",
                 "website": "e5291a10-0fea-4aad-9d53-22d3481ada30",
