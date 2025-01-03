@@ -55,18 +55,18 @@ def generate_json_from_logo_name(logo_name):
 
     return data
 
-# Function to wrap SVG content in HTML with Ahrefs tracking
-def wrap_with_analytics(name, svg_content):
+# Function to wrap SVG content in HTML with Umami tracking
+def wrap_analytics(name, svg_content):
     return f"""
     <!DOCTYPE html>
     <html lang="en">
       <head>
         <meta charset="UTF-8" />
         <title>{name.capitalize()} Logo</title>
-        <script
-          src="https://analytics.ahrefs.com/analytics.js"
-          data-key="NxIL3uTxgf1M7lSfSVpbWA"
-          async
+         <script
+        defer
+        src="https://analytics.logotypes.dev/script.js"
+        data-website-id="e5291a10-0fea-4aad-9d53-22d3481ada30"
         ></script>
       </head>
       <body>
@@ -89,7 +89,7 @@ def style_file():
 def generate_json():
     """
     Endpoint to list all logos.
-    Returns HTML with Ahrefs tracking or raw JSON.
+    Returns HTML with Umami tracking or raw JSON.
     """
     folder_path = "static/logos"
     logo_files = [f for f in os.listdir(folder_path) if f.endswith('.svg')]
@@ -109,8 +109,8 @@ def generate_json():
         # Return raw JSON
         return jsonify({"records": json_data})
 
-    # Format the data as HTML with Ahrefs tracking
-    html_content = wrap_with_analytics(
+    # Format the data as HTML with Umami tracking
+    html_content = wrap_analytics(
         "All Logos",
         f"<pre>{json.dumps({'records': json_data}, indent=2)}</pre>"
     )
@@ -120,7 +120,7 @@ def generate_json():
 def get_random_logo():
     """
     Endpoint to serve a random logo.
-    Returns an HTML with Ahrefs tracking or raw SVG.
+    Returns an HTML with Umami tracking or raw SVG.
     """
     folder_path = "static/logos"
     logo_files = [f for f in os.listdir(folder_path) if f.endswith('.svg')]
@@ -154,7 +154,7 @@ def get_random_logo():
     accept_header = request.headers.get("Accept", "")
     if "text/html" in accept_header:
         # Serve HTML with tracking
-        html_content = wrap_with_analytics("random", svg_content)
+        html_content = wrap_analytics("random", svg_content)
         return Response(html_content, content_type="text/html")
 
     # Serve raw SVG
@@ -165,7 +165,7 @@ def get_random_logo():
 def get_random_data():
     """
     Endpoint to retrieve data for a random logo.
-    Returns HTML with Ahrefs tracking or raw JSON.
+    Returns HTML with Umami tracking or raw JSON.
     """
     folder_path = "static/logos"
     logo_files = [f for f in os.listdir(folder_path) if f.endswith('.svg')]
@@ -195,8 +195,8 @@ def get_random_data():
     # Detect the type of request
     accept_header = request.headers.get("Accept", "")
     if "text/html" in accept_header:
-        # Format data as HTML with Ahrefs tracking
-        html_content = wrap_with_analytics("random data", f"<pre>{json.dumps(random_data, indent=2)}</pre>")
+        # Format data as HTML with Umami tracking
+        html_content = wrap_analytics("random data", f"<pre>{json.dumps(random_data, indent=2)}</pre>")
         return Response(html_content, content_type="text/html")
 
     # Return raw JSON data
@@ -207,7 +207,7 @@ def get_random_data():
 def get_name_data(name):
     """
     Endpoint to retrieve data for a specific logo.
-    Returns HTML with Ahrefs tracking or raw JSON.
+    Returns HTML with Umami tracking or raw JSON.
     """
     try:
         # Load data directly from the file system
@@ -232,8 +232,8 @@ def get_name_data(name):
         # Detect the type of request (HTML or raw JSON)
         accept_header = request.headers.get("Accept", "")
         if "text/html" in accept_header:
-            # Format data as HTML with Ahrefs tracking
-            html_content = wrap_with_analytics(
+            # Format data as HTML with Umami tracking
+            html_content = wrap_analytics(
                 name,
                 f"<pre>{json.dumps(name_data, indent=2)}</pre>"
             )
@@ -250,7 +250,8 @@ def get_name_data(name):
 @app.route("/<name>")
 def get_logo(name):
     """
-    Main endpoint to serve SVGs or HTML with tracking.
+    Main endpoint to serve SVGs with tracking.
+    Tracks image usage and sends event data to Umami.
     """
     folder_path = "static/logos"
     logo_files = [f for f in os.listdir(folder_path) if f.endswith('.svg') and name.lower() in f.lower()]
@@ -282,35 +283,38 @@ def get_logo(name):
     user_agent = request.headers.get("User-Agent", "Unknown")
     logger.info(f"Accessed logo: {name}, Referrer: {referrer}, User-Agent: {user_agent}")
 
-    # Send tracking data to Ahrefs analytics (or another system)
+    # Send tracking data to Umami analytics
     try:
-        tracking_url = "https://analytics.ahrefs.com/track"
-        tracking_data = {
-            "name": name,
-            "variant": variant_param,
-            "version": version_param,
-            "referrer": referrer,
-            "user_agent": user_agent
+        umami_url = "https://analytics.logotypes.dev/api/send"
+        payload = {
+            "payload": {
+                "hostname": "localhost",
+                "language": request.headers.get("Accept-Language", "en-US"),
+                "referrer": referrer,
+                "title": f"Logo: {name}",
+                "url": f"/{name}",
+                "website": "e5291a10-0fea-4aad-9d53-22d3481ada30",
+                "name": "image-access",
+                "data": {
+                    "variant": variant_param,
+                    "version": version_param
+                }
+            },
+            "type": "event"
         }
-        headers = {"Content-Type": "application/json"}
-        response = requests.post(tracking_url, json=tracking_data, headers=headers)
+        headers = {
+            "Content-Type": "application/json",
+            "User-Agent": user_agent  # Umami requiere un User-Agent válido
+        }
+        response = requests.post(umami_url, json=payload, headers=headers)
+        logger.info(f"Umami response: {response.status_code}, {response.text}")
         if response.status_code != 200:
-            logger.warning(f"Tracking failed for logo: {name}. Status: {response.status_code}")
+            logger.warning(f"Error tracking event: {response.text}")
     except Exception as e:
         logger.error(f"Error tracking logo: {name}. Exception: {str(e)}")
 
-    # Serve raw SVG or HTML based on Accept header
-    accept_header = request.headers.get("Accept", "")
-    if "text/html" in accept_header:
-        # Wrap SVG in HTML with tracking script
-        with open(svg_path, "r", encoding="utf-8") as svg_file:
-            svg_content = svg_file.read()
-        html_content = wrap_with_analytics(name, svg_content)
-        return Response(html_content, content_type="text/html")
-
     # Serve raw SVG for image requests
     return send_from_directory(folder_path, selected_logo)
-
 
 
 @app.route('/favicon-list')
