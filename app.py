@@ -294,7 +294,7 @@ def get_logo(name):
                 "title": f"Logo: {name}",
                 "url": f"/{name}",
                 "website": "e5291a10-0fea-4aad-9d53-22d3481ada30",
-                "name": f"/{name}",
+                "name": f"{name} (image access)",
                 "data": {
                     "variant": variant_param,
                     "version": version_param
