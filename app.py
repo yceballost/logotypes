@@ -298,7 +298,7 @@ def get_logo(name):
                 "data": {
                     "variant": variant_param,
                     "version": version_param,
-                    "referrer": referrer,
+                    "hostname": request.host,
                 }
             },
             "type": "event"
