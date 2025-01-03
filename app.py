@@ -206,7 +206,7 @@ def get_logo(name):
     # Send tracking data to Umami
     referrer = request.referrer or "No referrer"
     user_agent = request.headers.get("User-Agent", "Unknown")
-    send_umami_event(f"Logo Access: {name}", referrer, user_agent)
+    send_umami_event(f"Logo Access: {name}", name, user_agent)
 
     return send_from_directory(folder_path, selected_logo)
 
