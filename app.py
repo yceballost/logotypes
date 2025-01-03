@@ -107,6 +107,44 @@ def generate_json():
 
     return jsonify({"records": json_data})
 
+@app.route("/random/data")
+def get_random_data():
+    """
+    Endpoint to retrieve data for a random logo.
+    Returns raw JSON.
+    """
+    folder_path = "static/logos"
+    logo_files = [f for f in os.listdir(folder_path) if f.endswith('.svg')]
+
+    if not logo_files:
+        return "No logos found", 404
+
+    # Retrieve request parameters
+    variant_param = request.args.get("variant")
+    version_param = request.args.get("version")
+
+    # Filter logos based on parameters
+    filtered_logos = []
+    for logo_file in logo_files:
+        logo_data = generate_json_from_logo_name(logo_file)
+        if logo_data:  # Ensure the logo has valid data
+            if (not variant_param or logo_data.get("variant") == variant_param) and \
+               (not version_param or logo_data.get("version") == version_param):
+                filtered_logos.append(logo_data)
+
+    if not filtered_logos:
+        return "No data found with the specified parameters", 404
+
+    # Select random data from filtered logos
+    random_data = random.choice(filtered_logos)
+
+    # Send tracking data to Umami
+    referrer = request.referrer or "No referrer"
+    user_agent = request.headers.get("User-Agent", "Unknown")
+    send_umami_event("Random Data Access", referrer, user_agent, additional_data={"data": random_data})
+
+    # Return raw JSON data
+    return jsonify(random_data)
 
 @app.route("/random")
 def get_random_logo():
