@@ -1,12 +1,12 @@
 from flask import Flask, jsonify, request, send_from_directory, Response
 from flask_cors import CORS
-from flask_compress import Compress
 
 import os
 import random
-import json
 import requests
 import logging
+
+
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -14,7 +14,6 @@ logger = logging.getLogger(__name__)
 
 app = Flask(__name__, static_folder="static")
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
-Compress(app)
 
 app.config['COMPRESS_MIN_SIZE'] = 1024 
 
