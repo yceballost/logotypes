@@ -16,8 +16,6 @@ app = Flask(__name__, static_folder="static")
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
 Compress(app)
 
-app.config['COMPRESS_MIN_SIZE'] = 1024 
-
 UMAMI_TIMEOUT = 30
 
 # Function to generate JSON from logo file name
