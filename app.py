@@ -264,13 +264,19 @@ def get_logo(name):
     # Select the first filtered logo
     selected_logo = filtered_logos[0]
 
+     # Get referrer and origin
+    referrer = request.referrer or "Direct Access"
+    origin = request.headers.get("Origin", "Unknown")
+
     # Send tracking data to Umami
     send_umami_event(
         name=f"{name} (image access)",
         title="Custom Event",
         data={
             "variant": variant_param,
-            "version": version_param
+            "version": version_param,
+            "referrer": referrer,
+            "origin": origin
         }
     )
 
