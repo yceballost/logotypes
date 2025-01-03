@@ -196,6 +196,9 @@ def get_name_data(name):
 
 @app.route("/<name>")
 def get_logo(name):
+    """
+    Endpoint to serve a specific logo by name and send customized tracking data to Umami.
+    """
     folder_path = "static/logos"
     logo_files = [f for f in os.listdir(folder_path) if f.endswith('.svg') and name.lower() in f.lower()]
 
@@ -204,12 +207,19 @@ def get_logo(name):
 
     selected_logo = logo_files[0]
 
+    # Custom tracking data
+    tracking_data = {
+        "custom_field": f"[Image access]: {name}",  # Replace or add your custom fields here
+        "action": "Logo Viewed",
+        "logo_name": name,
+    }
+
     # Send tracking data to Umami
-    referrer = request.referrer or "No referrer"
     user_agent = request.headers.get("User-Agent", "Unknown")
-    send_umami_event(name, name, user_agent)
+    send_umami_event(name, f"Viewing {name}", user_agent, tracking_data)
 
     return send_from_directory(folder_path, selected_logo)
+
 
 @app.route('/favicon-list')
 def list_favicons():
