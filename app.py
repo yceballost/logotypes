@@ -288,7 +288,7 @@ def get_logo(name):
         umami_url = "https://analytics.logotypes.dev/api/send"
         payload = {
             "payload": {
-                "hostname": "localhost",
+                "hostname": request.host,
                 "language": request.headers.get("Accept-Language", "en-US"),
                 "referrer": referrer,
                 "title": f"Logo: {name}",
