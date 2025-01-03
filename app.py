@@ -52,7 +52,8 @@ def send_umami_event(name, referrer, user_agent, additional_data=None):
         payload = {
             "type": "event",
             "payload": {
-                "website": "e5291a10-0fea-4aad-9d53-22d3481ada30",  # Verifica este ID
+                "hostname": request.host,
+                "website": "e5291a10-0fea-4aad-9d53-22d3481ada30", 
                 "url": request.url,
                 "referrer": referrer,
                 "language": request.headers.get("Accept-Language", "en-US"),
@@ -217,6 +218,10 @@ def list_favicons():
         return jsonify(logos)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    
+@app.route('/test.html')
+def serve_test_page():
+    return send_from_directory('static/web', 'test.html')
 
 if __name__ == "__main__":
     app.run(debug=False)
