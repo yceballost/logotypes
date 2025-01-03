@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request, send_from_directory, Response
 from flask_cors import CORS
+from flask_compress import Compress
 
 import os
 import random
@@ -13,6 +14,11 @@ logger = logging.getLogger(__name__)
 
 app = Flask(__name__, static_folder="static")
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
+Compress(app)
+
+app.config['COMPRESS_MIN_SIZE'] = 1024 
+
+UMAMI_TIMEOUT = 30
 
 # Function to generate JSON from logo file name
 def generate_json_from_logo_name(logo_name):
@@ -45,39 +51,36 @@ def generate_json_from_logo_name(logo_name):
 
     return data
 
-# Function to send events to Umami API
-def send_umami_event(name, referrer, user_agent, additional_data=None):
+def send_umami_event(name, title, data=None):
+    """
+    Sends a tracking event to Umami with the given parameters.
+    """
     try:
         umami_url = "https://analytics.logotypes.dev/api/send"
         payload = {
-            "type": "event",
+            "type": "event",  # Specify that this is a custom event
             "payload": {
-                "hostname": request.host,
-                "website": "e5291a10-0fea-4aad-9d53-22d3481ada30", 
-                "url": request.url,
-                "referrer": referrer,
+                "website": "e5291a10-0fea-4aad-9d53-22d3481ada30",  # Site ID
+                "url": request.url,  # Current request URL
+                "name": name,  # Custom event name
+                "title": title,  # Event title
                 "language": request.headers.get("Accept-Language", "en-US"),
-                "title": name,
-
-                "data": additional_data or {}
+                "data": data or {}  # Additional metadata
             }
         }
         headers = {
             "Content-Type": "application/json",
-            "User-Agent": user_agent
+            "User-Agent": request.headers.get("User-Agent", "Unknown")
         }
 
-        # Log the payload for debugging
-        logger.info(f"Sending Umami event: {json.dumps(payload)}")
-
-        response = requests.post(umami_url, json=payload, headers=headers)
-        
-        # Log response details
+        response = requests.post(umami_url, json=payload, headers=headers, timeout=UMAMI_TIMEOUT)
         logger.info(f"Umami response: {response.status_code}, {response.text}")
         if response.status_code != 200:
-            logger.warning(f"Error sending event: {response.text}")
+            logger.warning(f"Error tracking event: {response.text}")
+    except requests.exceptions.Timeout:
+        logger.error(f"Timeout error while sending event: {name}")
     except Exception as e:
-        logger.error(f"Error sending Umami event for {name}: {e}")
+        logger.error(f"Error sending event {name}. Exception: {str(e)}")
 
 
 @app.route('/')
@@ -90,10 +93,15 @@ def style_file():
 
 @app.route("/all")
 def generate_json():
+    """
+    Endpoint to list all logos.
+    Returns raw JSON and sends a tracking event to Umami.
+    """
     folder_path = "static/logos"
     logo_files = [f for f in os.listdir(folder_path) if f.endswith('.svg')]
     json_data = {}
 
+    # Generate JSON data for all logos
     for logo_file in logo_files:
         logo_data = generate_json_from_logo_name(logo_file)
         if logo_data:
@@ -102,18 +110,22 @@ def generate_json():
                 json_data[name] = []
             json_data[name].append(logo_data)
 
-    # Send tracking data to Umami
-    referrer = request.referrer or "No referrer"
-    user_agent = request.headers.get("User-Agent", "Unknown")
-    send_umami_event("All Logos Access", referrer, user_agent)
+    # Send tracking event
+    send_umami_event(
+        name="All Logos Access",
+        title="All Logos",
+        data={"total_logos": len(logo_files)}
+    )
 
+    # Return raw JSON
     return jsonify({"records": json_data})
+
 
 @app.route("/random/data")
 def get_random_data():
     """
     Endpoint to retrieve data for a random logo.
-    Returns raw JSON.
+    Returns raw JSON and sends a tracking event to Umami.
     """
     folder_path = "static/logos"
     logo_files = [f for f in os.listdir(folder_path) if f.endswith('.svg')]
@@ -121,7 +133,7 @@ def get_random_data():
     if not logo_files:
         return "No logos found", 404
 
-    # Retrieve request parameters
+    # Retrieve optional parameters
     variant_param = request.args.get("variant")
     version_param = request.args.get("version")
 
@@ -129,10 +141,10 @@ def get_random_data():
     filtered_logos = []
     for logo_file in logo_files:
         logo_data = generate_json_from_logo_name(logo_file)
-        if logo_data:  # Ensure the logo has valid data
-            if (not variant_param or logo_data.get("variant") == variant_param) and \
-               (not version_param or logo_data.get("version") == version_param):
-                filtered_logos.append(logo_data)
+        if logo_data and \
+           (not variant_param or logo_data.get("variant") == variant_param) and \
+           (not version_param or logo_data.get("version") == version_param):
+            filtered_logos.append(logo_data)
 
     if not filtered_logos:
         return "No data found with the specified parameters", 404
@@ -141,15 +153,21 @@ def get_random_data():
     random_data = random.choice(filtered_logos)
 
     # Send tracking data to Umami
-    referrer = request.referrer or "No referrer"
-    user_agent = request.headers.get("User-Agent", "Unknown")
-    send_umami_event("Random Data Access", referrer, user_agent, additional_data={"data": random_data})
+    send_umami_event(
+        name="Random Data Access",
+        title="Random Logo Data",
+        data=random_data
+    )
 
     # Return raw JSON data
     return jsonify(random_data)
 
 @app.route("/random")
 def get_random_logo():
+    """
+    Endpoint to serve a random logo.
+    Returns raw SVG and sends a tracking event to Umami.
+    """
     folder_path = "static/logos"
     logo_files = [f for f in os.listdir(folder_path) if f.endswith('.svg')]
 
@@ -159,45 +177,66 @@ def get_random_logo():
     random_logo = random.choice(logo_files)
     svg_path = os.path.join(folder_path, random_logo)
 
+    # Read the SVG content
     with open(svg_path, "r", encoding="utf-8") as svg_file:
         svg_content = svg_file.read()
 
-    # Send tracking data to Umami
-    referrer = request.referrer or "No referrer"
-    user_agent = request.headers.get("User-Agent", "Unknown")
-    send_umami_event("Random Logo Access", referrer, user_agent)
+    # Send tracking event
+    send_umami_event(
+        name="Random Logo Access",
+        title="Random Logo",
+        data={"file": random_logo}
+    )
 
+    # Serve raw SVG
     return Response(svg_content, content_type="image/svg+xml")
+
 
 @app.route("/<name>/data")
 def get_name_data(name):
-    folder_path = "static/logos"
-    logo_files = [f for f in os.listdir(folder_path) if f.endswith('.svg')]
-    records = {}
+    """
+    Endpoint to retrieve data for a specific logo.
+    Returns raw JSON and sends a tracking event to Umami.
+    """
+    try:
+        # Load data directly from the file system
+        folder_path = "static/logos"
+        logo_files = [f for f in os.listdir(folder_path) if f.endswith('.svg')]
+        records = {}
 
-    for logo_file in logo_files:
-        logo_data = generate_json_from_logo_name(logo_file)
-        if logo_data:
-            logo_name = logo_data["name"].lower()
-            if logo_name not in records:
-                records[logo_name] = []
-            records[logo_name].append(logo_data)
+        for logo_file in logo_files:
+            logo_data = generate_json_from_logo_name(logo_file)
+            if logo_data:
+                logo_name = logo_data["name"].lower()
+                if logo_name not in records:
+                    records[logo_name] = []
+                records[logo_name].append(logo_data)
 
-    name_data = records.get(name.lower(), [])
-    if not name_data:
-        return "Name not found", 404
+        # Retrieve data for the requested logo
+        name_data = records.get(name.lower(), [])
 
-    # Send tracking data to Umami
-    referrer = request.referrer or "No referrer"
-    user_agent = request.headers.get("User-Agent", "Unknown")
-    send_umami_event(f"Data Access for {name}", referrer, user_agent)
+        if not name_data:
+            return "Name not found", 404
 
-    return jsonify(name_data)
+        # Send tracking data to Umami
+        send_umami_event(
+            name=f"{name} Data Access",
+            title=f"{name} Data",
+            data={"records": len(name_data)}  # Include the number of records as metadata
+        )
+
+        # Return raw JSON data
+        return jsonify(name_data)
+
+    except Exception as e:
+        logger.error(f"Error fetching data for name '{name}': {e}")
+        return "Error fetching data", 500
+
 
 @app.route("/<name>")
 def get_logo(name):
     """
-    Endpoint to serve a specific logo by name and send customized tracking data to Umami.
+    Endpoint to serve a specific logo by name and send a custom event to Umami.
     """
     folder_path = "static/logos"
     logo_files = [f for f in os.listdir(folder_path) if f.endswith('.svg') and name.lower() in f.lower()]
@@ -205,21 +244,36 @@ def get_logo(name):
     if not logo_files:
         return "Logo not found", 404
 
-    selected_logo = logo_files[0]
+    # Retrieve optional parameters
+    variant_param = request.args.get("variant")
+    version_param = request.args.get("version")
 
-    # Custom tracking data
-    tracking_data = {
-        "custom_field": f"[Image access]: {name}",  # Replace or add your custom fields here
-        "action": "Logo Viewed",
-        "logo_name": name,
-    }
+    # Filter logos based on provided parameters
+    filtered_logos = []
+    for logo_file in logo_files:
+        logo_data = generate_json_from_logo_name(logo_file)
+        if (not variant_param or logo_data.get("variant") == variant_param) and \
+           (not version_param or logo_data.get("version") == version_param):
+            filtered_logos.append(logo_file)
+
+    if not filtered_logos:
+        return "No logo found with the specified parameters", 404
+
+    # Select the first filtered logo
+    selected_logo = filtered_logos[0]
 
     # Send tracking data to Umami
-    user_agent = request.headers.get("User-Agent", "Unknown")
-    send_umami_event(name, f"Viewing {name}", user_agent, tracking_data)
+    send_umami_event(
+        name=f"{name} (image access)",
+        title="Custom Event",
+        data={
+            "variant": variant_param,
+            "version": version_param
+        }
+    )
 
+    # Serve the SVG
     return send_from_directory(folder_path, selected_logo)
-
 
 @app.route('/favicon-list')
 def list_favicons():
