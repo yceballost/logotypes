@@ -297,7 +297,8 @@ def get_logo(name):
                 "name": f"{name} (image access)",
                 "data": {
                     "variant": variant_param,
-                    "version": version_param
+                    "version": version_param,
+                    "referrer": referrer,
                 }
             },
             "type": "event"
