@@ -183,11 +183,19 @@ def get_random_logo():
     with open(svg_path, "r", encoding="utf-8") as svg_file:
         svg_content = svg_file.read()
 
+    # Get referrer and origin
+    referrer = request.referrer or "Direct Access"
+    origin = request.headers.get("Origin", "Unknown")
+    
     # Send tracking event
     send_umami_event(
         name="Random Logo Access",
         title="Random Logo",
-        data={"file": random_logo}
+        data={
+            "file": random_logo,
+             "referrer": referrer,
+            "origin": origin
+        }
     )
 
     # Serve raw SVG
@@ -220,11 +228,19 @@ def get_name_data(name):
         if not name_data:
             return "Name not found", 404
 
+        # Get referrer and origin
+        referrer = request.referrer or "Direct Access"
+        origin = request.headers.get("Origin", "Unknown")
+
         # Send tracking data to Umami
         send_umami_event(
             name=f"{name} Data Access",
             title=f"{name} Data",
-            data={"records": len(name_data)}  # Include the number of records as metadata
+            data={
+                "records": len(name_data), 
+                "referrer": referrer,
+                "origin": origin
+            }  
         )
 
         # Return raw JSON data
@@ -271,7 +287,7 @@ def get_logo(name):
     # Send tracking data to Umami
     send_umami_event(
         name=f"{name} (image access)",
-        title="Custom Event",
+        title="Logo Image Access",
         data={
             "variant": variant_param,
             "version": version_param,
