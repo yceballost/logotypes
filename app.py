@@ -112,12 +112,15 @@ def generate_json():
                 json_data[name] = []
             json_data[name].append(logo_data)
 
-    # Send tracking event
-    send_umami_event(
-        name="All Logos Access",
-        title="All Logos",
-        data={"total_logos": len(logo_files)}
-    )
+    # Condición para evitar tracking basado en query parameters o referrer
+    exclude_tracking = request.args.get("example") == "true" or request.referrer == "Direct Access"
+    if not exclude_tracking:
+        # Send tracking event
+        send_umami_event(
+            name="All Logos Access",
+            title="All Logos",
+            data={"total_logos": len(logo_files)}
+        )
 
     # Return raw JSON
     return jsonify({"records": json_data})
@@ -186,20 +189,24 @@ def get_random_logo():
     # Get referrer and origin
     referrer = request.referrer or "Direct Access"
     origin = request.headers.get("Origin", "Unknown")
-    
-    # Send tracking event
-    send_umami_event(
-        name="Random Logo Access",
-        title="Random Logo",
-        data={
-            "file": random_logo,
-             "referrer": referrer,
-            "origin": origin
-        }
-    )
+
+    # Condición para evitar tracking
+    exclude_tracking = request.args.get("example") == "true" or referrer == "Direct Access"
+    if not exclude_tracking:
+        # Send tracking event
+        send_umami_event(
+            name="Random Logo Access",
+            title="Random Logo",
+            data={
+                "file": random_logo,
+                "referrer": referrer,
+                "origin": origin
+            }
+        )
 
     # Serve raw SVG
     return Response(svg_content, content_type="image/svg+xml")
+
 
 
 @app.route("/<name>/data")
@@ -280,24 +287,28 @@ def get_logo(name):
     # Select the first filtered logo
     selected_logo = filtered_logos[0]
 
-     # Get referrer and origin
+    # Get referrer and origin
     referrer = request.referrer or "Direct Access"
     origin = request.headers.get("Origin", "Unknown")
 
-    # Send tracking data to Umami
-    send_umami_event(
-        name=f"{name} (image access)",
-        title="Logo Image Access",
-        data={
-            "variant": variant_param,
-            "version": version_param,
-            "referrer": referrer,
-            "origin": origin
-        }
-    )
+    # Condición para evitar enviar tracking en ciertos casos
+    exclude_tracking = "/name" in request.path or request.args.get("example") == "true"
+    if not exclude_tracking:
+        # Send tracking data to Umami
+        send_umami_event(
+            name=f"{name} (image access)",
+            title="Logo Image Access",
+            data={
+                "variant": variant_param,
+                "version": version_param,
+                "referrer": referrer,
+                "origin": origin
+            }
+        )
 
     # Serve the SVG
     return send_from_directory(folder_path, selected_logo)
+
 
 @app.route('/favicon-list')
 def list_favicons():
