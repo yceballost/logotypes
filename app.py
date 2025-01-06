@@ -56,6 +56,14 @@ def send_umami_event(name, title, data=None):
     """
     try:
         umami_url = "https://analytics.logotypes.dev/api/send"
+        
+        referrer_url = request.referrer or "Direct Access"
+        parsed_referrer = urlparse(referrer_url)
+        
+        referrer_path = parsed_referrer.path if parsed_referrer.path else ""
+        referrer_query = parsed_referrer.query if parsed_referrer.query else ""
+        referrer_domain = parsed_referrer.netloc if parsed_referrer.netloc else ""
+
         payload = {
             "type": "event",  # Specify that this is a custom event
             "payload": {
@@ -64,7 +72,9 @@ def send_umami_event(name, title, data=None):
                 "name": name,  # Custom event name
                 "title": title,  # Event title
                 "language": request.headers.get("Accept-Language", "en-US"),
-                "referrer": request.referrer or "Direct Access",  # Include referrer or "Direct Access"
+                "referrerPath": referrer_path,
+                "referrerQuery": referrer_query,
+                "referrerDomain": referrer_domain,
                 "origin": request.headers.get("Origin", "Unknown"),  # Include Origin if available
                 "data": data or {}  # Additional metadata
             }
@@ -201,8 +211,6 @@ def get_random_logo():
             title="Random Logo",
             data={
                 "file": random_logo,
-                "referrer": referrer,
-                "origin": origin
             }
         )
 
@@ -247,8 +255,6 @@ def get_name_data(name):
             title=f"{name} Data",
             data={
                 "records": len(name_data), 
-                "referrer": referrer,
-                "origin": origin
             }  
         )
 
@@ -303,8 +309,6 @@ def get_logo(name):
             data={
                 "variant": variant_param,
                 "version": version_param,
-                "referrer": referrer,
-                "origin": origin
             }
         )
 
