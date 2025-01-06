@@ -1,12 +1,11 @@
 from flask import Flask, jsonify, request, send_from_directory, Response
 from flask_cors import CORS
+from urllib.parse import urlparse
 
 import os
 import random
 import requests
 import logging
-
-
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
