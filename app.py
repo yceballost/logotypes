@@ -300,8 +300,9 @@ def get_logo(name):
     # Select the first filtered logo
     selected_logo = filtered_logos[0]
 
-    # Get referrer and origin
-    referrer = request.referrer or "No Referrer"
+    referrer_url = request.referrer or "Unknown"
+    parsed_referrer = urlparse(referrer_url)
+    referrer_host = parsed_referrer.netloc
     origin = request.headers.get("Origin", "Unknown")
 
     # Condición para evitar enviar tracking en ciertos casos
@@ -314,6 +315,8 @@ def get_logo(name):
             data={
                 "variant": variant_param,
                 "version": version_param,
+                "referrer_url": referrer_url,
+                "referrer_host": referrer_host,
             }
         )
 
