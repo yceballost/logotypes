@@ -74,6 +74,8 @@ def send_umami_event(name, title, data=None):
             "User-Agent": request.headers.get("User-Agent", "Unknown")
         }
 
+        logger.info(f"Preparing to send Umami event: {payload}")
+
         response = requests.post(umami_url, json=payload, headers=headers, timeout=UMAMI_TIMEOUT)
         logger.info(f"Umami response: {response.status_code}, {response.text}")
         if response.status_code != 200:
@@ -288,7 +290,7 @@ def get_logo(name):
     selected_logo = filtered_logos[0]
 
     # Get referrer and origin
-    referrer = request.referrer or "Direct Access"
+    referrer = request.referrer or "No Referrer"
     origin = request.headers.get("Origin", "Unknown")
 
     # Condición para evitar enviar tracking en ciertos casos
