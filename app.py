@@ -7,6 +7,8 @@ import random
 import requests
 import logging
 
+
+
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -55,29 +57,27 @@ def send_umami_event(name, title, data=None):
     """
     try:
         umami_url = "https://analytics.logotypes.dev/api/send"
-        
-        referrer_url = request.referrer or "Direct Access"
+
+        referrer_url = request.referrer or ""
         parsed_referrer = urlparse(referrer_url)
-        
-        referrer_path = parsed_referrer.path if parsed_referrer.path else ""
-        referrer_query = parsed_referrer.query if parsed_referrer.query else ""
-        referrer_domain = parsed_referrer.netloc if parsed_referrer.netloc else ""
+        hostname = request.host
+        screen_resolution = request.headers.get("Screen-Resolution", "Unknown")
 
         payload = {
-            "type": "event",  # Specify that this is a custom event
+            "type": "event",  # Tipo de evento, siempre "event"
             "payload": {
-                "website": "e5291a10-0fea-4aad-9d53-22d3481ada30",  # Site ID
-                "url": request.url,  # Current request URL
-                "name": name,  # Custom event name
-                "title": title,  # Event title
-                "language": request.headers.get("Accept-Language", "en-US"),
-                "referrerPath": referrer_path,
-                "referrerQuery": referrer_query,
-                "referrerDomain": referrer_domain,
-                "origin": request.headers.get("Origin", "Unknown"),  # Include Origin if available
-                "data": data or {}  # Additional metadata
+                "hostname": hostname,  
+                "language": request.headers.get("Accept-Language", "en-US"), 
+                "referrer": referrer_url, 
+                "screen": screen_resolution,
+                "title": title,
+                "url": request.url,
+                "website": "e5291a10-0fea-4aad-9d53-22d3481ada30",
+                "name": name,
+                "data": data or {} 
             }
         }
+
         headers = {
             "Content-Type": "application/json",
             "User-Agent": request.headers.get("User-Agent", "Unknown")
@@ -87,8 +87,10 @@ def send_umami_event(name, title, data=None):
 
         response = requests.post(umami_url, json=payload, headers=headers, timeout=UMAMI_TIMEOUT)
         logger.info(f"Umami response: {response.status_code}, {response.text}")
+
         if response.status_code != 200:
             logger.warning(f"Error tracking event: {response.text}")
+
     except requests.exceptions.Timeout:
         logger.error(f"Timeout error while sending event: {name}")
     except Exception as e:
