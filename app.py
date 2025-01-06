@@ -58,15 +58,16 @@ def send_umami_event(name, title, data=None):
     try:
         umami_url = "https://analytics.logotypes.dev/api/send"
 
-        referrer_url = request.referrer or ""
+        referrer_url = request.referrer or "Unknown"
         parsed_referrer = urlparse(referrer_url)
+        referrer_host = parsed_referrer.netloc
         hostname = request.host
         screen_resolution = request.headers.get("Screen-Resolution", "Unknown")
 
         payload = {
             "type": "event",  # Tipo de evento, siempre "event"
             "payload": {
-                "hostname": referrer_url,  
+                "hostname": hostname,  
                 "language": request.headers.get("Accept-Language", "en-US"), 
                 "referrer": referrer_url, 
                 "screen": screen_resolution,
@@ -74,7 +75,10 @@ def send_umami_event(name, title, data=None):
                 "url": request.url,
                 "website": "e5291a10-0fea-4aad-9d53-22d3481ada30",
                 "name": name,
-                "data": data or {} 
+                "data": data or { 
+                    "referrer_url": referrer_url,
+                    "referrer_host": referrer_host,
+                } 
             }
         }
 
