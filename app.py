@@ -66,7 +66,7 @@ def send_umami_event(name, title, data=None):
         payload = {
             "type": "event",  # Tipo de evento, siempre "event"
             "payload": {
-                "hostname": hostname,  
+                "hostname": referrer_url,  
                 "language": request.headers.get("Accept-Language", "en-US"), 
                 "referrer": referrer_url, 
                 "screen": screen_resolution,
