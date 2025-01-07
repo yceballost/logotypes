@@ -62,6 +62,7 @@ def send_umami_event(name, title, data=None):
         parsed_referrer = urlparse(referrer_url)
         referrer_host = parsed_referrer.netloc
         hostname = request.host
+        origin = request.headers.get("Origin", "Unknown")
         screen_resolution = request.headers.get("Screen-Resolution", "Unknown")
 
         payload = {
@@ -78,6 +79,7 @@ def send_umami_event(name, title, data=None):
                 "data": data or { 
                     "referrer_url": referrer_url,
                     "referrer_host": referrer_host,
+                    "origin": origin,
                 } 
             }
         }
@@ -216,6 +218,7 @@ def get_random_logo():
             title="Random Logo",
             data={
                 "file": random_logo,
+                "origin": origin,
             }
         )
 
@@ -260,6 +263,7 @@ def get_name_data(name):
             title=f"{name} Data",
             data={
                 "records": len(name_data), 
+                "origin": origin,
             }  
         )
 
@@ -317,6 +321,7 @@ def get_logo(name):
                 "version": version_param,
                 "referrer_url": referrer_url,
                 "referrer_host": referrer_host,
+                "origin": origin,
             }
         )
 
