@@ -18,7 +18,7 @@ test.describe("home-screenshot", () => {
     page,
   }) => {
     await page.goto("http://127.0.0.1:5000/");
-    await page.waitForTimeout(5000); // because logo grid load is slow
+    // await page.waitForTimeout(5000); // because logo grid load is slow (By the moment, I prefer avoid this)
     await page.screenshot({ path: "screenshots/index.png", fullPage: true });
   });
 });
