@@ -1,6 +1,46 @@
 const { test, expect } = require("@playwright/test");
+const fs = require("fs");
+const path = require("path");
 
-test.describe("Pruebas para la página de inicio", () => {
+// Generar lista dinámica de nombres de logos
+const logosPath = path.join(__dirname, "../static/logos");
+const names = fs
+  .readdirSync(logosPath)
+  .filter((file) => path.extname(file) === ".svg") // Solo archivos SVG
+  .map((file) => path.basename(file, ".svg")); // Remover la extensiónç
+
+test.describe.configure({ retries: 2 });
+const TIMEOUT = 1000;
+
+// Screenshots tests
+test.describe("home-screenshot", () => {
+  test("Captura de pantalla completa de la página de inicio", async ({
+    page,
+  }) => {
+    await page.goto("http://127.0.0.1:5000/");
+    await page.waitForTimeout(5000); // because logo grid load is slow
+    await page.screenshot({ path: "screenshots/index.png", fullPage: true });
+  });
+});
+
+test.describe("logos-screenshot", () => {
+  for (const name of names) {
+    test(`Captura de pantalla de /${name}`, async ({ page }) => {
+      await page.goto(`http://127.0.0.1:5000/${name}`, {
+        timeout: TIMEOUT,
+      });
+
+      const svg = page.locator("svg");
+      await svg.screenshot({
+        path: `screenshots/${name}.png`,
+        omitBackground: true,
+      });
+    });
+  }
+});
+
+// Unit tests
+test.describe("home-unit", () => {
   test("La página de inicio carga correctamente", async ({ page }) => {
     const response = await page.goto("http://127.0.0.1:5000/");
 
@@ -16,13 +56,11 @@ test.describe("Pruebas para la página de inicio", () => {
   });
 });
 
-test.describe("Pruebas para rutas específicas", () => {
-  const names = ["spotify", "apple", "microsoft"];
-
+test.describe("logos-unit", () => {
   for (const name of names) {
     test(`La página /${name} responde con un SVG válido`, async ({ page }) => {
       const response = await page.goto(`http://127.0.0.1:5000/${name}`, {
-        timeout: 60000,
+        timeout: TIMEOUT, // Timeout extendido para cada prueba
       });
 
       // Validar estado HTTP
@@ -39,10 +77,10 @@ test.describe("Pruebas para rutas específicas", () => {
   }
 });
 
-test.describe("Pruebas para rutas aleatorias", () => {
+test.describe("random-unit", () => {
   test("La página /random responde con un SVG válido", async ({ page }) => {
     const response = await page.goto("http://127.0.0.1:5000/random", {
-      timeout: 60000,
+      timeout: TIMEOUT,
     });
 
     // Validar estado HTTP
@@ -71,28 +109,4 @@ test.describe("Pruebas para rutas aleatorias", () => {
     expect(body).toBeDefined();
     expect(typeof body).toBe("object");
   });
-});
-
-// Screenshots
-test.describe("Capturas de pantalla para la página de inicio", () => {
-  test("Captura de pantalla completa de la página de inicio", async ({
-    page,
-  }) => {
-    await page.goto("http://127.0.0.1:5000/");
-    await page.screenshot({ path: "screenshots/index.png", fullPage: true });
-  });
-});
-
-test.describe("Capturas de pantalla para rutas específicas", () => {
-  const names = ["spotify", "apple", "microsoft"];
-
-  for (const name of names) {
-    test(`Captura de pantalla de /${name}`, async ({ page }) => {
-      await page.goto(`http://127.0.0.1:5000/${name}`);
-
-      // Localiza el SVG y captura su pantalla
-      const svg = page.locator("svg");
-      await svg.screenshot({ path: `screenshots/${name}.png` });
-    });
-  }
 });
