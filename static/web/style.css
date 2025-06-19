@@ -399,6 +399,7 @@ input#search-input {
   position: sticky;
   top: 0; /* Fija la columna en la parte superior cuando haces scroll */
   height: 100vh;
+  padding-top: 24px;
 }
 
 .search-icon {
