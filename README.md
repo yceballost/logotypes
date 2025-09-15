@@ -93,7 +93,7 @@ I have tried to conceive this project from pure simplicity, from development to 
 
 ### Improving the project as a developer
 
-This project has been built by an inexperienced designer in coding and assisted by ChatGPT. (😬). Please feel free to enhance or add any features to this project by submitting a pull request (PR). I welcome your contributions and appreciate any improvements you can make.
+This project has been built by an inexperienced designer in coding and assisted by ChatGPT. Please feel free to enhance or add any features to this project by submitting a pull request (PR). I welcome your contributions and appreciate any improvements you can make.
 
 ## FAQs
 
