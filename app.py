@@ -277,6 +277,9 @@ def get_name_data(name):
 
 @app.route("/<name>")
 def get_logo(name):
+    if name.startswith("stats"):
+        return "Not handled by app.py", 404
+    
     """
     Endpoint to serve a specific logo by name and send a custom event to Umami.
     """

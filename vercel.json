@@ -1,8 +1,12 @@
 {
-  "builds": [{ "src": "app.py", "use": "@vercel/python" }],
+  "builds": [
+    { "src": "app.py", "use": "@vercel/python" },
+    { "src": "umami/next.config.js", "use": "@vercel/next" }
+  ],
   "rewrites": [
     { "source": "/favicon.ico", "destination": "/favicon.ico" },
     { "source": "/static/(.*)", "destination": "/static/$1" },
+    { "source": "/stats/:match*", "destination": "umami/.next/$1" },
     { "source": "/(.*)", "destination": "app.py" }
   ],
   "headers": [
