@@ -4,3 +4,7 @@
 __pycache__
 **/venv
 .env
+
+
+**/node_modules
+*.last-run.json
