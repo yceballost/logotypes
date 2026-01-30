@@ -23,12 +23,17 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: "3.x"
+          python-version: "3.11"
 
       - name: Install Node.js
         uses: actions/setup-node@v3
         with:
           node-version: "18"
+
+      - name: Install lxml system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libxml2-dev libxslt1-dev python3-dev
 
       - name: Get branch name
         uses: rlespinasse/github-slug-action@v3.x
@@ -50,7 +55,7 @@ jobs:
 
       - name: Resize SVGs
         run: |
-          sudo python .github/scripts/resize-logos.py static/logos 64
+          python .github/scripts/resize-logos.py static/logos 64
 
       - name: Optimize SVGs with SVGO
         run: |
