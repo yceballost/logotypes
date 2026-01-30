@@ -25,30 +25,46 @@ def resize_svg(input_path, new_height):
     root = tree.getroot()
 
     # Extract width and height from the SVG
-    width = root.get('width')
-    height = root.get('height')
+    width_attr = root.get('width')
+    height_attr = root.get('height')
 
-    if width is None or height is None:
-        viewBox = root.get('viewBox')
-        if viewBox:
-            _, _, width, height = map(float, viewBox.split())
-        else:
-            raise ValueError(f"SVG file {input_path} does not have width/height attributes or viewBox.")
+    # Preserve whether width/height were present so we can still add them when missing
+    has_width_attr = width_attr is not None
+    has_height_attr = height_attr is not None
+
+    viewBox = root.get('viewBox')
+
+    if viewBox:
+        _, _, viewbox_width, viewbox_height = map(float, viewBox.split())
     else:
-        width = convert_to_pixels(width)
-        height = convert_to_pixels(height)
+        viewbox_width = viewbox_height = None
 
-    # Check if the height is already correct
-    if height == new_height:
+    if width_attr is not None:
+        width_px = convert_to_pixels(width_attr)
+    elif viewbox_width is not None:
+        width_px = viewbox_width
+    else:
+        raise ValueError(f"SVG file {input_path} does not have a width attribute or viewBox.")
+
+    if height_attr is not None:
+        height_px = convert_to_pixels(height_attr)
+    elif viewbox_height is not None:
+        height_px = viewbox_height
+    else:
+        raise ValueError(f"SVG file {input_path} does not have a height attribute or viewBox.")
+
+    # Determine whether we need to write width/height: either attributes are missing or height differs
+    needs_update = (not has_width_attr) or (not has_height_attr) or (height_px != new_height)
+    if not needs_update:
         print(f'{input_path} already has the correct height.')
         return False
 
     # Calculate new dimensions while maintaining aspect ratio
-    new_width = (new_height / height) * width
+    new_width = (new_height / height_px) * width_px
 
     # Update the width and height attributes in the SVG
-    root.set('width', f'{new_width}px')
-    root.set('height', f'{new_height}px')
+    root.set('width', f'{new_width}')
+    root.set('height', f'{new_height}')
 
     # Remove any existing namespace
     etree.cleanup_namespaces(root)

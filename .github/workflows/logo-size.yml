@@ -59,7 +59,7 @@ jobs:
 
       - name: Optimize SVGs with SVGO
         run: |
-          svgo -f static/logos -r -o static/logos
+          svgo -f static/logos -r -o static/logos --config .svgo.config.js
 
       - name: Check if there are changes to commit
         id: check_changes
