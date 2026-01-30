@@ -52,14 +52,12 @@ jobs:
           else
               git checkout -b ${{ env.GITHUB_HEAD_REF_SLUG }}
           fi
-
-      - name: Resize SVGs
-        run: |
-          python .github/scripts/resize-logos.py static/logos 64
-
       - name: Optimize SVGs with SVGO
         run: |
           svgo -f static/logos -r -o static/logos --config .svgo.config.js
+      - name: Resize SVGs
+        run: |
+          python .github/scripts/resize-logos.py static/logos 64
 
       - name: Check if there are changes to commit
         id: check_changes
