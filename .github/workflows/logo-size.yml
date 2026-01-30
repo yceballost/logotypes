@@ -10,6 +10,7 @@ on:
       - main
     paths:
       - "static/logos/**"
+  workflow_dispatch:
 
 jobs:
   resize_svgs:
