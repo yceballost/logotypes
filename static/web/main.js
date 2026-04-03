@@ -34,7 +34,7 @@ function filterLogos() {
   const cells = document.querySelectorAll("#logo-grid .logo-cell");
 
   cells.forEach((cell) => {
-    const name = cell.getAttribute("data-name");
+    const name = cell.getAttribute("data-name").toLowerCase();
     const type = cell.getAttribute("data-type");
     const color = cell.getAttribute("data-color");
     const nameMatch = name.includes(query);

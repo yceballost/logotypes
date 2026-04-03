@@ -91,31 +91,6 @@ I have tried to conceive this project from pure simplicity, from development to 
 
 2. Simply make a pull request including the logos in the [static/logos](static/logos) folder with the correct naming structure and in .svg format, and you're good to go!
 
-### Improving the project as a developer
-
-This project has been built by an inexperienced designer in coding and assisted by ChatGPT. Please feel free to enhance or add any features to this project by submitting a pull request (PR). I welcome your contributions and appreciate any improvements you can make.
-
-## Development
-
-### Run locally
-
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-python app.py
-```
-
-### Environment variables
-
-- `CORS_ORIGINS`: comma-separated origins or `*` (default: `*`)
-- `DEBUG`: `true`/`false` to run Flask in debug mode (default: `false`)
-- `UMAMI_ENABLED`: enable/disable analytics events (default: `true`)
-- `UMAMI_URL`: Umami endpoint URL
-- `UMAMI_WEBSITE_ID`: Umami website identifier
-- `UMAMI_TIMEOUT`: request timeout in seconds for analytics (default: `30`)
-- `LOGO_CACHE_TTL_SECONDS`: cache TTL for logo index in seconds (default: `60`)
-
 ## FAQs
 
 ### When to use wordmark or glyph in variants?
