@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap");
+
 :root {
   --background: #f5f5f5;
   --backgroundContainerInverse: #000;
@@ -9,45 +11,39 @@
   --border: #ddd;
 }
 
-/* Regular */
 @font-face {
   font-family: "NeueMontreal";
   font-style: normal;
   font-weight: 400;
-  src: url("assets/PPNeueMontreal-Book.otf") format("woff2");
+  src: url("assets/PPNeueMontreal-Book.otf") format("opentype");
 }
 
-/* Light */
 @font-face {
   font-family: "NeueMontreal";
   font-style: normal;
   font-weight: 300;
-  src: url("assets/PPNeueMontreal-Thin.otf") format("woff2");
+  src: url("assets/PPNeueMontreal-Thin.otf") format("opentype");
 }
 
-/* Medium */
 @font-face {
   font-family: "NeueMontreal";
   font-style: normal;
   font-weight: 500;
-  src: url("assets/PPNeueMontreal-Medium.otf") format("woff2");
+  src: url("assets/PPNeueMontreal-Medium.otf") format("opentype");
 }
 
-/* Bold */
 @font-face {
   font-family: "NeueMontreal";
   font-style: normal;
   font-weight: 700;
-  src: url("assets/PPNeueMontreal-Bold.otf") format("woff2");
+  src: url("assets/PPNeueMontreal-Bold.otf") format("opentype");
 }
-
-/* ---------------------------------- */
 
 @font-face {
   font-family: "Harmond";
   font-style: normal;
   font-weight: 300;
-  src: url("assets/Harmond-SemiBoldCondensed.otf") format("woff2");
+  src: url("assets/Harmond-SemiBoldCondensed.otf") format("opentype");
 }
 
 html {
@@ -187,23 +183,21 @@ section {
   border-radius: 24px;
   height: 400px;
   flex-shrink: 0;
-  flex-basis: auto; /* default value */
   flex-grow: 1;
 }
 
-/* #product-description {
-  width: 100%;
-} */
-
 .url {
   background: var(--backgroundUrl);
-  padding: 16px;
+  padding: 8px 8px 8px 16px;
   border-radius: 8px;
-  font-size: 16px;
+  font-size: 14px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  font-family: "Inconsolata", monospace;
+  font-optical-sizing: auto;
+  font-style: normal;
 }
 
 a {
@@ -225,6 +219,9 @@ a {
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
 }
 
 .icon-button:hover {
@@ -282,8 +279,6 @@ footer p {
   width: fit-content;
   text-align: center;
   border-radius: 999px;
-  min-width: fit-content;
-  content: "Fat this project in GitHub";
 }
 
 .contribute-button:hover {
@@ -307,19 +302,19 @@ header a:hover {
   height: fit-content;
 }
 
-#logo-grid #logo-name {
+#logo-grid .logo-name {
   font-size: 14px;
   margin: 0;
   font-weight: 500;
 }
 
-#logo-grid #logo-variant {
+#logo-grid .logo-variant {
   padding: 4px 8px;
   border-radius: 999px;
   margin: 0;
 }
 
-#logo-grid #logo-version {
+#logo-grid .logo-version {
   margin: 0;
 }
 
@@ -328,8 +323,9 @@ header a:hover {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  transition: background 0.2s linear, transform 0.1s ease-in-out;
-  max-width: 300px;
+  transition:
+    background 0.2s linear,
+    transform 0.1s ease-in-out;
   border-radius: 16px;
   padding: 24px;
 }
@@ -376,46 +372,42 @@ input#search-input {
   }
 }
 
-#grid-container {
+.grid-container {
   display: flex;
   align-items: center;
   text-align: center;
   height: 100%;
 }
 
-#grid-logos-container {
+.grid-logos-container {
   height: 100%;
   display: flex;
   align-content: center;
   align-items: center;
 }
 
-#grid-logos {
+.grid-logos {
   max-width: 100px;
   max-height: 56px;
 }
 
 .sticky {
   position: sticky;
-  top: 0; /* Fija la columna en la parte superior cuando haces scroll */
+  top: 0;
   height: 100vh;
   padding-top: 24px;
 }
 
-.search-icon {
-  position: relative;
-  float: right;
-  width: 75px;
-  height: 75px;
-  top: -62px;
-  right: -45px;
-}
-
-.chip-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  justify-content: flex-start;
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
 
 .chip {
@@ -428,31 +420,6 @@ input#search-input {
   align-items: center;
   gap: 6px;
   white-space: nowrap;
-}
-
-.chip .check-icon,
-.chip .x-icon {
-  font-size: 14px;
-  width: 14px;
-  text-align: center;
-}
-
-.chip .check-icon {
-  display: none;
-  color: #4caf50;
-}
-
-.chip .x-icon {
-  display: inline;
-  color: #f44336;
-}
-
-.chip.active .check-icon {
-  display: inline;
-}
-
-.chip.active .x-icon {
-  display: none;
 }
 
 .chip.active {
@@ -469,11 +436,9 @@ input#search-input {
   background-color: #1d1d1d;
 }
 
-/* Comments in English: Basic styling for the snackbar */
 #snackbar {
   visibility: hidden;
   width: fit-content;
-  margin-left: -125px;
   background-color: #333;
   color: #fff;
   text-align: center;
@@ -482,111 +447,51 @@ input#search-input {
   z-index: 1;
   left: 50%;
   bottom: 30px;
+  transform: translateX(-50%) translateY(50%);
   border-radius: 999px;
   font-size: 17px;
-
-  /* Initial states (no animation needed here) */
   opacity: 0;
-  transform: translateY(50%);
   filter: blur(6px);
 }
 
-/* When showing, run the "slideIn" animation */
 #snackbar.show {
-  visibility: visible; /* Make sure it's visible at the start of the animation */
+  visibility: visible;
   animation: slideIn 0.5s forwards;
 }
 
-/* Keyframes for showing the snackbar */
 @keyframes slideIn {
   0% {
-    /* Start off-screen, blurred, and invisible */
     opacity: 0;
-    transform: translateY(50%);
+    transform: translateX(-50%) translateY(50%);
     filter: blur(6px);
   }
   100% {
-    /* End fully visible and at the final position */
     opacity: 1;
-    transform: translateY(0);
+    transform: translateX(-50%) translateY(0);
     filter: blur(0);
   }
 }
 
-/* When hiding, run the "slideOut" animation */
 #snackbar.hide {
-  /* Comments in English:
-     The element will start from its current state (visible) 
-     and animate to hidden.
-  */
   animation: slideOut 0.8s forwards;
 }
 
-/* Keyframes for hiding the snackbar */
 @keyframes slideOut {
   0% {
-    /* Start visible at final position */
     opacity: 1;
-    transform: translateY(0);
+    transform: translateX(-50%) translateY(0);
     filter: blur(0);
-    visibility: visible; /* Still visible at start */
+    visibility: visible;
   }
   100% {
-    /* End off-screen, blurred, and hidden */
     opacity: 0;
-    transform: translateY(50%);
+    transform: translateX(-50%) translateY(50%);
     filter: blur(30px);
-    visibility: hidden; /* Hidden at the end of the animation */
-  }
-}
-
-/* Animations to fade the snackbar in and out */
-@-webkit-keyframes fadein {
-  from {
-    bottom: 0;
-    opacity: 0;
-  }
-  to {
-    bottom: 30px;
-    opacity: 1;
-  }
-}
-
-@keyframes fadein {
-  from {
-    bottom: 0;
-    opacity: 0;
-  }
-  to {
-    bottom: 30px;
-    opacity: 1;
-  }
-}
-
-@-webkit-keyframes fadeout {
-  from {
-    bottom: 30px;
-    opacity: 1;
-  }
-  to {
-    bottom: 0;
-    opacity: 0;
-  }
-}
-
-@keyframes fadeout {
-  from {
-    bottom: 30px;
-    opacity: 1;
-  }
-  to {
-    bottom: 0;
-    opacity: 0;
+    visibility: hidden;
   }
 }
 
 @media (prefers-color-scheme: dark) {
-  /* defaults to dark theme */
   :root {
     --background: #000;
     --backgroundContainerInverse: #101010;
@@ -630,14 +535,6 @@ input#search-input {
     background-color: #ddd;
   }
 
-  .chip .check-icon {
-    color: #81c784;
-  }
-
-  .chip .x-icon {
-    color: #e57373;
-  }
-
   .github-logo {
     filter: invert(100%);
   }
@@ -667,7 +564,6 @@ input#search-input {
     font-size: 48px;
   }
   .isMobile {
-    flex-direction: column;
     flex-direction: column-reverse;
   }
   section {
