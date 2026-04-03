@@ -1,14 +1,1 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" viewBox="0 0 63.8 64" width="63.8" height="64">
-  <linearGradient id="a" x1="-548.808" x2="-547.651" y1="338.172" y2="336.772" gradientTransform="matrix(31.8754 0 0 -28.4068 17508.232 9607.061)" gradientUnits="userSpaceOnUse">
-    <stop offset="0" stop-color="#41d1ff"/>
-    <stop offset="1" stop-color="#bd34fe"/>
-  </linearGradient>
-  <path fill="url(#a)" d="m63.2 9.8-29.6 53c-.6 1.1-2.2 1.1-2.8 0L.6 9.8c-.7-1.2.3-2.6 1.7-2.4L32 12.7h.6l29-5.3c1.3-.2 2.3 1.2 1.6 2.4"/>
-  <linearGradient id="b" x1="-526.577" x2="-526.44" y1="337.362" y2="335.645" gradientTransform="matrix(14.6164 0 0 -26.6459 7732.29 8990.76)" gradientUnits="userSpaceOnUse">
-    <stop offset="0" stop-color="#ffea83"/>
-    <stop offset=".083" stop-color="#ffdd35"/>
-    <stop offset="1" stop-color="#ffa800"/>
-  </linearGradient>
-  <path fill="url(#b)" d="M46 .4 24.1 4.7c-.4.1-.6.4-.6.7l-1.3 22.8c0 .4.3.8.8.9h.2l6.1-1.4c.6-.1 1.1.4 1 .9l-1.8 8.9c-.1.6.4 1.1 1 .9l3.8-1.1c.6-.2 1.1.3 1 .9l-2.9 14c-.2.9 1 1.3 1.5.6l.3-.5 17.9-35.7c.3-.6-.2-1.3-.9-1.2l-6.3 1.2c-.6.1-1.1-.4-.9-1l4-14.1c.1-.6-.4-1.2-1-1.1"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="63.8" height="64" viewBox="0 0 63.8 64"><linearGradient id="a" x1="-548.808" x2="-547.651" y1="338.172" y2="336.772" gradientTransform="matrix(31.8754 0 0 -28.4068 17508.232 9607.061)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#41d1ff"/><stop offset="1" stop-color="#bd34fe"/></linearGradient><path fill="url(#a)" d="m63.2 9.8-29.6 53c-.6 1.1-2.2 1.1-2.8 0L.6 9.8c-.7-1.2.3-2.6 1.7-2.4L32 12.7h.6l29-5.3c1.3-.2 2.3 1.2 1.6 2.4"/><linearGradient id="b" x1="-526.577" x2="-526.44" y1="337.362" y2="335.645" gradientTransform="matrix(14.6164 0 0 -26.6459 7732.29 8990.76)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ffea83"/><stop offset=".083" stop-color="#ffdd35"/><stop offset="1" stop-color="#ffa800"/></linearGradient><path fill="url(#b)" d="M46 .4 24.1 4.7c-.4.1-.6.4-.6.7l-1.3 22.8c0 .4.3.8.8.9h.2l6.1-1.4c.6-.1 1.1.4 1 .9l-1.8 8.9c-.1.6.4 1.1 1 .9l3.8-1.1c.6-.2 1.1.3 1 .9l-2.9 14c-.2.9 1 1.3 1.5.6l.3-.5 17.9-35.7c.3-.6-.2-1.3-.9-1.2l-6.3 1.2c-.6.1-1.1-.4-.9-1l4-14.1c.1-.6-.4-1.2-1-1.1"/></svg>
