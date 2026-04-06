@@ -143,16 +143,20 @@ function initParticleSystem() {
   resize();
   window.addEventListener("resize", resize);
 
-  const particles = [];
+  const MAX_PARTICLES = 200;
+  const SPAWN_INTERVAL = 40;
+  let particles = [];
+  let alive = 0; // track live count without array resize
   let isActive = false;
+  let loopRunning = false;
   let mouseX = 0;
   let mouseY = 0;
   let logoImages = [];
-  let spawnTimer = 0;
-  const SPAWN_INTERVAL = 40; // ms between particle spawns
 
-  // Collect logo image sources from the grid
-  function collectLogoSources() {
+  // Cache logo sources — rebuild only when grid changes
+  let logoCache = null;
+  function getLogoSources() {
+    if (logoCache) return logoCache;
     const imgs = document.querySelectorAll("#logo-grid .grid-logos");
     const sources = [];
     const seen = new Set();
@@ -162,18 +166,42 @@ function initParticleSystem() {
         sources.push(img);
       }
     });
+    logoCache = sources;
     return sources;
+  }
+  // Invalidate cache when logos reload
+  const observer = new MutationObserver(() => {
+    logoCache = null;
+  });
+  const grid = document.getElementById("logo-grid");
+  if (grid) observer.observe(grid, { childList: true });
+
+  // Shuffle + cycle to avoid repeating the same logos
+  let shuffled = [];
+  let shuffleIndex = 0;
+  function nextLogo() {
+    if (shuffled.length === 0) return null;
+    if (shuffleIndex >= shuffled.length) {
+      // Re-shuffle when we've cycled through all
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      shuffleIndex = 0;
+    }
+    return shuffled[shuffleIndex++];
   }
 
   function spawnParticle(x, y) {
-    if (logoImages.length === 0) return;
-    const img = logoImages[Math.floor(Math.random() * logoImages.length)];
+    if (logoImages.length === 0 || alive >= MAX_PARTICLES) return;
+    const img = nextLogo();
+    if (!img) return;
     const height =
       PARTICLE_MIN_HEIGHT +
       Math.random() * (PARTICLE_MAX_HEIGHT - PARTICLE_MIN_HEIGHT);
     const aspect = img.naturalWidth / img.naturalHeight;
     const width = height * aspect;
-    const angle = -Math.PI / 2 + (Math.random() - 0.5) * 1.4; // upward spread
+    const angle = -Math.PI / 2 + (Math.random() - 0.5) * 1.4;
     const speed = 2 + Math.random() * 4;
     particles.push({
       img,
@@ -188,28 +216,34 @@ function initParticleSystem() {
       rotationSpeed: (Math.random() - 0.5) * 0.15,
       life: 1,
       decay: 0.008 + Math.random() * 0.008,
-      gravity: 0.12,
+      gravity: 0.3,
     });
+    alive++;
   }
 
-  function update(dt) {
-    for (let i = particles.length - 1; i >= 0; i--) {
+  function update() {
+    // Compact: swap dead particles to end, then truncate once
+    let write = 0;
+    for (let i = 0; i < particles.length; i++) {
       const p = particles[i];
       p.vy += p.gravity;
       p.x += p.vx;
       p.y += p.vy;
       p.rotation += p.rotationSpeed;
       p.life -= p.decay;
-      p.opacity = Math.max(0, p.life);
-      if (p.life <= 0) {
-        particles.splice(i, 1);
+      if (p.life > 0) {
+        p.opacity = p.life;
+        particles[write++] = p;
       }
     }
+    particles.length = write;
+    alive = write;
   }
 
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    for (const p of particles) {
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
       ctx.save();
       ctx.globalAlpha = p.opacity;
       ctx.translate(p.x, p.y);
@@ -219,44 +253,70 @@ function initParticleSystem() {
     }
   }
 
-  let lastTime = 0;
   let lastSpawn = 0;
   function loop(time) {
-    const dt = time - lastTime;
-    lastTime = time;
-
     if (isActive && time - lastSpawn > SPAWN_INTERVAL) {
       spawnParticle(mouseX, mouseY);
       lastSpawn = time;
     }
 
-    update(dt);
+    update();
     draw();
 
     if (particles.length > 0 || isActive) {
       requestAnimationFrame(loop);
+    } else {
+      loopRunning = false;
     }
   }
 
-  function startLoop() {
-    lastTime = performance.now();
-    lastSpawn = 0;
-    requestAnimationFrame(loop);
+  function ensureLoop() {
+    if (!loopRunning) {
+      loopRunning = true;
+      lastSpawn = 0;
+      requestAnimationFrame(loop);
+    }
   }
+
+  // Wait until all grid images are loaded
+  let ready = false;
+  function checkReady() {
+    const imgs = document.querySelectorAll("#logo-grid .grid-logos");
+    if (imgs.length === 0) return false;
+    return Array.from(imgs).every(
+      (img) => img.complete && img.naturalWidth > 0,
+    );
+  }
+  const readyObserver = new MutationObserver(() => {
+    if (!ready && checkReady()) {
+      ready = true;
+      readyObserver.disconnect();
+    }
+  });
+  if (grid) readyObserver.observe(grid, { childList: true, subtree: true });
+  // Also check on image load events
+  document.addEventListener(
+    "load",
+    () => {
+      if (!ready && checkReady()) ready = true;
+    },
+    true,
+  );
 
   // Left-click hold
   document.addEventListener("mousedown", (e) => {
-    if (e.button === 0) {
+    if (e.button === 0 && ready) {
       isActive = true;
       document.body.style.userSelect = "none";
       mouseX = e.clientX;
       mouseY = e.clientY;
-      logoImages = collectLogoSources();
-      // Burst inicial para que se sienta inmediato
+      logoImages = getLogoSources();
+      shuffled = [...logoImages];
+      shuffleIndex = shuffled.length; // force initial shuffle
       for (let i = 0; i < 5; i++) {
         spawnParticle(mouseX, mouseY);
       }
-      startLoop();
+      ensureLoop();
     }
   });
 
