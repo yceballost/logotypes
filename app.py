@@ -7,6 +7,7 @@ from flask_cors import CORS
 
 from core.config import load_settings
 from core.logo_repository import LogoRepository
+from core.mcp import register_mcp
 from core.routes import register_routes
 from core.tracking import UmamiTracker
 
@@ -23,6 +24,7 @@ def create_app() -> Flask:
     repository = LogoRepository(settings)
     tracker = UmamiTracker(settings)
     register_routes(app, repository, tracker, settings)
+    register_mcp(app, repository, tracker, settings)
 
     return app
 
