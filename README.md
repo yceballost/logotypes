@@ -72,11 +72,13 @@ https://www.logotypes.dev/spotify/data
 
 ## MCP
 
-Logotypes.dev exposes a remote [MCP](https://modelcontextprotocol.io) server (Streamable HTTP, stateless, read-only) so AI assistants can search and fetch logos.
+Logotypes.dev exposes a remote [MCP](https://modelcontextprotocol.io) server (Streamable HTTP, stateless, read-only) so AI assistants can search and fetch logos. No installation or API key is needed.
 
 ```
 https://www.logotypes.dev/mcp
 ```
+
+### Setup
 
 **Claude Code**
 
@@ -84,7 +86,57 @@ https://www.logotypes.dev/mcp
 claude mcp add --transport http logotypes https://www.logotypes.dev/mcp
 ```
 
-**Tools**: `search_logos`, `get_logo`, `random_logo`, `list_logos`.
+**Claude Desktop / claude.ai**
+
+Go to Settings > Connectors > Add custom connector and use the URL above. Alternatively, bridge it with [`mcp-remote`](https://www.npmjs.com/package/mcp-remote) in `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "logotypes": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://www.logotypes.dev/mcp"]
+    }
+  }
+}
+```
+
+**Cursor** (`.cursor/mcp.json`)
+
+```json
+{
+  "mcpServers": {
+    "logotypes": { "url": "https://www.logotypes.dev/mcp" }
+  }
+}
+```
+
+**VS Code** (`.vscode/mcp.json`)
+
+```json
+{
+  "servers": {
+    "logotypes": { "type": "http", "url": "https://www.logotypes.dev/mcp" }
+  }
+}
+```
+
+### Tools
+
+| Tool           | Parameters                                       | Description                                                      |
+| -------------- | ------------------------------------------------ | ---------------------------------------------------------------- |
+| `search_logos` | `query`, `variant?`, `version?`, `limit?`        | Search brands by name (substring match). Default limit is 20.    |
+| `get_logo`     | `name`, `variant?`, `version?`, `include_svg?`   | Get the logo files of one brand. SVG source is off by default.   |
+| `random_logo`  | `variant?`, `version?`                           | Get a random logo.                                               |
+| `list_logos`   | `variant?`, `version?`                           | List every brand with its available variants and versions.       |
+
+`variant` is `wordmark` or `glyph`. `version` is `color`, `black` or `white`.
+
+### Example prompts
+
+- "Find the Spotify glyph in white and add it to the footer."
+- "List the brands available as wordmark in black."
+- "Give me a random logo for the placeholder card."
 
 ## Contribution
 
